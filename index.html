@@ -331,13 +331,14 @@
             if(toastTimeout) clearTimeout(toastTimeout);
             titleEl.innerText = title; msgEl.innerText = message;
 
-            if (type === 'success') {
-                bg.className = "bg-white/95 backdrop-blur-xl border border-green-100 p-3 pr-6 rounded-[1.2rem] shadow-[0_10px_40px_rgba(34,197,94,0.15)] flex items-center gap-3.5 relative overflow-hidden w-max mx-auto max-w-[90vw]";
-                iconWrap.className = "w-10 h-10 rounded-[10px] flex items-center justify-center text-white text-lg shrink-0 shadow-[0_4px_10px_rgba(52,211,153,0.3)] bg-gradient-to-br from-green-400 to-emerald-500";
+        if (type === 'success') {
+                // Đổi toàn bộ màu xanh (green) sang Vàng/Cam (amber/orange)
+                bg.className = "bg-white/95 backdrop-blur-xl border border-amber-200 p-3 pr-6 rounded-[1.2rem] shadow-[0_10px_40px_rgba(245,158,11,0.15)] flex items-center gap-3.5 relative overflow-hidden w-max mx-auto max-w-[90vw]";
+                iconWrap.className = "w-10 h-10 rounded-[10px] flex items-center justify-center text-white text-lg shrink-0 shadow-[0_4px_10px_rgba(249,115,22,0.3)] bg-gradient-to-br from-amber-400 to-orange-500";
                 iconWrap.innerHTML = `<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>`;
-                titleEl.className = "font-black text-green-800 text-[14px] leading-tight mb-0.5 tracking-tight";
-                msgEl.className = "text-[11.5px] font-bold tracking-wide text-green-700/80";
-                progress.className = "absolute bottom-0 left-0 h-1 rounded-full w-full bg-green-500";
+                titleEl.className = "font-black text-amber-950 text-[14px] leading-tight mb-0.5 tracking-tight";
+                msgEl.className = "text-[11.5px] font-bold tracking-wide text-amber-800/90";
+                progress.className = "absolute bottom-0 left-0 h-1 rounded-full w-full bg-gradient-to-r from-amber-400 to-orange-500";
             } else if (type === 'error') {
                 bg.className = "bg-white/95 backdrop-blur-xl border border-red-100 p-3 pr-6 rounded-[1.2rem] shadow-[0_10px_40px_rgba(239,68,68,0.15)] flex items-center gap-3.5 relative overflow-hidden w-max mx-auto max-w-[90vw]";
                 iconWrap.className = "w-10 h-10 rounded-[10px] flex items-center justify-center text-white text-lg shrink-0 shadow-[0_4px_10px_rgba(244,63,94,0.3)] bg-gradient-to-br from-red-400 to-rose-500";
