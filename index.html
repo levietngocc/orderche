@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ty's Foods - Custom Toast Flow</title>
+    <title>Ty's Foods - Premium App UI</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap');
@@ -32,8 +32,7 @@
 
     <div id="custom-toast" class="fixed top-4 left-0 right-0 z-[100] flex justify-center pointer-events-none translate-y-[-150%] opacity-0 scale-90 transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)]">
         <div id="toast-bg" class="bg-white/95 backdrop-blur-xl border p-3 pr-6 rounded-[1.2rem] shadow-2xl flex items-center gap-3.5 relative overflow-hidden w-max mx-auto max-w-[90vw]">
-            <div id="toast-icon-wrap" class="w-10 h-10 rounded-[10px] flex items-center justify-center text-white text-lg shrink-0 shadow-inner">
-                </div>
+            <div id="toast-icon-wrap" class="w-10 h-10 rounded-[10px] flex items-center justify-center text-white text-lg shrink-0 shadow-inner"></div>
             <div>
                 <h4 id="toast-title" class="font-black text-[14px] leading-tight mb-0.5 tracking-tight">Title</h4>
                 <p id="toast-msg" class="text-[11.5px] font-bold tracking-wide">Message</p>
@@ -52,15 +51,12 @@
 
         <header class="px-4 py-3 flex justify-between items-center bg-white/80 backdrop-blur-lg absolute top-0 w-full z-20 shadow-[0_4px_25px_rgba(251,191,36,0.05)] border-b border-amber-50">
             <div class="flex items-center gap-2 cursor-pointer" onclick="switchView('home')">
-                <div class="w-10 h-10 rounded-[12px] bg-gradient-to-br from-amber-400 to-orange-400 shadow-[0_4px_15px_rgba(245,158,11,0.3)] flex items-center justify-center text-white font-black text-xl">
-                    T
-                </div>
+                <div class="w-10 h-10 rounded-[12px] bg-gradient-to-br from-amber-400 to-orange-400 shadow-[0_4px_15px_rgba(245,158,11,0.3)] flex items-center justify-center text-white font-black text-xl">T</div>
                 <div class="font-black text-[22px] text-amber-950 tracking-tight leading-none">
                     Ty's<br><span class="text-[14px] text-orange-500 uppercase tracking-widest">Foods.</span>
                 </div>
             </div>
-            
-            <a href="https://www.facebook.com/quyen.luonghanh.12" target="_blank" class="flex items-center gap-2 bg-blue-50/80 hover:bg-blue-100 border border-blue-100/50 px-3 py-1.5 rounded-full transition-all shadow-sm group">
+            <a href="https://facebook.com" target="_blank" class="flex items-center gap-2 bg-blue-50/80 hover:bg-blue-100 border border-blue-100/50 px-3 py-1.5 rounded-full transition-all shadow-sm group">
                 <span class="text-[12px] font-bold text-blue-700">Contact</span>
                 <div class="w-6 h-6 rounded-full bg-blue-600 text-white flex items-center justify-center shadow-md group-hover:scale-105 transition-transform">
                     <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.469h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.469h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
@@ -69,7 +65,6 @@
         </header>
 
         <main class="flex-1 overflow-y-auto no-scrollbar pt-[76px] pb-[96px]" id="main-content">
-            
             <div id="view-home" class="block fade-in">
                 <section class="mx-4 mt-2 relative rounded-[1.8rem] overflow-hidden bg-gradient-to-br from-amber-400 via-orange-300 to-yellow-400 shadow-[0_10px_30px_rgba(245,158,11,0.25)] border border-white/40">
                     <div class="absolute top-[-30%] left-[-10%] w-40 h-40 bg-white/40 rounded-full blur-3xl pointer-events-none"></div>
@@ -94,18 +89,45 @@
                 </section>
 
                 <section class="mt-7 px-4">
-                    <h2 class="text-[17px] font-black text-amber-950 mb-3 tracking-tight flex items-center gap-1.5">
-                        Món Đang Hot <span class="text-lg animate-pulse">🔥</span>
-                    </h2>
+                    <h2 class="text-[17px] font-black text-amber-950 mb-3 tracking-tight flex items-center gap-1.5">Món Đang Hot <span class="text-lg animate-pulse">🔥</span></h2>
                     <div class="grid grid-cols-2 gap-3" id="hot-items"></div>
                 </section>
 
-                <section class="mt-7 px-4 mb-4">
+                <section class="mt-7 px-4">
                     <div class="flex justify-between items-center mb-3">
                         <h2 class="text-[17px] font-black text-amber-950 tracking-tight">Menu Cổ Điển</h2>
                         <button onclick="switchView('menu')" class="text-[11px] text-amber-700 font-bold hover:text-amber-900 bg-amber-100/70 px-3 py-1.5 rounded-full transition border border-amber-200/50 shadow-sm">Xem tất cả</button>
                     </div>
                     <div class="space-y-3" id="home-mini-menu"></div>
+                </section>
+
+                <section class="mt-8 px-4 mb-4">
+                    <div class="bg-gradient-to-br from-amber-50 to-orange-50/50 rounded-[1.5rem] p-5 border border-amber-100 shadow-[0_4px_20px_rgba(245,158,11,0.05)] relative overflow-hidden">
+                        <div class="absolute top-0 right-0 w-24 h-24 bg-amber-200/40 rounded-full blur-2xl -mr-10 -mt-10"></div>
+                        <div class="absolute bottom-0 left-0 w-24 h-24 bg-orange-200/30 rounded-full blur-2xl -ml-10 -mb-10"></div>
+
+                        <h2 class="text-[17px] font-black text-amber-950 tracking-tight mb-4 flex items-center gap-2 relative z-10">
+                            Câu chuyện Ty's Foods 📖
+                        </h2>
+
+                        <div class="space-y-3 relative z-10">
+                            <div class="bg-white/70 backdrop-blur-md p-4 rounded-2xl border border-white shadow-[0_2px_10px_rgba(0,0,0,0.02)]">
+                                <div class="flex items-center gap-2.5 mb-2">
+                                    <div class="w-7 h-7 rounded-lg bg-amber-100 flex items-center justify-center text-amber-700 text-[14px]">👁️</div>
+                                    <h3 class="font-black text-amber-950 text-[13px] uppercase tracking-wider">Tầm nhìn</h3>
+                                </div>
+                                <p class="text-[12px] text-amber-900/70 font-medium leading-relaxed">Nội dung văn vở tầm nhìn sẽ được hai thầy trò đắp vào đây sau. Giờ cứ để tạm dòng này cho nó ra dáng form đã nha!</p>
+                            </div>
+
+                            <div class="bg-white/70 backdrop-blur-md p-4 rounded-2xl border border-white shadow-[0_2px_10px_rgba(0,0,0,0.02)]">
+                                <div class="flex items-center gap-2.5 mb-2">
+                                    <div class="w-7 h-7 rounded-lg bg-orange-100 flex items-center justify-center text-orange-700 text-[14px]">🎯</div>
+                                    <h3 class="font-black text-amber-950 text-[13px] uppercase tracking-wider">Sứ mệnh</h3>
+                                </div>
+                                <p class="text-[12px] text-amber-900/70 font-medium leading-relaxed">Nội dung sứ mệnh mang bát chè ngon giải cứu thế giới sẽ nằm gọn gàng ở chỗ này. Cập nhật sớm thôi!</p>
+                            </div>
+                        </div>
+                    </div>
                 </section>
             </div>
 
@@ -116,7 +138,6 @@
 
             <div id="view-cart" class="hidden fade-in px-4">
                 <h2 class="text-[22px] font-black text-amber-950 mb-4 mt-4 tracking-tight">Thanh toán 🛒</h2>
-                
                 <div id="cart-items" class="space-y-3 mb-5"></div>
 
                 <div id="checkout-form" class="hidden">
@@ -133,7 +154,6 @@
                             <button onclick="setPayment('cash')" id="pay-cash" class="py-3 border-[1.5px] border-orange-400 bg-orange-50 text-orange-700 font-bold rounded-xl text-[13px] transition-all shadow-sm">Tiền mặt</button>
                             <button onclick="setPayment('bank')" id="pay-bank" class="py-3 border-[1.5px] border-gray-100 bg-white text-gray-500 font-medium rounded-xl text-[13px] transition-all">Chuyển khoản</button>
                         </div>
-                        
                         <div id="qr-box" class="hidden mt-3 p-4 bg-amber-50/50 rounded-[1.2rem] border border-amber-100 flex flex-col items-center fade-in">
                             <p class="text-[12px] text-amber-800 font-bold mb-3">Quét mã QR để thanh toán</p>
                             <div class="w-40 h-40 bg-white rounded-2xl border-2 border-dashed border-orange-300 flex items-center justify-center shadow-sm relative overflow-hidden">
@@ -160,9 +180,7 @@
                         </div>
                     </div>
 
-                    <button onclick="processCheckout()" id="btn-checkout" class="w-full mt-6 bg-gradient-to-r from-amber-600 to-orange-500 text-white font-black py-4 rounded-2xl shadow-[0_10px_25px_rgba(249,115,22,0.3)] hover:opacity-90 transition-all text-[15px]">
-                        Đặt hàng (Tiền mặt)
-                    </button>
+                    <button onclick="processCheckout()" id="btn-checkout" class="w-full mt-6 bg-gradient-to-r from-amber-600 to-orange-500 text-white font-black py-4 rounded-2xl shadow-[0_10px_25px_rgba(249,115,22,0.3)] hover:opacity-90 transition-all text-[15px]">Đặt hàng (Tiền mặt)</button>
                 </div>
             </div>
 
@@ -177,11 +195,8 @@
                     <a href="tel:0325591025" class="text-[26px] font-black text-orange-600 block relative z-10 tracking-tight">0325 591 025</a>
                 </div>
 
-                <button onclick="switchView('home')" class="w-full bg-amber-950 text-amber-50 font-black py-4 rounded-2xl shadow-lg hover:bg-amber-900 transition-colors text-[15px]">
-                    Quay về trang chủ
-                </button>
+                <button onclick="switchView('home')" class="w-full bg-amber-950 text-amber-50 font-black py-4 rounded-2xl shadow-lg hover:bg-amber-900 transition-colors text-[15px]">Quay về trang chủ</button>
             </div>
-
         </main>
 
         <nav class="absolute bottom-0 w-full bg-white/95 backdrop-blur-xl border-t border-amber-100/50 flex justify-around pt-3 pb-6 z-20 shadow-[0_-10px_30px_rgba(251,191,36,0.08)]" id="bottom-nav">
@@ -202,7 +217,7 @@
 
         <div id="overlay" class="fixed inset-0 bg-amber-950/50 backdrop-blur-sm z-40 hidden opacity-0 transition-opacity duration-300" onclick="closeModal()"></div>
         
-        <div id="order-modal" class="fixed bottom-0 left-0 w-full max-w-md bg-[#fdfcfb] rounded-t-[1.8rem] z-50 h-[88vh] flex flex-col hidden translate-y-full shadow-[0_-20px_50px_rgba(251,191,36,0.2)] mx-auto right-0 border-t border-amber-100/50">
+        <div id="order-modal" class="fixed bottom-0 left-0 w-full max-w-md bg-[#fdfcfb] rounded-t-[1.8rem] z-50 h-[92vh] flex flex-col hidden translate-y-full shadow-[0_-20px_50px_rgba(251,191,36,0.2)] mx-auto right-0 border-t border-amber-100/50">
             <div class="w-full flex justify-center pt-3 pb-2 bg-white rounded-t-[1.8rem] absolute top-0 z-20 cursor-pointer" onclick="closeModal()">
                 <div class="w-14 h-1.5 bg-amber-200/80 rounded-full"></div>
             </div>
@@ -210,26 +225,44 @@
             <div class="px-5 pt-8 pb-4 flex justify-between items-center bg-white sticky top-0 z-10 shadow-[0_4px_15px_rgba(0,0,0,0.02)] border-b border-amber-50">
                 <div>
                     <h3 id="modal-title" class="font-black text-[20px] text-amber-950 leading-tight tracking-tight">Tên Món</h3>
-                    <p id="modal-base-price" class="text-orange-500 font-black text-[13px] mt-1">20.000đ</p>
+                    <p id="modal-base-price" class="text-orange-500 font-black text-[13px] mt-1">Giá gốc: 20.000đ</p>
                 </div>
                 <button onclick="closeModal()" class="w-8 h-8 bg-amber-50 rounded-full flex items-center justify-center text-amber-900 hover:bg-amber-200 font-bold text-[14px] border border-amber-100/50 transition-colors">✕</button>
             </div>
 
             <div class="flex-1 overflow-y-auto p-5 space-y-7 no-scrollbar pb-32">
                 <div>
-                    <h4 class="font-black text-amber-950 text-[15px] mb-3 border-l-[3px] border-orange-400 pl-2.5 tracking-tight">1. KÍCH CỠ</h4>
+                    <h4 class="font-black text-amber-950 text-[15px] mb-1 border-l-[3px] border-orange-400 pl-2.5 tracking-tight">1. TÙY CHỈNH KÍCH CỠ (Size)</h4>
+                    <p class="text-[11px] text-amber-700/80 font-bold mb-3 pl-3">Bạn muốn ăn nhẹ hay ăn no?</p>
                     <div class="space-y-2.5" id="size-options"></div>
                 </div>
                 <div>
-                    <h4 class="font-black text-amber-950 text-[15px] mb-3 border-l-[3px] border-orange-400 pl-2.5 tracking-tight">2. MỨC ĐƯỜNG</h4>
+                    <h4 class="font-black text-amber-950 text-[15px] mb-1 border-l-[3px] border-orange-400 pl-2.5 tracking-tight">2. CHỌN MỨC ĐƯỜNG (Sweetness)</h4>
+                    <p class="text-[11px] text-amber-700/80 font-bold mb-3 pl-3">Cá nhân hóa độ ngọt theo khẩu vị</p>
                     <div class="grid grid-cols-2 gap-2.5" id="sweet-options"></div>
                 </div>
                 <div>
-                    <div class="flex justify-between items-center mb-3 border-l-[3px] border-orange-400 pl-2.5">
-                        <h4 class="font-black text-amber-950 text-[15px] tracking-tight">3. TOPPING</h4>
-                        <span class="text-[10px] text-orange-600 font-black bg-orange-50 px-2.5 py-1 rounded-full uppercase tracking-wider border border-orange-100">2k / món</span>
+                    <div class="mb-3 border-l-[3px] border-orange-400 pl-2.5">
+                        <h4 class="font-black text-amber-950 text-[15px] tracking-tight mb-1.5">3. THÊM TOPPING "GÂY NGHIỆN"</h4>
+                        <div class="flex items-center gap-2">
+                            <span class="text-[10px] text-orange-600 font-black bg-orange-50 px-2 py-1 rounded-md uppercase tracking-wider border border-orange-100">Đồng giá: 3.000đ / món</span>
+                            <span class="text-[11px] text-amber-700/80 font-bold">Tha hồ kết hợp</span>
+                        </div>
                     </div>
-                    <div class="space-y-3" id="topping-list"></div>
+                    <div class="space-y-4" id="topping-list"></div>
+                </div>
+                <div>
+                    <div class="flex justify-between items-center mb-3 border-l-[3px] border-orange-400 pl-2.5">
+                        <h4 class="font-black text-amber-950 text-[15px] tracking-tight">4. SỐ LƯỢNG</h4>
+                    </div>
+                    <div class="flex items-center justify-between bg-amber-50/50 p-2.5 rounded-[1.2rem] border border-amber-100/50 shadow-sm">
+                        <span class="text-[13px] font-bold text-amber-900/60 pl-2">Chọn số lượng phần</span>
+                        <div class="flex items-center gap-3">
+                            <button onclick="updateQuantity(-1)" class="w-10 h-10 rounded-[10px] bg-white text-amber-900 font-black shadow-sm text-[18px] flex items-center justify-center hover:bg-amber-100 transition-colors border border-amber-100/50">-</button>
+                            <span id="modal-qty-display" class="w-6 text-center text-[16px] font-black text-amber-950">1</span>
+                            <button onclick="updateQuantity(1)" class="w-10 h-10 rounded-[10px] bg-orange-500 text-white font-black shadow-[0_4px_10px_rgba(249,115,22,0.3)] text-[18px] flex items-center justify-center hover:bg-orange-600 transition-colors">+</button>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -254,48 +287,47 @@
         ];
 
         const SIZES = [
-            { id: 'S', name: "Size S - Nhỏ", desc: "Vừa đủ tráng miệng", price: 0 },
-            { id: 'M', name: "Size M - Vừa", desc: "Chuẩn bài cực phẩm", price: 5000 },
-            { id: 'L', name: "Size L - Lớn", desc: "Ăn cho đã thèm", price: 10000 },
+            { id: 'S', name: "Size S - Nhỏ nhắn", desc: "Vừa đủ tráng miệng", price: 0 },
+            { id: 'M', name: "Size M - Tiêu chuẩn", desc: "Cực phẩm ăn vặt", price: 5000 },
+            { id: 'L', name: "Size L - Khổng lồ", desc: "Ăn no nê/Chia sẻ", price: 10000 },
         ];
 
         const SWEETNESS = [
-            { id: '100', name: "Ngọt nhiều" }, { id: '70', name: "Ngọt vừa" },
-            { id: '30', name: "Ít ngọt" }, { id: '0', name: "Không đường" }
+            { id: '100', name: "Ngọt nhiều", desc: "Chuẩn vị truyền thống" },
+            { id: '70', name: "Ngọt vừa", desc: "Mức mặc định của quán" },
+            { id: '30', name: "Ít ngọt", desc: "Thanh nhẹ, dễ ăn" },
+            { id: '0', name: "Không thêm đường", desc: "Vị tự nhiên của nguyên liệu" }
         ];
 
         const TOPPINGS = [
-            { group: "Đặc Trưng", items: [
-                { id: 't1', name: "Đậu xanh đánh" }, { id: 't2', name: "Khoai môn dẻo" }
+            { group: "Nhóm Giòn & Dai", items: [
+                { id: 't1', name: "Trân châu trắng giòn" }, { id: 't2', name: "Thạch dừa sợi" },
+                { id: 't3', name: "Thạch lá dứa thơm" }, { id: 't4', name: "Đậu phộng rang thơm phức" }
             ]},
-            { group: "Giòn & Béo", items: [
-                { id: 't7', name: "Trân châu trắng" }, { id: 't9', name: "Cốt dừa sánh" }
+            { group: "Nhóm Béo & Ngậy", items: [
+                { id: 't5', name: "Nước cốt dừa đặc sánh" }, { id: 't6', name: "Dừa sợi tươi" },
+                { id: 't7', name: "Dừa khô Bến Tre" }
+            ]},
+            { group: "Nhóm Siêu Thực Phẩm (Healthy)", items: [
+                { id: 't8', name: "Hạt chia Úc" }, { id: 't9', name: "Ngũ cốc giòn" }
             ]}
         ];
 
         let cart = [];
         let currentProduct = null;
-        let modalState = { size: 'M', sweet: '70', toppings: {} };
-        let currentPayment = 'cash'; 
+        let modalState = { size: 'M', sweet: '70', toppings: {}, quantity: 1 };
         let toastTimeout;
 
         const fmt = (n) => n.toLocaleString('vi-VN') + 'đ';
 
-        // --- HÀM GỌI TOAST CUSTOM ---
         function showToast(type, title, message) {
-            const toast = document.getElementById('custom-toast');
-            const bg = document.getElementById('toast-bg');
-            const iconWrap = document.getElementById('toast-icon-wrap');
-            const titleEl = document.getElementById('toast-title');
-            const msgEl = document.getElementById('toast-msg');
-            const progress = document.getElementById('toast-progress');
+            const toast = document.getElementById('custom-toast'), bg = document.getElementById('toast-bg'),
+                  iconWrap = document.getElementById('toast-icon-wrap'), titleEl = document.getElementById('toast-title'),
+                  msgEl = document.getElementById('toast-msg'), progress = document.getElementById('toast-progress');
 
             if(toastTimeout) clearTimeout(toastTimeout);
+            titleEl.innerText = title; msgEl.innerText = message;
 
-            titleEl.innerText = title;
-            msgEl.innerText = message;
-
-            // Đổi màu tuỳ theo loại thông báo
             if (type === 'success') {
                 bg.className = "bg-white/95 backdrop-blur-xl border border-green-100 p-3 pr-6 rounded-[1.2rem] shadow-[0_10px_40px_rgba(34,197,94,0.15)] flex items-center gap-3.5 relative overflow-hidden w-max mx-auto max-w-[90vw]";
                 iconWrap.className = "w-10 h-10 rounded-[10px] flex items-center justify-center text-white text-lg shrink-0 shadow-[0_4px_10px_rgba(52,211,153,0.3)] bg-gradient-to-br from-green-400 to-emerald-500";
@@ -310,38 +342,20 @@
                 titleEl.className = "font-black text-red-800 text-[14px] leading-tight mb-0.5 tracking-tight";
                 msgEl.className = "text-[11.5px] font-bold tracking-wide text-red-700/80";
                 progress.className = "absolute bottom-0 left-0 h-1 rounded-full w-full bg-red-500";
-            } else if (type === 'warning') {
-                bg.className = "bg-white/95 backdrop-blur-xl border border-orange-100 p-3 pr-6 rounded-[1.2rem] shadow-[0_10px_40px_rgba(249,115,22,0.15)] flex items-center gap-3.5 relative overflow-hidden w-max mx-auto max-w-[90vw]";
-                iconWrap.className = "w-10 h-10 rounded-[10px] flex items-center justify-center text-white text-lg shrink-0 shadow-[0_4px_10px_rgba(249,115,22,0.3)] bg-gradient-to-br from-orange-400 to-amber-500";
-                iconWrap.innerHTML = `<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>`;
-                titleEl.className = "font-black text-orange-800 text-[14px] leading-tight mb-0.5 tracking-tight";
-                msgEl.className = "text-[11.5px] font-bold tracking-wide text-orange-700/80";
-                progress.className = "absolute bottom-0 left-0 h-1 rounded-full w-full bg-orange-500";
             }
 
-            // Haptic Feedback cho Mobile
             if (navigator.vibrate) navigator.vibrate(50);
-
-            // Rơi xuống
             toast.classList.remove('translate-y-[-150%]', 'opacity-0', 'scale-90');
             toast.classList.add('translate-y-0', 'opacity-100', 'scale-100');
+            progress.style.transition = 'none'; progress.style.width = '100%';
+            setTimeout(() => { progress.style.transition = 'width 3s linear'; progress.style.width = '0%'; }, 50);
 
-            // Chạy thanh thời gian 3s
-            progress.style.transition = 'none';
-            progress.style.width = '100%';
-            setTimeout(() => {
-                progress.style.transition = 'width 3s linear';
-                progress.style.width = '0%';
-            }, 50);
-
-            // Kéo lên lại
             toastTimeout = setTimeout(() => {
                 toast.classList.remove('translate-y-0', 'opacity-100', 'scale-100');
                 toast.classList.add('translate-y-[-150%]', 'opacity-0', 'scale-90');
             }, 3000);
         }
 
-        // --- KHỞI TẠO APP ---
         function init() {
             const hot = PRODUCTS.filter(p => p.isHot).slice(0, 3);
             if(hot.length === 3) {
@@ -383,18 +397,14 @@
             `;
             document.getElementById('home-mini-menu').innerHTML = PRODUCTS.slice(3, 5).map(listTemplate).join('');
             document.getElementById('full-menu').innerHTML = PRODUCTS.map(listTemplate).join('');
-
-            document.getElementById('cus-phone').addEventListener('input', function(e) {
-                document.getElementById('qr-phone').innerText = e.target.value ? `- ${e.target.value}` : '';
-            });
+            document.getElementById('cus-phone').addEventListener('input', function(e) { document.getElementById('qr-phone').innerText = e.target.value ? `- ${e.target.value}` : ''; });
         }
 
         function switchView(view) {
             ['home', 'menu', 'cart', 'success'].forEach(v => document.getElementById(`view-${v}`).classList.add('hidden'));
             document.getElementById(`view-${view}`).classList.remove('hidden');
 
-            const navs = ['home', 'menu', 'cart'];
-            navs.forEach(n => {
+            ['home', 'menu', 'cart'].forEach(n => {
                 const el = document.getElementById(`nav-${n}`);
                 el.className = n === view 
                     ? 'flex flex-col items-center gap-1.5 text-orange-500 w-16 transition-colors' 
@@ -402,20 +412,19 @@
                 el.querySelector('svg').setAttribute('fill', n === view ? 'currentColor' : 'none');
             });
 
-            if(view === 'success') {
-                document.getElementById('bottom-nav').classList.add('hidden');
-            } else {
-                document.getElementById('bottom-nav').classList.remove('hidden');
-            }
-
+            if(view === 'success') document.getElementById('bottom-nav').classList.add('hidden');
+            else document.getElementById('bottom-nav').classList.remove('hidden');
             if(view === 'cart') renderCart();
         }
 
         function openModal(product) {
             currentProduct = product;
-            modalState = { size: 'M', sweet: '70', toppings: {} };
+            modalState = { size: 'M', sweet: '70', toppings: {}, quantity: 1 };
+            document.getElementById('modal-qty-display').innerText = '1';
+            
             document.getElementById('modal-title').innerText = product.name;
-            document.getElementById('modal-base-price').innerText = "Cơ bản: " + fmt(product.price);
+            document.getElementById('modal-base-price').innerText = "Giá gốc: " + fmt(product.price);
+            
             renderModalOptions(); updateModalTotal();
 
             const overlay = document.getElementById('overlay'), modal = document.getElementById('order-modal');
@@ -442,32 +451,34 @@
                             <span class="text-[11px] text-amber-700/80 font-medium">${s.desc}</span>
                         </div>
                     </div>
-                    <span class="text-[13px] font-black ${s.price > 0 ? 'text-orange-600' : 'text-gray-400'}">+${fmt(s.price)}</span>
+                    <div class="text-right">
+                        <span class="text-[13px] block font-black ${s.price > 0 ? 'text-orange-600' : 'text-gray-400'}">+${fmt(s.price)}</span>
+                        <span class="text-[10px] text-amber-700/60 font-bold">(Tổng ${fmt(currentProduct.price + s.price)})</span>
+                    </div>
                 </label>
             `).join('');
 
             document.getElementById('sweet-options').innerHTML = SWEETNESS.map(s => `
-                <button onclick="updateSweet('${s.id}')" class="py-3 rounded-[1rem] border-[1.5px] ${modalState.sweet === s.id ? 'border-orange-400 bg-orange-50 text-orange-700 font-bold shadow-sm' : 'border-gray-100 bg-white text-gray-500 font-medium'} text-[14px] transition-all">
-                    ${s.name}
-                </button>
+                <div onclick="updateSweet('${s.id}')" class="p-3 rounded-[1rem] border-[1.5px] ${modalState.sweet === s.id ? 'border-orange-400 bg-orange-50 shadow-sm' : 'border-gray-100 bg-white'} transition-all cursor-pointer">
+                    <span class="font-bold block text-[13px] ${modalState.sweet === s.id ? 'text-orange-700' : 'text-gray-700'}">${s.name}</span>
+                    <span class="text-[10px] mt-0.5 block ${modalState.sweet === s.id ? 'text-orange-600/80' : 'text-gray-500'} font-medium">${s.desc}</span>
+                </div>
             `).join('');
 
             document.getElementById('topping-list').innerHTML = TOPPINGS.map(group => `
                 <div class="bg-white p-3.5 rounded-[1.2rem] border border-amber-100/60 shadow-sm mb-3">
                     <h5 class="font-black text-[12px] text-amber-900/60 mb-3 uppercase tracking-wider">${group.group}</h5>
-                    <div class="space-y-3.5">
+                    <div class="space-y-0">
                         ${group.items.map(t => {
-                            const qty = modalState.toppings[t.id] || 0;
+                            const isChecked = modalState.toppings[t.id];
                             return `
-                            <div class="flex justify-between items-center">
-                                <span class="text-[14px] font-bold text-amber-950">${t.name}</span>
-                                <div class="flex items-center gap-3 bg-amber-50/80 px-1.5 py-1.5 rounded-xl border border-amber-100/50">
-                                    <button onclick="updateTopping('${t.id}', -1)" class="w-7 h-7 rounded-lg bg-white text-amber-900 font-black ${qty===0?'opacity-40':''} shadow-sm text-[16px] flex items-center justify-center">-</button>
-                                    <span class="w-4 text-center text-[13px] font-black text-amber-950">${qty}</span>
-                                    <button onclick="updateTopping('${t.id}', 1)" class="w-7 h-7 rounded-lg bg-orange-400 text-white font-black shadow-sm text-[16px] flex items-center justify-center">+</button>
+                            <div class="flex justify-between items-center cursor-pointer group py-2" onclick="toggleTopping('${t.id}')">
+                                <span class="text-[14px] font-bold transition-colors ${isChecked ? 'text-orange-600' : 'text-amber-950'}">${t.name}</span>
+                                <div class="w-[22px] h-[22px] rounded-[6px] border-[2px] flex items-center justify-center transition-all ${isChecked ? 'bg-orange-500 border-orange-500 shadow-[0_2px_8px_rgba(249,115,22,0.4)]' : 'border-amber-200 bg-amber-50 group-hover:border-orange-300'}">
+                                    ${isChecked ? '<svg class="w-3.5 h-3.5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>' : ''}
                                 </div>
                             </div>`
-                        }).join('')}
+                        }).join('<div class="w-full h-[1px] bg-amber-50 my-1"></div>')}
                     </div>
                 </div>
             `).join('');
@@ -475,17 +486,24 @@
 
         function updateSize(id) { modalState.size = id; renderModalOptions(); updateModalTotal(); }
         function updateSweet(id) { modalState.sweet = id; renderModalOptions(); }
-        function updateTopping(id, delta) {
-            const next = (modalState.toppings[id] || 0) + delta;
-            if (next >= 0) { modalState.toppings[id] = next; renderModalOptions(); updateModalTotal(); }
+        function toggleTopping(id) { modalState.toppings[id] = !modalState.toppings[id]; renderModalOptions(); updateModalTotal(); }
+        function updateQuantity(delta) {
+            if(modalState.quantity + delta >= 1) {
+                modalState.quantity += delta;
+                document.getElementById('modal-qty-display').innerText = modalState.quantity;
+                updateModalTotal();
+            }
         }
 
         function calculateCurrentTotal() {
-            let total = currentProduct.price;
+            let unitPrice = currentProduct.price;
             const sizeObj = SIZES.find(s => s.id === modalState.size);
-            if(sizeObj) total += sizeObj.price;
-            total += Object.values(modalState.toppings).reduce((a, b) => a + b, 0) * 2000;
-            return total;
+            if(sizeObj) unitPrice += sizeObj.price;
+            
+            let toppingCount = Object.values(modalState.toppings).filter(Boolean).length;
+            unitPrice += toppingCount * 3000;
+            
+            return unitPrice * modalState.quantity;
         }
 
         function updateModalTotal() { document.getElementById('modal-total-btn').innerText = fmt(calculateCurrentTotal()); }
@@ -493,36 +511,34 @@
         function addToCart() {
             let tops = [];
             for(let id in modalState.toppings) {
-                if(modalState.toppings[id] > 0) {
-                    TOPPINGS.forEach(g => g.items.find(i => { if(i.id === id) tops.push(`${i.name}(x${modalState.toppings[id]})`); }));
+                if(modalState.toppings[id]) {
+                    TOPPINGS.forEach(g => g.items.find(i => { if(i.id === id) tops.push(i.name); }));
                 }
             }
             cart.push({
                 id: Date.now(), productName: currentProduct.name, icon: currentProduct.icon,
                 size: modalState.size, sweet: SWEETNESS.find(s=>s.id===modalState.sweet).name,
-                toppingsText: tops.length ? tops.join(', ') : "Không topping", total: calculateCurrentTotal()
+                toppingsText: tops.length ? tops.join(', ') : "Không thêm topping", 
+                quantity: modalState.quantity,
+                total: calculateCurrentTotal()
             });
             updateCartBadge(); closeModal();
-            
-            // Hiện Toast Thành Công khi thêm vào giỏ
-            showToast('success', 'Đã thêm vào giỏ!', `${currentProduct.name} đang đợi bạn thanh toán.`);
+            showToast('success', 'Đã thêm vào giỏ!', `${currentProduct.name} (x${modalState.quantity}) đang đợi bạn thanh toán.`);
         }
 
         function updateCartBadge() {
             const b = document.getElementById('cart-badge');
-            b.innerText = cart.length; b.classList.toggle('hidden', cart.length === 0);
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            b.innerText = totalItems; 
+            b.classList.toggle('hidden', totalItems === 0);
         }
 
         function renderCart() {
-            const c = document.getElementById('cart-items');
-            const form = document.getElementById('checkout-form');
-            
+            const c = document.getElementById('cart-items'), form = document.getElementById('checkout-form');
             if(cart.length === 0) {
                 c.innerHTML = `<div class="text-center py-10 text-[14px] text-amber-800/50 font-bold border-2 border-dashed border-amber-200 rounded-[1.5rem] bg-white/50">Giỏ hàng trống trơn!</div>`;
-                form.classList.add('hidden');
-                return;
+                form.classList.add('hidden'); return;
             }
-            
             form.classList.remove('hidden');
             let sub = 0;
             c.innerHTML = cart.map((item, i) => {
@@ -530,7 +546,10 @@
                 return `
                 <div class="bg-white p-4 rounded-[1.4rem] border border-amber-100/60 flex gap-3.5 relative shadow-sm">
                     <button onclick="removeFromCart(${i})" class="absolute top-2.5 right-2.5 text-amber-900/20 hover:text-red-500 font-bold px-1.5 py-0.5 text-[16px] transition-colors">✕</button>
-                    <div class="w-[60px] h-[60px] bg-amber-50/80 rounded-xl flex items-center justify-center text-[28px] border border-amber-100/50">${item.icon}</div>
+                    <div class="w-[60px] h-[60px] bg-amber-50/80 rounded-xl flex items-center justify-center text-[28px] border border-amber-100/50 relative">
+                        ${item.icon}
+                        <span class="absolute -top-2 -left-2 bg-orange-500 text-white text-[10px] font-black px-1.5 py-0.5 rounded-md shadow-sm border border-white">x${item.quantity}</span>
+                    </div>
                     <div class="flex-1 pr-5 py-0.5">
                         <h4 class="font-bold text-amber-950 text-[14px] leading-tight mb-1">${item.productName}</h4>
                         <p class="text-[11px] text-amber-700/80 font-medium">Size ${item.size} · ${item.sweet}</p>
@@ -539,63 +558,43 @@
                     </div>
                 </div>`
             }).join('');
-            
             document.getElementById('cart-subtotal').innerText = fmt(sub);
             document.getElementById('cart-total').innerText = fmt(sub + 15000);
         }
 
-        function removeFromCart(index) { 
-            cart.splice(index, 1); 
-            updateCartBadge(); 
-            renderCart(); 
-        }
+        function removeFromCart(index) { cart.splice(index, 1); updateCartBadge(); renderCart(); }
 
         function setPayment(method) {
-            currentPayment = method;
-            const btnCash = document.getElementById('pay-cash');
-            const btnBank = document.getElementById('pay-bank');
-            const qrBox = document.getElementById('qr-box');
-            const btnCheckout = document.getElementById('btn-checkout');
+            const btnCash = document.getElementById('pay-cash'), btnBank = document.getElementById('pay-bank'),
+                  qrBox = document.getElementById('qr-box'), btnCheckout = document.getElementById('btn-checkout');
 
-            btnCash.className = "py-3 border-[1.5px] border-gray-100 bg-white text-gray-500 font-medium rounded-xl text-[13px] transition-all";
-            btnBank.className = "py-3 border-[1.5px] border-gray-100 bg-white text-gray-500 font-medium rounded-xl text-[13px] transition-all";
+            btnCash.className = btnBank.className = "py-3 border-[1.5px] border-gray-100 bg-white text-gray-500 font-medium rounded-xl text-[13px] transition-all";
 
             if (method === 'cash') {
                 btnCash.className = "py-3 border-[1.5px] border-orange-400 bg-orange-50 text-orange-700 font-bold rounded-xl text-[13px] transition-all shadow-sm";
-                qrBox.classList.add('hidden');
-                btnCheckout.innerText = "Đặt hàng (Tiền mặt)";
+                qrBox.classList.add('hidden'); btnCheckout.innerText = "Đặt hàng (Tiền mặt)";
             } else {
                 btnBank.className = "py-3 border-[1.5px] border-orange-400 bg-orange-50 text-orange-700 font-bold rounded-xl text-[13px] transition-all shadow-sm";
-                qrBox.classList.remove('hidden');
-                btnCheckout.innerText = "Đã chuyển khoản & Đặt hàng";
+                qrBox.classList.remove('hidden'); btnCheckout.innerText = "Đã chuyển khoản & Đặt hàng";
             }
         }
 
         function processCheckout() {
-            const name = document.getElementById('cus-name').value;
-            const phone = document.getElementById('cus-phone').value;
-            const address = document.getElementById('cus-address').value;
+            const name = document.getElementById('cus-name').value, phone = document.getElementById('cus-phone').value,
+                  address = document.getElementById('cus-address').value;
 
-            // KIỂM TRA LỖI BẰNG TOAST MỚI (Triệt tiêu hàm alert)
             if(!name || !phone || !address) {
                 showToast('error', 'Chưa xong bạn ơi!', 'Vui lòng nhập đầy đủ tên, sđt và địa chỉ nhận hàng nhé.');
                 return;
             }
 
             const loader = document.getElementById('loading-overlay');
-            loader.classList.remove('hidden');
-            loader.classList.add('flex');
+            loader.classList.remove('hidden'); loader.classList.add('flex');
 
             setTimeout(() => {
-                loader.classList.add('hidden');
-                loader.classList.remove('flex');
-                
-                cart = []; 
-                updateCartBadge();
-                document.getElementById('cus-name').value = '';
-                document.getElementById('cus-phone').value = '';
-                document.getElementById('cus-address').value = '';
-                
+                loader.classList.add('hidden'); loader.classList.remove('flex');
+                cart = []; updateCartBadge();
+                document.getElementById('cus-name').value = ''; document.getElementById('cus-phone').value = ''; document.getElementById('cus-address').value = '';
                 switchView('success');
             }, 2000);
         }
