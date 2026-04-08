@@ -2,7 +2,7 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Ty's Foods | Premium Desserts</title>
     <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Lora:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/twemoji@latest/dist/twemoji.min.js" crossorigin="anonymous"></script>
@@ -35,9 +35,16 @@
             --r-xl: 30px;
         }
 
-        body { font-family: 'Be Vietnam Pro', sans-serif; background: #f5eedc; display: flex; justify-content: center; min-height: 100vh; }
+        html, body { width: 100%; height: 100%; }
+        body { font-family: 'Be Vietnam Pro', sans-serif; background: #f5eedc; display: flex; justify-content: center; min-height: 100vh; -webkit-text-size-adjust: 100%; }
         .app { width: 100%; max-width: 460px; background: var(--bg); height: 100dvh; display: flex; flex-direction: column; position: relative; overflow: hidden; box-shadow: 0 0 80px rgba(0,0,0,0.15); border-radius: 26px; }
         @media (max-width: 520px){ .app{ border-radius: 0; max-width: 100%; } }
+
+        /* Prevent iOS input focus zoom (needs >=16px) */
+        @media (max-width: 520px){
+            .fi{ font-size: 16px; }
+            #gate-name, #gate-table{ font-size: 16px !important; }
+        }
         .scroll-area { -ms-overflow-style:none; scrollbar-width:none; overflow-y: auto; }
         .scroll-area::-webkit-scrollbar { display:none; }
 
@@ -404,18 +411,18 @@
                 <div class="grid gap-3">
                     <label class="grid gap-1">
                         <span class="text-xs font-extrabold tracking-wider text-[#7a5c00] uppercase" data-i18n="gate_name_lbl">Tên của bạn</span>
-                        <input id="gate-name" class="w-full rounded-2xl border-2 border-amber-200/40 bg-white px-4 py-3 text-[15px] font-semibold text-[#1a1400] outline-none focus:border-amber-400 focus:ring-4 focus:ring-amber-300/30" data-i18n="gate_name_ph" placeholder="Ví dụ: Việt" type="text" autocomplete="name" />
+                        <input id="gate-name" class="w-full rounded-2xl border-2 border-amber-200/40 bg-white px-4 py-3 text-[16px] font-semibold text-[#1a1400] outline-none focus:border-amber-400 focus:ring-4 focus:ring-amber-300/30" data-i18n="gate_name_ph" placeholder="Ví dụ: Việt" type="text" autocomplete="name" />
                     </label>
                     <label class="grid gap-1">
                         <span class="text-xs font-extrabold tracking-wider text-[#7a5c00] uppercase" data-i18n="gate_table_lbl">Số bàn</span>
-                        <input id="gate-table" class="w-full rounded-2xl border-2 border-amber-200/40 bg-white px-4 py-3 text-[15px] font-semibold text-[#1a1400] outline-none focus:border-amber-400 focus:ring-4 focus:ring-amber-300/30" data-i18n="gate_table_ph" placeholder="Ví dụ: 12" type="text" inputmode="numeric" autocomplete="off" />
+                        <input id="gate-table" class="w-full rounded-2xl border-2 border-amber-200/40 bg-white px-4 py-3 text-[16px] font-semibold text-[#1a1400] outline-none focus:border-amber-400 focus:ring-4 focus:ring-amber-300/30" data-i18n="gate_table_ph" placeholder="Ví dụ: 12" type="text" inputmode="numeric" autocomplete="off" />
                         <div class="text-[12px] font-semibold text-[#7a6830] leading-relaxed" data-i18n="gate_hint">
                             Số bàn được dán/ghi trên bàn. Nếu không thấy, hãy liên hệ nhân viên.
                         </div>
                     </label>
                 </div>
 
-                <button id="gate-submit" class="mt-4 w-full rounded-2xl bg-amber-400 hover:bg-amber-500 active:scale-[0.99] transition px-4 py-4 text-[15px] font-extrabold text-[#1a1400] shadow-lg shadow-amber-400/30" onclick="submitGate()">
+                <button id="gate-submit" class="mt-4 w-full rounded-2xl bg-amber-400 hover:bg-amber-500 active:scale-[0.99] transition px-4 py-4 text-[16px] font-extrabold text-[#1a1400] shadow-lg shadow-amber-400/30" onclick="submitGate()">
                     <span data-i18n="gate_btn">Bắt đầu chọn món</span>
                 </button>
 
