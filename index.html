@@ -3,607 +3,1989 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ty's Foods - Premium App UI</title>
+    <title>Ty's Foods | Premium Desserts</title>
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Lora:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/twemoji@latest/dist/twemoji.min.js" crossorigin="anonymous"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap');
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #e5e7eb; }
-        
-        .no-scrollbar::-webkit-scrollbar { display: none; }
-        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-        
-        .modal-enter { animation: slideUp 0.3s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; }
-        .modal-exit { animation: slideDown 0.25s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; }
-        @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
-        @keyframes slideDown { from { transform: translateY(0); } to { transform: translateY(100%); } }
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-        .fade-in { animation: fadeIn 0.2s ease-out forwards; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
-
-        @keyframes float {
-            0% { transform: translateY(0px) rotate(0deg); }
-            50% { transform: translateY(-8px) rotate(3deg); }
-            100% { transform: translateY(0px) rotate(0deg); }
+        :root {
+            --y50:  #fffdf0;
+            --y100: #fef9d0;
+            --y200: #fdf0a0;
+            --y300: #f9e05c;
+            --y400: #f5cb1e;
+            --y500: #e8b800;
+            --y600: #c99a00;
+            --y700: #7a5c00;
+            --dark: #1a1400;
+            --dark2: #2a2000;
+            --ink:  #1a1400;
+            --muted: #7a6830;
+            --light-muted: #b09840;
+            --border: rgba(200,160,0,0.14);
+            --border-md: rgba(200,160,0,0.25);
+            --border-strong: rgba(200,160,0,0.4);
+            --bg: #fffcf0;
+            --white: #ffffff;
+            --r-sm: 12px;
+            --r-md: 18px;
+            --r-lg: 24px;
+            --r-xl: 30px;
         }
-        .animate-float { animation: float 3s ease-in-out infinite; }
+
+        body { font-family: 'Be Vietnam Pro', sans-serif; background: #f5eedc; display: flex; justify-content: center; min-height: 100vh; }
+        .app { width: 100%; max-width: 460px; background: var(--bg); height: 100dvh; display: flex; flex-direction: column; position: relative; overflow: hidden; box-shadow: 0 0 80px rgba(0,0,0,0.15); border-radius: 26px; }
+        @media (max-width: 520px){ .app{ border-radius: 0; max-width: 100%; } }
+        .scroll-area { -ms-overflow-style:none; scrollbar-width:none; overflow-y: auto; }
+        .scroll-area::-webkit-scrollbar { display:none; }
+
+        img.emoji { height: 1em; width: 1em; margin: 0 .05em 0 .1em; vertical-align: -0.1em; }
+
+        /* ═══ CSS DÀNH CHO ICON BẰNG HÌNH ẢNH TRONG TƯƠNG LAI ═══ */
+        .hot-featured-icon, .hot-card-icon, .list-icon, .cart-icon {
+            display: flex !important; align-items: center; justify-content: center; overflow: hidden; 
+            background: var(--y100); border: 1px solid var(--border); border-radius: 14px; transition: transform 0.3s ease;
+        }
+        .hot-featured-icon img:not(.emoji), .hot-card-icon img:not(.emoji), .list-icon img:not(.emoji), .cart-icon img:not(.emoji) {
+            width: 90% !important; height: 90% !important; object-fit: contain !important; mix-blend-mode: multiply; 
+            image-rendering: -webkit-optimize-contrast; filter: drop-shadow(2px 4px 6px rgba(0,0,0,0.1));
+        }
+
+        /* ═══ HEADER ═══ */
+        .header { flex-shrink: 0; background: #fcf9ea; padding: 0 20px; height: 85px; display: flex; align-items: center; justify-content: space-between; position: relative; z-index: 30; border-radius: 0 0 24px 24px; box-shadow: 0 6px 20px rgba(0,0,0,0.06); overflow: hidden; }
+        
+        /* ĐÃ CHỈNH LOGO DỊCH LÊN TRÊN ĐỂ KHÔNG BỊ CẮT CHỮ */
+        .logo { cursor: pointer; display: block; width: 140px; height: 100%; position: relative; }
+        .logo img { 
+            position: absolute; top: 50%; left: -5px; width: 100%; height: auto; mix-blend-mode: multiply; 
+            /* Sửa lại translateY thành -40% để kéo toàn bộ khung ảnh đi lên */
+            transform: translateY(-40%) scale(1.15); 
+            transform-origin: left center; animation: bowlBreath 4s ease-in-out infinite; 
+        }
+        @keyframes bowlBreath { 0%, 100% { transform: translateY(-40%) scale(1.15); } 50% { transform: translateY(-43%) scale(1.15); } }
+
+        .smoke-wrap { position: absolute; top: 15px; left: 20%; width: 60px; height: 40px; z-index: 5; pointer-events: none; }
+        .smoke { position: absolute; bottom: 0; background: rgba(138, 123, 77, 0.15); border-radius: 50%; filter: blur(4px); opacity: 0; }
+        .s1 { left: 10px; width: 15px; height: 15px; animation: steam 3s infinite linear; }
+        .s2 { left: 30px; width: 22px; height: 22px; animation: steam 4s infinite linear 1.2s; }
+        .s3 { left: 50px; width: 12px; height: 12px; animation: steam 3.5s infinite linear 2.5s; }
+        @keyframes steam { 0% { transform: translateY(0) translateX(0) scale(1); opacity: 0; } 30% { opacity: 0.8; } 100% { transform: translateY(-35px) translateX(15px) scale(3); opacity: 0; } }
+
+        .header-actions { display: flex; align-items: center; gap: 10px; }
+        .lang-toggle { display: flex; align-items: center; position: relative; background: rgba(0,0,0,0.06); border: 1px solid rgba(0,0,0,0.05); border-radius: 50px; width: 56px; height: 26px; cursor: pointer; padding: 2px; }
+        .lang-slider { position: absolute; top: 2px; left: 2px; width: 25px; height: 20px; background: #fff; border-radius: 50px; transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: 0 2px 4px rgba(0,0,0,0.15); }
+        .lang-toggle.en .lang-slider { transform: translateX(25px); }
+        .lang-btn { flex: 1; text-align: center; font-size: 10px; font-weight: 700; color: rgba(0,0,0,0.4); z-index: 1; transition: color 0.25s; }
+        .lang-toggle:not(.en) .lang-btn.vi { color: var(--dark); }
+        .lang-toggle.en .lang-btn.en { color: var(--dark); }
+        .fb-btn { display: flex; align-items: center; gap: 7px; background: rgba(0,0,0,0.06); border: 1px solid rgba(0,0,0,0.05); padding: 7px; border-radius: 50px; text-decoration: none; transition: background 0.2s; }
+        .fb-btn:hover { background: rgba(0,0,0,0.1); }
+        .fb-icon { width: 18px; height: 18px; background: #1877F2; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+        .fb-icon svg { width: 10px; height: 10px; fill: white; }
+
+        /* ═══ MAIN ═══ */
+        .main { flex:1; overflow-y:auto; }
+        .view { display:none; }
+        .view.active { display:block; }
+
+        /* ═══ HERO ═══ */
+        .hero { padding: 20px 16px 10px; position: relative; }
+        .hero-card { background: linear-gradient(135deg, #2a2000, #120e00); border-radius: 28px; padding: 24px 20px; display: flex; align-items: center; justify-content: space-between; gap: 10px; position: relative; overflow: hidden; box-shadow: 0 16px 36px rgba(245, 203, 30, 0.2); border: 1px solid rgba(245, 203, 30, 0.3); }
+        .hero-card::before { content: ''; position: absolute; top: -30px; right: -30px; width: 120px; height: 120px; background: radial-gradient(circle, rgba(245,203,30,0.18) 0%, transparent 70%); border-radius: 50%; }
+        .hero-left { position: relative; z-index: 1; }
+        .hero-badge { display: inline-flex; align-items: center; gap: 5px; background: rgba(245,203,30,0.15); border: 1px solid rgba(245,203,30,0.25); color: var(--y300); font-size: 10px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; padding: 5px 12px; border-radius: 50px; margin-bottom: 12px; width: fit-content; }
+        .hero-title { font-family: 'Lora', serif; font-size: 34px; font-weight: 700; color: #fff; line-height: 1.1; letter-spacing: -0.5px; margin-bottom: 8px; }
+        .hero-title em { color: var(--y300); font-style: normal; }
+        .hero-sub { font-size: 12px; color: rgba(255,255,255,0.6); font-weight: 500; }
+        .hero-right { position: relative; z-index: 1; flex-shrink: 0; }
+        .hero-emoji-ring { width: 88px; height: 88px; border: 2px solid rgba(245,203,30,0.2); background: rgba(245,203,30,0.08); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 40px; animation: float 3.5s ease-in-out infinite; }
+        .hero-pip { position: absolute; top: -4px; right: -4px; width: 28px; height: 28px; background: var(--dark2); border: 1.5px solid rgba(245,203,30,0.25); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 14px; }
+        .hero-pip2 { position: absolute; bottom: 2px; left: -10px; width: 24px; height: 24px; background: var(--dark2); border: 1.5px solid rgba(255,255,255,0.07); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; }
+        @keyframes float { 0%,100%{transform:translateY(0) rotate(0)} 50%{transform:translateY(-7px) rotate(4deg)} }
+
+        /* ═══ SECTION ═══ */
+        .section { padding: 0 16px; margin-top: 22px; }
+        .section-last { margin-bottom: 24px; }
+        .sec-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:14px; }
+        .sec-title { font-family: 'Lora', serif; font-size: 18px; font-weight: 700; color: var(--ink); letter-spacing: -0.3px; line-height: 1.25; }
+        .sec-btn { font-family: 'Be Vietnam Pro', sans-serif; font-size: 11px; font-weight: 700; color: var(--y700); background: var(--y100); border: 1px solid var(--border-md); padding: 6px 14px; border-radius: 50px; cursor: pointer; transition: background 0.15s; }
+        .sec-btn:hover { background: var(--y200); }
+
+        /* ═══ HOT GRID ═══ */
+        .hot-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+        .hot-featured { grid-column: 1 / -1; background: var(--white); border: 1.5px solid var(--border-md); border-radius: var(--r-lg); padding: 14px; display: flex; align-items: center; gap: 12px; cursor: pointer; transition: border-color 0.18s, box-shadow 0.18s, transform 0.18s; }
+        .hot-featured:hover { border-color: var(--y400); box-shadow: 0 6px 20px rgba(200,160,0,0.12); transform: translateY(-2px); }
+        .hot-featured-icon { width: 68px; height: 68px; flex-shrink: 0; background: var(--y100); border: 1px solid var(--border-md); border-radius: var(--r-md); display: flex; align-items: center; justify-content: center; font-size: 30px; transition: transform 0.18s; }
+        .hot-featured:hover .hot-featured-icon { transform: scale(1.06); }
+        .hot-featured-body { flex:1; }
+        .hot-featured-body h3 { font-weight: 700; font-size: 15px; color: var(--ink); margin-bottom: 3px; }
+        .hot-featured-body p { font-size: 12px; color: var(--muted); margin-bottom: 6px; }
+        .hot-featured-price { font-weight: 700; font-size: 15px; color: var(--y600); }
+        .hot-featured-add { width: 34px; height: 34px; flex-shrink: 0; background: var(--y400); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: 500; color: var(--dark); line-height: 1; transition: background 0.15s, transform 0.15s; }
+        .hot-featured:hover .hot-featured-add { background: var(--y500); transform: scale(1.08); }
+
+        .hot-card { background: var(--white); border: 1.5px solid var(--border-md); border-radius: var(--r-lg); padding: 14px 10px; display: flex; flex-direction: column; align-items: center; text-align: center; cursor: pointer; transition: border-color 0.18s, box-shadow 0.18s, transform 0.18s; }
+        .hot-card:hover { border-color: var(--y400); box-shadow: 0 4px 16px rgba(200,160,0,0.1); transform: translateY(-2px); }
+        .hot-card-icon { width: 58px; height: 58px; background: var(--y100); border-radius: var(--r-sm); display: flex; align-items: center; justify-content: center; font-size: 26px; margin-bottom: 10px; border: 1px solid var(--border); transition: transform 0.18s; }
+        .hot-card:hover .hot-card-icon { transform: scale(1.07); }
+        .hot-card h3 { font-weight: 700; font-size: 13px; color: var(--ink); margin-bottom: 6px; line-height: 1.3; }
+        .hot-card-price { font-weight: 700; font-size: 13px; color: var(--y600); }
+
+        /* ═══ MENU ITEM (rename to avoid Tailwind collision) ═══ */
+        .menu-item { background: var(--white); border: 1.5px solid rgba(200,160,0,0.18); border-radius: 20px; padding: 14px 14px; display: flex; align-items: center; gap: 12px; cursor: pointer; margin-bottom: 10px; transition: border-color 0.18s, box-shadow 0.18s, transform 0.18s; box-shadow: 0 10px 24px rgba(26,20,0,0.04); }
+        .menu-item:hover { border-color: var(--y400); box-shadow: 0 4px 16px rgba(200,160,0,0.1); transform: translateY(-1px); }
+        .menu-icon { width: 56px; height: 56px; flex-shrink: 0; background: linear-gradient(180deg, #fff7c4, #fffdf0); border-radius: 16px; border: 1px solid rgba(200,160,0,0.2); display: flex; align-items: center; justify-content: center; font-size: 26px; transition: transform 0.18s; }
+        .menu-item:hover .menu-icon { transform: scale(1.05); }
+        .menu-info { flex:1; min-width: 0; }
+        .menu-info h3 { font-weight: 800; font-size: 14px; color: var(--ink); margin-bottom: 4px; line-height: 1.25; }
+        .menu-sub { font-size: 12px; color: var(--muted); margin-bottom: 6px; line-height: 1.45; display: -webkit-box; -webkit-line-clamp: 2; line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+        .menu-info .price { font-weight: 800; font-size: 14px; color: var(--y700); background: rgba(245,203,30,0.18); border: 1px solid rgba(245,203,30,0.28); padding: 4px 10px; border-radius: 999px; display: inline-flex; width: fit-content; }
+        .menu-add { width: 38px; height: 38px; flex-shrink: 0; background: rgba(245,203,30,0.22); border: 1.5px solid rgba(245,203,30,0.45); border-radius: 16px; display: flex; align-items: center; justify-content: center; font-size: 20px; color: var(--dark); line-height: 1; font-weight: 900; transition: background 0.15s, transform 0.15s; }
+        .menu-item:hover .menu-add { background: var(--y400); color: var(--dark); transform: scale(1.08); }
+
+        /* ═══ MENU TABS (category quick jump) ═══ */
+        .menu-tabs { padding: 0 16px 12px; display: flex; gap: 8px; overflow-x: auto; -ms-overflow-style:none; scrollbar-width:none; }
+        .menu-tabs::-webkit-scrollbar{ display:none; }
+        .tab { flex: 0 0 auto; padding: 10px 12px; border-radius: 999px; border: 1.5px solid var(--border-md); background: rgba(255,255,255,0.75); font-size: 12px; font-weight: 900; color: var(--y700); cursor: pointer; transition: transform .12s, background .15s, border-color .15s; }
+        .tab:active{ transform: scale(0.98); }
+        .tab.active { background: var(--y100); border-color: rgba(245,203,30,0.55); color: var(--dark); }
+
+        /* ═══ STORY DESIGN - ĐÃ PHỤC HỒI CSS BỊ MẤT ═══ */
+        .story-wrapper {
+            position: relative; border-radius: var(--r-xl); padding: 32px 24px;
+            background: #140e00; overflow: hidden; box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+            border: 1px solid rgba(245,203,30,0.1);
+        }
+        .story-wrapper::before {
+            content: ''; position: absolute; top: -50px; right: -50px; width: 200px; height: 200px;
+            background: radial-gradient(circle, rgba(245,203,30,0.15) 0%, transparent 70%);
+            border-radius: 50%; pointer-events: none;
+        }
+        .story-wrapper::after {
+            content: '“'; position: absolute; bottom: -60px; right: 20px;
+            font-family: 'Lora', serif; font-size: 200px; color: rgba(255,255,255,0.03);
+            line-height: 1; pointer-events: none;
+        }
+        .story-header { margin-bottom: 28px; position: relative; z-index: 1; }
+        .story-header h2 { font-family: 'Lora', serif; font-size: 24px; font-weight: 700; color: var(--y300); margin-bottom: 6px; letter-spacing: -0.5px; }
+        .story-header p { font-size: 12px; color: rgba(255,255,255,0.5); }
+
+        .story-item {
+            display: flex; align-items: center; justify-content: space-between; padding: 20px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.08); position: relative; z-index: 1;
+            cursor: pointer; transition: all 0.3s ease;
+        }
+        .story-item:last-child { border-bottom: none; padding-bottom: 0; }
+        .story-item-left { display: flex; align-items: center; gap: 16px; }
+        .story-num { font-family: 'Lora', serif; font-size: 16px; font-weight: 700; color: rgba(245,203,30,0.4); font-style: italic; transition: color 0.3s; }
+        .story-text h4 { font-family: 'Be Vietnam Pro', sans-serif; font-size: 16px; font-weight: 700; color: #fff; margin: 0 0 4px 0; transition: color 0.2s; letter-spacing: 0.5px; }
+        .story-text p { font-size: 12px; color: rgba(255,255,255,0.4); margin: 0; }
+
+        .story-btn {
+            padding: 6px 18px; border-radius: 50px; border: 1px solid rgba(245, 203, 30, 0.4);
+            color: var(--y400); font-size: 11px; font-weight: 700; letter-spacing: 0.5px;
+            text-transform: uppercase; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); background: transparent;
+        }
+        .story-item:hover .story-text h4 { color: var(--y400); }
+        .story-item:hover .story-num { color: var(--y400); }
+        .story-item:hover .story-btn { background: var(--y400); color: var(--dark); border-color: var(--y400); transform: translateX(-4px); box-shadow: 0 4px 10px rgba(245, 203, 30, 0.3); }
+
+        /* ═══ PAGE HEADER ═══ */
+        .page-top { padding: 22px 18px 0; margin-bottom: 12px; }
+        .page-top h2 { font-family: 'Lora', serif; font-size: 26px; font-weight: 800; color: var(--ink); letter-spacing: -0.6px; line-height: 1.15; }
+        .page-top p { font-size: 13px; color: var(--muted); margin-top: 6px; font-weight: 600; line-height: 1.45; }
+
+        /* ═══ CART ITEMS ═══ */
+        .cart-list { padding: 0 16px; }
+        .cart-item { background: var(--white); border: 1.5px solid var(--border); border-radius: var(--r-lg); padding: 14px; display: flex; align-items: center; gap: 14px; margin-bottom: 12px; position: relative; }
+        .cart-icon-wrap { position:relative; flex-shrink:0; }
+        .cart-icon { width: 58px; height: 58px; background: var(--y100); border-radius: var(--r-sm); display: flex; align-items: center; justify-content: center; font-size: 26px; border: 1px solid var(--border); }
+        .cart-qty-badge { position: absolute; top:-6px; left:-6px; background: var(--y500); color: var(--dark); font-size: 10px; font-weight: 700; padding: 2px 6px; border-radius: 6px; border: 2px solid var(--bg); }
+        .cart-info { flex:1; }
+        .cart-info h4 { font-weight:700; font-size:14px; color:var(--ink); margin-bottom:4px; }
+        .cart-info .cm { font-size:11px; color:var(--muted); margin-bottom:2px; }
+        .cart-info .ct { font-size:11px; color:var(--y600); font-weight:600; line-height:1.4; }
+        .cart-info .cnote { font-size:12px; color:var(--y700); font-style:italic; margin-top:4px; font-weight: 600; }
+        .cart-info .cp { font-weight:700; font-size:15px; color:var(--ink); margin-top:6px; display:block; }
+        .cart-rm { position:absolute; top:10px; right:12px; background:none; border:none; cursor:pointer; font-size:16px; color:rgba(0,0,0,0.2); transition:color 0.15s; }
+        .cart-rm:hover { color:#ef4444; }
+
+        .cart-empty { text-align:center; padding:40px 20px; background:var(--white); border:2px dashed var(--border-strong); border-radius:var(--r-xl); margin:0 16px; }
+        .cart-empty p { font-size:14px; font-weight:600; color:var(--muted); }
+
+        /* ═══ CHECKOUT ═══ */
+        .checkout { padding: 0 16px 26px; margin-top: 16px; }
+        .form-card { background: var(--white); border: 1.5px solid var(--border); border-radius: var(--r-lg); padding: 18px; margin-bottom: 14px; }
+        .form-card h3 { font-weight: 700; font-size: 14px; color: var(--ink); margin-bottom: 14px; border-left: 3px solid var(--y400); padding-left: 10px; }
+        .fi { width: 100%; background: var(--y50); border: 1.5px solid var(--border-md); border-radius: var(--r-sm); padding: 12px 16px; font-size: 14px; font-family: 'Be Vietnam Pro', sans-serif; color: var(--ink); margin-bottom: 10px; outline: none; transition: border-color 0.15s, background 0.15s; }
+        .fi:focus { border-color: var(--y500); background: #fff; }
+        .fi::placeholder { color: var(--light-muted); }
+        textarea.fi { height: 80px; resize: none; }
+
+        .pay-row { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+        .pay-btn { padding: 12px; border: 1.5px solid var(--border-md); border-radius: var(--r-sm); background: var(--y50); font-family: 'Be Vietnam Pro', sans-serif; font-size: 13px; font-weight: 600; color: var(--muted); cursor: pointer; transition: all 0.15s; }
+        .pay-btn.sel { border-color: var(--y500); background: var(--y100); color: var(--y700); }
+
+        .qr-box { display:none; margin-top:14px; background:var(--y50); border:1px solid var(--border-md); border-radius:var(--r-md); padding:16px; flex-direction:column; align-items:center; }
+        .qr-box.show { display:flex; }
+        .qr-box p { font-size:12px; color:var(--muted); font-weight:600; margin-bottom:10px; }
+        .qr-ph { width:120px; height:120px; background:#fff; border:2px dashed var(--border-strong); border-radius:var(--r-sm); display:flex; align-items:center; justify-content:center; font-size:36px; margin-bottom:10px; }
+        .qr-lbl { background:#fff; border:1px solid var(--border); border-radius:8px; padding:8px 16px; text-align:center; }
+        .qr-lbl span { display:block; font-size:11px; color:var(--muted); margin-bottom:2px; }
+        .qr-lbl strong { font-size:13px; color:var(--y600); font-weight:700; }
+
+        .summary { background: linear-gradient(135deg, #2a2000, #1a1400); border-radius: var(--r-lg); padding: 20px; margin-bottom: 16px; border: 1px solid rgba(245,203,30,0.1); }
+        .sum-row { display:flex; justify-content:space-between; margin-bottom:10px; }
+        .sum-row span { font-size:13px; color:rgba(255,255,255,0.6); font-weight:500; }
+        .sum-row strong { font-size:13px; color:rgba(255,255,255,0.9); font-weight:600; }
+        .sum-hr { border:none; border-top:1px dashed rgba(255,255,255,0.15); margin:14px 0; }
+        .sum-total { display:flex; align-items:center; justify-content:space-between; }
+        .sum-total span { font-size:15px; color:rgba(255,255,255,0.7); font-weight:700; }
+        .sum-total strong { font-family:'Lora',serif; font-size:28px; color:var(--y300); }
+
+        .order-btn { width: 100%; background: var(--y400); color: var(--dark); border: none; border-radius: var(--r-md); padding: 18px; font-family: 'Be Vietnam Pro', sans-serif; font-size: 16px; font-weight: 700; cursor: pointer; transition: background 0.15s, transform 0.12s; }
+        .order-btn:hover { background: var(--y500); }
+        .order-btn:active { transform: scale(0.98); }
+
+        /* ═══ SUCCESS ═══ */
+        .success-view { padding: 48px 24px 32px; display: flex; flex-direction: column; align-items: center; min-height: calc(100dvh - 70px); justify-content: center; }
+        .success-ring { width: 96px; height: 96px; background: var(--y100); border: 3px solid var(--y400); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 24px; }
+        .success-ring svg { width:40px; height:40px; stroke:var(--y600); }
+        .success-view h2 { font-family:'Lora',serif; font-size:28px; color:var(--ink); text-align:center; margin-bottom:10px; line-height:1.2; }
+        .success-view > p { font-size:14px; color:var(--muted); text-align:center; line-height:1.65; margin-bottom:32px; padding:0 12px; }
+        .contact-card { width:100%; background:linear-gradient(135deg, #2a2000, #1a1400); border-radius:var(--r-lg); padding:20px; text-align:center; margin-bottom:16px; border: 1px solid rgba(245,203,30,0.1); }
+        .contact-card .lbl { font-size:10px; color:rgba(255,255,255,0.4); font-weight:700; letter-spacing:0.2em; text-transform:uppercase; margin-bottom:8px; }
+        .contact-card a { font-family:'Lora',serif; font-size:28px; font-weight:700; color:var(--y300); text-decoration:none; display:block; }
+        .home-btn { width:100%; background:var(--y400); color:var(--dark); border:none; border-radius:var(--r-md); padding:18px; font-family:'Be Vietnam Pro',sans-serif; font-size:16px; font-weight:700; cursor:pointer; transition:background 0.15s; }
+        .home-btn:hover { background:var(--y500); }
+        .btn-row { width:100%; display:grid; grid-template-columns: 1fr; gap:10px; }
+        .ghost-btn { width:100%; background: rgba(255,255,255,0.75); color: var(--y700); border: 1.5px solid var(--border-md); border-radius:var(--r-md); padding:16px; font-family:'Be Vietnam Pro',sans-serif; font-size:15px; font-weight:800; cursor:pointer; transition:background 0.15s, transform 0.12s; }
+        .ghost-btn:hover { background: rgba(255,255,255,0.95); }
+        .ghost-btn:active, .home-btn:active { transform: scale(0.99); }
+
+        /* ═══ BOTTOM NAV ═══ */
+        .nav { flex-shrink: 0; background: #fcf9ea; border-top: 1px solid var(--border-md); display: flex; justify-content: space-around; align-items: center; padding: 10px 0 24px; position: relative; z-index:30; }
+        .nav-btn { display:flex; flex-direction:column; align-items:center; gap:4px; background:none; border:none; cursor:pointer; color:rgba(0,0,0,0.25); padding:4px 22px; transition:color 0.18s; position:relative; }
+        .nav-btn.active { color:var(--y600); }
+        .nav-btn svg { width:24px; height:24px; }
+        .nav-btn span { font-family: 'Be Vietnam Pro', sans-serif; font-size:10px; font-weight:700; letter-spacing:0.05em; text-transform:uppercase; }
+        .badge { position:absolute; top:-2px; right:10px; background:var(--y500); color:var(--dark); font-size:10px; font-weight:700; min-width:18px; height:18px; border-radius:9px; padding:0 5px; display:none; align-items:center; justify-content:center; border:2px solid #fff; }
+        .badge.show { display:flex; }
+
+        /* ═══ OVERLAY + MODAL ═══ */
+        .overlay { position:fixed; inset:0; background:rgba(10,7,0,0.75); z-index:40; display:none; opacity:0; transition:opacity 0.25s; backdrop-filter:blur(5px); }
+        .overlay.show { display:block; }
+        .overlay.vis { opacity:1; }
+
+        .modal { position:fixed; bottom:0; left:50%; transform:translateX(-50%) translateY(100%); width:100%; max-width:430px; background:var(--bg); border-radius:28px 28px 0 0; z-index:50; height:90dvh; display:flex; flex-direction:column; transition:transform 0.35s cubic-bezier(0.2,0.8,0.2,1); box-shadow:none; }
+        .modal.open { transform:translateX(-50%) translateY(0); box-shadow:0 -20px 60px rgba(0,0,0,0.3); }
+        .modal-handle { width:40px; height:5px; background:var(--border-strong); border-radius:3px; margin:12px auto 0; flex-shrink:0; }
+        .modal-head { padding:16px 20px; border-bottom:1.5px solid var(--border); display:flex; align-items:flex-start; justify-content:space-between; flex-shrink:0; }
+        .modal-head h3 { font-family:'Lora',serif; font-size:22px; font-weight:700; color:var(--ink); letter-spacing:-0.3px; max-width:80%; line-height:1.25; }
+        .modal-head .bp { font-size:13px; color:var(--y700); font-weight:700; margin-top:6px; }
+        .modal-x { width:32px; height:32px; background:var(--y100); border:1px solid var(--border-md); border-radius:50%; cursor:pointer; font-size:14px; color:var(--ink); display:flex; align-items:center; justify-content:center; transition:background 0.15s; }
+        .modal-x:hover { background:var(--y200); }
+
+        .modal-body { flex:1; overflow-y:auto; padding:20px; }
+        .modal-body::-webkit-scrollbar { display:none; }
+        .opt-sec { margin-bottom:26px; }
+        .opt-ttl { font-weight:700; font-size:15px; color:var(--ink); margin-bottom:14px; border-left:3px solid var(--y400); padding-left:12px; }
+        .size-opt { display:flex; align-items:center; justify-content:space-between; padding:14px 16px; background:#fff; border:1.5px solid var(--border); border-radius:var(--r-md); margin-bottom:10px; cursor:pointer; transition:border-color 0.15s, background 0.15s, transform 0.15s; }
+        .size-opt:active { transform:scale(0.98); }
+        .size-opt.sel { border-color:var(--y500); background:var(--y50); }
+        .size-opt-l { display:flex; align-items:center; gap:12px; }
+        .radio { width:20px; height:20px; border-radius:50%; border:2px solid #ccc; display:flex; align-items:center; justify-content:center; flex-shrink:0; transition:border-color 0.15s; }
+        .size-opt.sel .radio { border-color:var(--y500); }
+        .rdot { width:10px; height:10px; background:var(--y500); border-radius:50%; display:none; }
+        .size-opt.sel .rdot { display:block; }
+        .sname { font-weight:700; font-size:14px; color:var(--ink); display:block; margin-bottom:2px; }
+        .sdesc { font-size:12px; color:var(--muted); }
+        .sprice { font-size:13px; font-weight:700; color:var(--y600); display:block; text-align: right; }
+        .stotal { font-size:11px; color:var(--muted); text-align: right; }
+
+        .sweet-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+        .sw-opt { padding:14px 12px; border:1.5px solid var(--border); border-radius:var(--r-md); background:#fff; cursor:pointer; transition:all 0.15s; text-align: center; }
+        .sw-opt:active { transform:scale(0.98); }
+        .sw-opt.sel { border-color:var(--y500); background:var(--y50); }
+        .sw-name { font-weight:700; font-size:13px; color:var(--ink); margin-bottom:4px; }
+        .sw-opt.sel .sw-name { color:var(--y700); }
+        .sw-desc { font-size:11px; color:var(--muted); line-height:1.4; }
+
+        .top-badge { display:inline-flex; background:rgba(201,154,0,0.1); border:1px solid rgba(201,154,0,0.2); color:var(--y700); font-size:11px; font-weight:700; padding:5px 12px; border-radius:50px; margin-bottom:14px; }
+        .top-grp { margin-bottom:14px; }
+        .top-grp-lbl { font-size:11px; font-weight:700; color:var(--muted); letter-spacing:0.12em; text-transform:uppercase; margin-bottom:8px; }
+        .top-inner { background:#fff; border:1px solid var(--border); border-radius:var(--r-md); overflow:hidden; }
+        .top-item { display:flex; align-items:center; justify-content:space-between; padding:14px 16px; cursor:pointer; border-bottom:1px solid var(--border); transition:background 0.15s; }
+        .top-item:active { background: #f9f9f9; }
+        .top-item:last-child { border-bottom:none; }
+        .top-item:hover { background:var(--y50); }
+        .top-name { font-size:14px; font-weight:600; color:var(--ink); }
+        .top-item.sel .top-name { color:var(--y700); }
+        .chk { width:22px; height:22px; border:2px solid #ccc; border-radius:6px; display:flex; align-items:center; justify-content:center; flex-shrink:0; transition:all 0.15s; }
+        .top-item.sel .chk { background:var(--y400); border-color:var(--y400); }
+        .chk svg { display:none; }
+        .top-item.sel .chk svg { display:block; }
+
+        .qty-row { display:flex; align-items:center; justify-content:space-between; background:#fff; border:1.5px solid var(--border); border-radius:var(--r-md); padding:10px 16px; }
+        .qty-lbl { font-size:14px; font-weight:600; color:var(--muted); }
+        .qty-ctrl { display:flex; align-items:center; gap:16px; }
+        .qbtn { width:40px; height:40px; border-radius:12px; border:none; cursor:pointer; font-size:20px; display:flex; align-items:center; justify-content:center; font-family:'Be Vietnam Pro'; transition:transform 0.12s; }
+        .qbtn:active { transform:scale(0.88); }
+        .qminus { background:var(--y100); color:var(--ink); }
+        .qplus { background:var(--y400); color:var(--dark); font-weight: 500; }
+        .qdsp { font-size:18px; font-weight:700; color:var(--ink); min-width:24px; text-align:center; }
+
+        .modal-foot { padding:16px 20px 30px; border-top:1.5px solid var(--border); background:var(--bg); flex-shrink:0; }
+        .add-btn { width:100%; background:var(--dark); color:var(--y300); border:none; border-radius:var(--r-md); padding:18px 24px; font-family:'Be Vietnam Pro',sans-serif; font-size:16px; font-weight:700; cursor:pointer; display:flex; align-items:center; justify-content:space-between; transition:background 0.15s, transform 0.12s; }
+        .add-btn:hover { background:var(--dark2); }
+        .add-btn:active { transform:scale(0.98); }
+        .add-btn-total { color:#fff; font-size:16px; }
+
+        /* ═══ MODAL ĐỌC TRUYỆN RIÊNG ═══ */
+        #story-modal { height: 60dvh; }
+        #sm-title { font-family:'Lora',serif; font-size:22px; font-weight:700; color:var(--ink); line-height:1.3; }
+        #sm-body { font-size: 15px; color: var(--dark); line-height: 1.8; }
+
+        /* ═══ TOAST & LOADER ═══ */
+        #toast { position:fixed; top:14px; left:50%; transform:translateX(-50%) translateY(-140%); width:calc(100% - 26px); max-width:420px; background:rgba(255,253,240,0.96); border:1.5px solid rgba(245,203,30,0.35); border-radius:18px; padding:12px 12px; display:flex; align-items:center; gap:12px; z-index:120; transition:transform 0.32s cubic-bezier(0.2,0.8,0.2,1); box-shadow:0 18px 60px rgba(26,20,0,0.18); backdrop-filter: blur(10px); }
+        #toast.show { transform:translateX(-50%) translateY(0); }
+        .t-icon { width:42px; height:42px; border-radius:14px; display:flex; align-items:center; justify-content:center; flex-shrink:0; background: rgba(245,203,30,0.20); border: 1px solid rgba(245,203,30,0.35); overflow:hidden; }
+        .t-icon.err { background:rgba(239,68,68,0.12); border-color: rgba(239,68,68,0.22); }
+        .t-icon img { width: 90%; height: 90%; object-fit: contain; }
+        #t-title { font-size:13px; font-weight:900; color:var(--ink); margin-bottom:2px; letter-spacing: -0.2px; }
+        #t-msg { font-size:12px; color:rgba(26,20,0,0.62); font-weight:700; line-height: 1.35; }
+        .t-bar { display:none; }
+
+        #loader { position:fixed; inset:0; background:rgba(10,7,0,0.75); z-index:60; display:none; flex-direction:column; align-items:center; justify-content:center; backdrop-filter:blur(5px); }
+        #loader.show { display:flex; }
+        .l-ring { width:56px; height:56px; border:4px solid rgba(255,255,255,0.1); border-top-color:var(--y400); border-radius:50%; animation:spin 0.8s cubic-bezier(0.5, 0, 0.5, 1) infinite; margin-bottom:18px; }
+        @keyframes spin { to{transform:rotate(360deg)} }
+        .l-txt { font-size:16px; font-weight:700; color:#fff; margin-bottom:6px; }
+        .l-sub { font-size:12px; color:rgba(255,255,255,0.5); }
     </style>
 </head>
-<body class="flex justify-center min-h-screen text-amber-950">
+<body>
 
-    <div id="custom-toast" class="fixed top-4 left-0 right-0 z-[100] flex justify-center pointer-events-none translate-y-[-150%] opacity-0 scale-90 transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)]">
-        <div id="toast-bg" class="bg-white/95 backdrop-blur-xl border p-3 pr-6 rounded-[1.2rem] shadow-2xl flex items-center gap-3.5 relative overflow-hidden w-max mx-auto max-w-[90vw]">
-            <div id="toast-icon-wrap" class="w-10 h-10 rounded-[10px] flex items-center justify-center text-white text-lg shrink-0 shadow-inner"></div>
-            <div>
-                <h4 id="toast-title" class="font-black text-[14px] leading-tight mb-0.5 tracking-tight">Title</h4>
-                <p id="toast-msg" class="text-[11.5px] font-bold tracking-wide">Message</p>
-            </div>
-            <div id="toast-progress" class="absolute bottom-0 left-0 h-1 rounded-full w-full"></div>
-        </div>
-    </div>
+<div id="toast">
+    <div class="t-icon" id="t-icon"></div>
+    <div><div id="t-title"></div><div id="t-msg"></div></div>
+    <div class="t-bar" id="t-bar"></div>
+</div>
 
-    <div id="loading-overlay" class="fixed inset-0 bg-white/80 backdrop-blur-sm z-[70] hidden flex-col items-center justify-center fade-in">
-        <div class="w-14 h-14 border-[5px] border-amber-100 border-t-orange-500 rounded-full animate-spin mb-4 shadow-lg"></div>
-        <p class="font-black text-amber-950 text-[15px] animate-pulse tracking-tight">Đang xử lý đơn hàng...</p>
-        <p class="text-[11px] text-amber-700 mt-1 font-bold">Vui lòng không thoát ứng dụng</p>
-    </div>
+<div id="loader">
+    <div class="l-ring"></div>
+    <div class="l-txt" data-i18n="loader_txt">Đang xử lý đơn hàng...</div>
+    <div class="l-sub" data-i18n="loader_sub">Vui lòng không thoát ứng dụng</div>
+</div>
 
-    <div class="w-full max-w-md bg-[#fcfbf9] relative shadow-2xl overflow-hidden flex flex-col h-screen border-x border-amber-100/50">
-
-        <header class="px-4 py-3 flex justify-between items-center bg-white/80 backdrop-blur-lg absolute top-0 w-full z-20 shadow-[0_4px_25px_rgba(251,191,36,0.05)] border-b border-amber-50">
-            <div class="flex items-center gap-2 cursor-pointer" onclick="switchView('home')">
-                <div class="w-10 h-10 rounded-[12px] bg-gradient-to-br from-amber-400 to-orange-400 shadow-[0_4px_15px_rgba(245,158,11,0.3)] flex items-center justify-center text-white font-black text-xl">T</div>
-                <div class="font-black text-[22px] text-amber-950 tracking-tight leading-none">
-                    Ty's<br><span class="text-[14px] text-orange-500 uppercase tracking-widest">Foods.</span>
-                </div>
-            </div>
-            <a href="https://facebook.com" target="_blank" class="flex items-center gap-2 bg-blue-50/80 hover:bg-blue-100 border border-blue-100/50 px-3 py-1.5 rounded-full transition-all shadow-sm group">
-                <span class="text-[12px] font-bold text-blue-700">Contact</span>
-                <div class="w-6 h-6 rounded-full bg-blue-600 text-white flex items-center justify-center shadow-md group-hover:scale-105 transition-transform">
-                    <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.469h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.469h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
-                </div>
-            </a>
-        </header>
-
-        <main class="flex-1 overflow-y-auto no-scrollbar pt-[76px] pb-[96px]" id="main-content">
-            <div id="view-home" class="block fade-in">
-                <section class="mx-4 mt-2 relative rounded-[1.8rem] overflow-hidden bg-gradient-to-br from-amber-400 via-orange-300 to-yellow-400 shadow-[0_10px_30px_rgba(245,158,11,0.25)] border border-white/40">
-                    <div class="absolute top-[-30%] left-[-10%] w-40 h-40 bg-white/40 rounded-full blur-3xl pointer-events-none"></div>
-                    <div class="absolute bottom-[-20%] right-[-10%] w-32 h-32 bg-red-400/20 rounded-full blur-2xl pointer-events-none"></div>
-
-                    <div class="p-5 relative z-10 w-[65%] h-36 flex flex-col justify-center">
-                        <div class="inline-flex items-center gap-1 bg-white/20 backdrop-blur-md border border-white/40 text-amber-950 text-[9px] font-black px-2.5 py-1 rounded-full mb-2 uppercase tracking-widest w-max shadow-sm">
-                            <span class="text-[10px]">✨</span> Best Seller
-                        </div>
-                        <h1 class="text-[26px] font-black text-amber-950 leading-[1.05] mb-1 drop-shadow-sm">Mùa Hè<br>Bùng Nổ</h1>
-                        <p class="text-[11px] text-amber-900/90 font-bold tracking-wide">Topping thả ga, không lo về giá</p>
-                    </div>
-
-                    <div class="absolute right-[-8%] bottom-[-15%] w-36 h-36 animate-float">
-                        <div class="w-full h-full bg-white/30 backdrop-blur-md rounded-full border-[4px] border-white/60 shadow-[0_15px_35px_rgba(0,0,0,0.15)] flex items-center justify-center">
-                            <span class="text-6xl drop-shadow-xl">🍮</span>
-                        </div>
-                        <div class="absolute top-0 left-[-10px] bg-white rounded-full p-1.5 shadow-lg border border-gray-50 transform -rotate-12">
-                            <span class="text-lg">🍓</span>
+<!-- Table Gate (QR tại bàn) -->
+<div id="table-gate" class="fixed inset-0 z-[120] hidden">
+    <div class="absolute inset-0 bg-black/70 backdrop-blur-sm"></div>
+    <div class="relative h-full w-full flex items-end sm:items-center justify-center p-4">
+        <div class="w-full max-w-md rounded-3xl border border-amber-200/30 bg-[#fffdf0] shadow-2xl overflow-hidden">
+            <div class="px-5 pt-5 pb-4 bg-gradient-to-br from-[#2a2000] to-[#120e00]">
+                <div class="flex items-center justify-between gap-4">
+                    <div class="min-w-0">
+                        <div class="text-[10px] font-extrabold tracking-[0.25em] text-amber-200/70 uppercase" data-i18n="gate_badge">Order QR</div>
+                        <div class="mt-1 text-2xl font-extrabold text-white leading-tight" data-i18n="gate_title">Order tại bàn</div>
+                        <div class="mt-2 text-[13px] font-semibold text-white/70 leading-relaxed" data-i18n="gate_sub">
+                            Nhập tên & số bàn để gửi đơn đến bếp nhanh nhất.
                         </div>
                     </div>
-                </section>
-
-                <section class="mt-7 px-4">
-                    <h2 class="text-[17px] font-black text-amber-950 mb-3 tracking-tight flex items-center gap-1.5">Món Đang Hot <span class="text-lg animate-pulse">🔥</span></h2>
-                    <div class="grid grid-cols-2 gap-3" id="hot-items"></div>
-                </section>
-
-                <section class="mt-7 px-4">
-                    <div class="flex justify-between items-center mb-3">
-                        <h2 class="text-[17px] font-black text-amber-950 tracking-tight">Menu Cổ Điển</h2>
-                        <button onclick="switchView('menu')" class="text-[11px] text-amber-700 font-bold hover:text-amber-900 bg-amber-100/70 px-3 py-1.5 rounded-full transition border border-amber-200/50 shadow-sm">Xem tất cả</button>
-                    </div>
-                    <div class="space-y-3" id="home-mini-menu"></div>
-                </section>
-
-                <section class="mt-8 px-4 mb-4">
-                    <div class="bg-gradient-to-br from-amber-50 to-orange-50/50 rounded-[1.5rem] p-5 border border-amber-100 shadow-[0_4px_20px_rgba(245,158,11,0.05)] relative overflow-hidden">
-                        <div class="absolute top-0 right-0 w-24 h-24 bg-amber-200/40 rounded-full blur-2xl -mr-10 -mt-10"></div>
-                        <div class="absolute bottom-0 left-0 w-24 h-24 bg-orange-200/30 rounded-full blur-2xl -ml-10 -mb-10"></div>
-
-                        <h2 class="text-[17px] font-black text-amber-950 tracking-tight mb-4 flex items-center gap-2 relative z-10">
-                            Câu chuyện Ty's Foods 📖
-                        </h2>
-
-                        <div class="space-y-3 relative z-10">
-                            <div class="bg-white/70 backdrop-blur-md p-4 rounded-2xl border border-white shadow-[0_2px_10px_rgba(0,0,0,0.02)]">
-                                <div class="flex items-center gap-2.5 mb-2">
-                                    <div class="w-7 h-7 rounded-lg bg-amber-100 flex items-center justify-center text-amber-700 text-[14px]">👁️</div>
-                                    <h3 class="font-black text-amber-950 text-[13px] uppercase tracking-wider">Tầm nhìn</h3>
-                                </div>
-                                <p class="text-[12px] text-amber-900/70 font-medium leading-relaxed">Nội dung văn vở tầm nhìn sẽ được hai thầy trò đắp vào đây sau. Giờ cứ để tạm dòng này cho nó ra dáng form đã nha!</p>
-                            </div>
-
-                            <div class="bg-white/70 backdrop-blur-md p-4 rounded-2xl border border-white shadow-[0_2px_10px_rgba(0,0,0,0.02)]">
-                                <div class="flex items-center gap-2.5 mb-2">
-                                    <div class="w-7 h-7 rounded-lg bg-orange-100 flex items-center justify-center text-orange-700 text-[14px]">🎯</div>
-                                    <h3 class="font-black text-amber-950 text-[13px] uppercase tracking-wider">Sứ mệnh</h3>
-                                </div>
-                                <p class="text-[12px] text-amber-900/70 font-medium leading-relaxed">Nội dung sứ mệnh mang bát chè ngon giải cứu thế giới sẽ nằm gọn gàng ở chỗ này. Cập nhật sớm thôi!</p>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-            </div>
-
-            <div id="view-menu" class="hidden fade-in px-4">
-                <h2 class="text-[22px] font-black text-amber-950 mb-5 mt-4 tracking-tight">Tất cả món 📋</h2>
-                <div class="space-y-3" id="full-menu"></div>
-            </div>
-
-            <div id="view-cart" class="hidden fade-in px-4">
-                <h2 class="text-[22px] font-black text-amber-950 mb-4 mt-4 tracking-tight">Thanh toán 🛒</h2>
-                <div id="cart-items" class="space-y-3 mb-5"></div>
-
-                <div id="checkout-form" class="hidden">
-                    <div class="bg-white p-4 rounded-[1.4rem] border border-amber-100/60 shadow-sm mb-4">
-                        <h3 class="font-black text-amber-950 text-[14px] mb-3 border-l-[3px] border-orange-400 pl-2">📍 Thông tin nhận hàng</h3>
-                        <input type="text" id="cus-name" placeholder="Tên người nhận" class="w-full bg-amber-50/50 border border-amber-100 rounded-xl px-4 py-3 text-[13px] mb-2.5 outline-none focus:border-orange-400 focus:bg-white transition-colors font-medium text-amber-950 placeholder-amber-900/30">
-                        <input type="tel" id="cus-phone" placeholder="Số điện thoại" class="w-full bg-amber-50/50 border border-amber-100 rounded-xl px-4 py-3 text-[13px] mb-2.5 outline-none focus:border-orange-400 focus:bg-white transition-colors font-medium text-amber-950 placeholder-amber-900/30">
-                        <textarea id="cus-address" placeholder="Địa chỉ giao hàng (Số nhà, đường...)" class="w-full bg-amber-50/50 border border-amber-100 rounded-xl px-4 py-3 text-[13px] outline-none focus:border-orange-400 focus:bg-white transition-colors font-medium text-amber-950 placeholder-amber-900/30 resize-none h-20"></textarea>
-                    </div>
-
-                    <div class="bg-white p-4 rounded-[1.4rem] border border-amber-100/60 shadow-sm mb-5">
-                        <h3 class="font-black text-amber-950 text-[14px] mb-3 border-l-[3px] border-orange-400 pl-2">💳 Thanh toán</h3>
-                        <div class="grid grid-cols-2 gap-2">
-                            <button onclick="setPayment('cash')" id="pay-cash" class="py-3 border-[1.5px] border-orange-400 bg-orange-50 text-orange-700 font-bold rounded-xl text-[13px] transition-all shadow-sm">Tiền mặt</button>
-                            <button onclick="setPayment('bank')" id="pay-bank" class="py-3 border-[1.5px] border-gray-100 bg-white text-gray-500 font-medium rounded-xl text-[13px] transition-all">Chuyển khoản</button>
-                        </div>
-                        <div id="qr-box" class="hidden mt-3 p-4 bg-amber-50/50 rounded-[1.2rem] border border-amber-100 flex flex-col items-center fade-in">
-                            <p class="text-[12px] text-amber-800 font-bold mb-3">Quét mã QR để thanh toán</p>
-                            <div class="w-40 h-40 bg-white rounded-2xl border-2 border-dashed border-orange-300 flex items-center justify-center shadow-sm relative overflow-hidden">
-                                <span class="text-[50px]">📱</span>
-                                <div class="absolute w-full h-[2px] bg-orange-500/50 shadow-[0_0_10px_rgba(249,115,22,0.8)] animate-[slideDown_2s_infinite]"></div>
-                            </div>
-                            <div class="mt-3 text-center bg-white px-3 py-1.5 rounded-lg border border-amber-100 shadow-sm">
-                                <p class="text-[10px] text-amber-700/80 mb-0.5 font-medium">Nội dung chuyển khoản</p>
-                                <p class="text-[12px] text-orange-600 font-black tracking-wider">TYFOODS <span id="qr-phone"></span></p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="bg-amber-50/80 p-5 rounded-[1.5rem] border border-amber-200/60 shadow-sm">
-                        <div class="flex justify-between text-[13px] text-amber-800 mb-2 font-bold">
-                            <span>Tạm tính</span><span id="cart-subtotal">0đ</span>
-                        </div>
-                        <div class="flex justify-between text-[13px] text-amber-800 mb-4 font-bold">
-                            <span>Phí giao hàng</span><span>15.000đ</span>
-                        </div>
-                        <div class="border-t border-dashed border-amber-300 pt-4 flex justify-between items-center">
-                            <span class="font-black text-amber-950 text-[16px]">Tổng cộng</span>
-                            <span id="cart-total" class="font-black text-[24px] text-orange-600">0đ</span>
-                        </div>
-                    </div>
-
-                    <button onclick="processCheckout()" id="btn-checkout" class="w-full mt-6 bg-gradient-to-r from-amber-600 to-orange-500 text-white font-black py-4 rounded-2xl shadow-[0_10px_25px_rgba(249,115,22,0.3)] hover:opacity-90 transition-all text-[15px]">Đặt hàng (Tiền mặt)</button>
-                </div>
-            </div>
-
-            <div id="view-success" class="hidden fade-in px-6 flex flex-col items-center justify-center min-h-[70vh] text-center">
-                <div class="w-24 h-24 bg-gradient-to-tr from-green-400 to-emerald-300 rounded-full flex items-center justify-center text-white text-[45px] mb-5 shadow-[0_10px_25px_rgba(52,211,153,0.4)]">✓</div>
-                <h2 class="text-[26px] font-black text-amber-950 mb-2 leading-tight">Shop đã nhận<br>đơn hàng!</h2>
-                <p class="text-[13px] text-amber-800/80 mb-8 font-medium px-4">Món ngon đang được chuẩn bị. Shipper sẽ gọi cho bạn khi tới nơi nhé.</p>
-                
-                <div class="bg-white p-5 rounded-[1.5rem] border border-amber-100 shadow-[0_4px_20px_rgba(0,0,0,0.03)] w-full mb-8 relative overflow-hidden">
-                    <div class="absolute -right-4 -top-4 w-16 h-16 bg-orange-50 rounded-full"></div>
-                    <p class="text-[11px] text-amber-900/60 mb-1 font-bold uppercase tracking-wider relative z-10">Thắc mắc đơn hàng liên hệ</p>
-                    <a href="tel:0325591025" class="text-[26px] font-black text-orange-600 block relative z-10 tracking-tight">0325 591 025</a>
-                </div>
-
-                <button onclick="switchView('home')" class="w-full bg-amber-950 text-amber-50 font-black py-4 rounded-2xl shadow-lg hover:bg-amber-900 transition-colors text-[15px]">Quay về trang chủ</button>
-            </div>
-        </main>
-
-        <nav class="absolute bottom-0 w-full bg-white/95 backdrop-blur-xl border-t border-amber-100/50 flex justify-around pt-3 pb-6 z-20 shadow-[0_-10px_30px_rgba(251,191,36,0.08)]" id="bottom-nav">
-            <button onclick="switchView('home')" id="nav-home" class="flex flex-col items-center gap-1 text-orange-500 w-16 transition-colors">
-                <svg class="w-[24px] h-[24px]" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2a1 1 0 011 .993l.007 10a1 1 0 01-.993.007l-10 .007a1 1 0 01-.007-.993L2 12a1 1 0 01.993-.007L12 11.993M12 22a1 1 0 01-1-.993l-.007-10a1 1 0 01.993-.007l10-.007a1 1 0 01.007.993L22 12a1 1 0 01-.993.007L12 12.007"></path></svg>
-                <span class="text-[9px] font-black uppercase tracking-widest">Home</span>
-            </button>
-            <button onclick="switchView('menu')" id="nav-menu" class="flex flex-col items-center gap-1 text-amber-900/30 hover:text-orange-500 w-16 transition-colors">
-                <svg class="w-[24px] h-[24px]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 6h16M4 12h16M4 18h16"></path></svg>
-                <span class="text-[9px] font-black uppercase tracking-widest">Menu</span>
-            </button>
-            <button onclick="switchView('cart')" id="nav-cart" class="flex flex-col items-center gap-1 text-amber-900/30 hover:text-orange-500 w-16 relative transition-colors">
-                <svg class="w-[24px] h-[24px]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
-                <span id="cart-badge" class="absolute -top-1.5 right-2 bg-red-500 text-white text-[10px] font-black w-4.5 h-4.5 flex items-center justify-center rounded-full hidden border-2 border-white shadow-sm px-1.5">0</span>
-                <span class="text-[9px] font-black uppercase tracking-widest">Giỏ</span>
-            </button>
-        </nav>
-
-        <div id="overlay" class="fixed inset-0 bg-amber-950/50 backdrop-blur-sm z-40 hidden opacity-0 transition-opacity duration-300" onclick="closeModal()"></div>
-        
-        <div id="order-modal" class="fixed bottom-0 left-0 w-full max-w-md bg-[#fdfcfb] rounded-t-[1.8rem] z-50 h-[92vh] flex flex-col hidden translate-y-full shadow-[0_-20px_50px_rgba(251,191,36,0.2)] mx-auto right-0 border-t border-amber-100/50">
-            <div class="w-full flex justify-center pt-3 pb-2 bg-white rounded-t-[1.8rem] absolute top-0 z-20 cursor-pointer" onclick="closeModal()">
-                <div class="w-14 h-1.5 bg-amber-200/80 rounded-full"></div>
-            </div>
-
-            <div class="px-5 pt-8 pb-4 flex justify-between items-center bg-white sticky top-0 z-10 shadow-[0_4px_15px_rgba(0,0,0,0.02)] border-b border-amber-50">
-                <div>
-                    <h3 id="modal-title" class="font-black text-[20px] text-amber-950 leading-tight tracking-tight">Tên Món</h3>
-                    <p id="modal-base-price" class="text-orange-500 font-black text-[13px] mt-1">Giá gốc: 20.000đ</p>
-                </div>
-                <button onclick="closeModal()" class="w-8 h-8 bg-amber-50 rounded-full flex items-center justify-center text-amber-900 hover:bg-amber-200 font-bold text-[14px] border border-amber-100/50 transition-colors">✕</button>
-            </div>
-
-            <div class="flex-1 overflow-y-auto p-5 space-y-7 no-scrollbar pb-32">
-                <div>
-                    <h4 class="font-black text-amber-950 text-[15px] mb-1 border-l-[3px] border-orange-400 pl-2.5 tracking-tight">1. TÙY CHỈNH KÍCH CỠ (Size)</h4>
-                    <p class="text-[11px] text-amber-700/80 font-bold mb-3 pl-3">Bạn muốn ăn nhẹ hay ăn no?</p>
-                    <div class="space-y-2.5" id="size-options"></div>
-                </div>
-                <div>
-                    <h4 class="font-black text-amber-950 text-[15px] mb-1 border-l-[3px] border-orange-400 pl-2.5 tracking-tight">2. CHỌN MỨC ĐƯỜNG (Sweetness)</h4>
-                    <p class="text-[11px] text-amber-700/80 font-bold mb-3 pl-3">Cá nhân hóa độ ngọt theo khẩu vị</p>
-                    <div class="grid grid-cols-2 gap-2.5" id="sweet-options"></div>
-                </div>
-                <div>
-                    <div class="mb-3 border-l-[3px] border-orange-400 pl-2.5">
-                        <h4 class="font-black text-amber-950 text-[15px] tracking-tight mb-1.5">3. THÊM TOPPING "GÂY NGHIỆN"</h4>
-                        <div class="flex items-center gap-2">
-                            <span class="text-[10px] text-orange-600 font-black bg-orange-50 px-2 py-1 rounded-md uppercase tracking-wider border border-orange-100">Đồng giá: 3.000đ / món</span>
-                            <span class="text-[11px] text-amber-700/80 font-bold">Tha hồ kết hợp</span>
-                        </div>
-                    </div>
-                    <div class="space-y-4" id="topping-list"></div>
-                </div>
-                <div>
-                    <div class="flex justify-between items-center mb-3 border-l-[3px] border-orange-400 pl-2.5">
-                        <h4 class="font-black text-amber-950 text-[15px] tracking-tight">4. SỐ LƯỢNG</h4>
-                    </div>
-                    <div class="flex items-center justify-between bg-amber-50/50 p-2.5 rounded-[1.2rem] border border-amber-100/50 shadow-sm">
-                        <span class="text-[13px] font-bold text-amber-900/60 pl-2">Chọn số lượng phần</span>
-                        <div class="flex items-center gap-3">
-                            <button onclick="updateQuantity(-1)" class="w-10 h-10 rounded-[10px] bg-white text-amber-900 font-black shadow-sm text-[18px] flex items-center justify-center hover:bg-amber-100 transition-colors border border-amber-100/50">-</button>
-                            <span id="modal-qty-display" class="w-6 text-center text-[16px] font-black text-amber-950">1</span>
-                            <button onclick="updateQuantity(1)" class="w-10 h-10 rounded-[10px] bg-orange-500 text-white font-black shadow-[0_4px_10px_rgba(249,115,22,0.3)] text-[18px] flex items-center justify-center hover:bg-orange-600 transition-colors">+</button>
-                        </div>
+                    <div class="w-12 h-12 rounded-2xl bg-amber-400/15 border border-amber-300/20 flex items-center justify-center text-2xl shrink-0">
+                        🍮
                     </div>
                 </div>
             </div>
 
-            <div class="absolute bottom-0 w-full p-4 bg-white border-t border-amber-100/50 shadow-[0_-10px_20px_rgba(0,0,0,0.03)]">
-                <button onclick="addToCart()" class="w-full bg-amber-950 text-amber-50 font-black py-4 rounded-[1.2rem] flex justify-between px-6 items-center shadow-[0_8px_20px_rgba(0,0,0,0.15)] hover:bg-amber-900 hover:scale-[0.98] transition-all text-[16px]">
-                    <span>Thêm vào giỏ</span>
-                    <span id="modal-total-btn">20.000đ</span>
+            <div class="p-5">
+                <div class="grid gap-3">
+                    <label class="grid gap-1">
+                        <span class="text-xs font-extrabold tracking-wider text-[#7a5c00] uppercase" data-i18n="gate_name_lbl">Tên của bạn</span>
+                        <input id="gate-name" class="w-full rounded-2xl border-2 border-amber-200/40 bg-white px-4 py-3 text-[15px] font-semibold text-[#1a1400] outline-none focus:border-amber-400 focus:ring-4 focus:ring-amber-300/30" data-i18n="gate_name_ph" placeholder="Ví dụ: Việt" type="text" autocomplete="name" />
+                    </label>
+                    <label class="grid gap-1">
+                        <span class="text-xs font-extrabold tracking-wider text-[#7a5c00] uppercase" data-i18n="gate_table_lbl">Số bàn</span>
+                        <input id="gate-table" class="w-full rounded-2xl border-2 border-amber-200/40 bg-white px-4 py-3 text-[15px] font-semibold text-[#1a1400] outline-none focus:border-amber-400 focus:ring-4 focus:ring-amber-300/30" data-i18n="gate_table_ph" placeholder="Ví dụ: 12" type="text" inputmode="numeric" autocomplete="off" />
+                        <div class="text-[12px] font-semibold text-[#7a6830] leading-relaxed" data-i18n="gate_hint">
+                            Số bàn được dán/ghi trên bàn. Nếu không thấy, hãy liên hệ nhân viên.
+                        </div>
+                    </label>
+                </div>
+
+                <button id="gate-submit" class="mt-4 w-full rounded-2xl bg-amber-400 hover:bg-amber-500 active:scale-[0.99] transition px-4 py-4 text-[15px] font-extrabold text-[#1a1400] shadow-lg shadow-amber-400/30" onclick="submitGate()">
+                    <span data-i18n="gate_btn">Bắt đầu chọn món</span>
                 </button>
+
+                <div class="mt-3 text-center text-[11px] font-semibold text-[#7a6830]" data-i18n="gate_footer">
+                    Thanh toán tại quầy sau khi dùng xong.
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="app">
+
+    <header class="header">
+        <div class="logo" onclick="sv('home')">
+            <div class="smoke-wrap"><div class="smoke s1"></div><div class="smoke s2"></div><div class="smoke s3"></div></div>
+            <img src="logo.jpg" alt="Ty's Foods Logo">
+        </div>
+        
+        <div class="header-actions">
+            <div class="lang-toggle" id="lang-btn" onclick="toggleLang()">
+                <div class="lang-slider"></div>
+                <div class="lang-btn vi">VI</div><div class="lang-btn en">EN</div>
+            </div>
+            
+            <a href="https://facebook.com" target="_blank" class="fb-btn">
+                <div class="fb-icon"><svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.469h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.469h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></div>
+            </a>
+        </div>
+    </header>
+
+    <main class="main scroll-area">
+
+        <div id="view-home" class="view active">
+            <div class="hero">
+                <div class="hero-card">
+                    <div class="hero-left">
+                        <div class="hero-badge" data-i18n="hero_badge">✦ Best Seller</div>
+                        <h1 class="hero-title"><span data-i18n="hero_title_1">Mùa Hè</span><br><em data-i18n="hero_title_2">Bùng Nổ</em></h1>
+                        <p class="hero-sub" data-i18n="hero_sub">Topping thả ga, không lo về giá</p>
+                    </div>
+                    <div class="hero-right">
+                        <div class="hero-emoji-ring">🍮</div>
+                        <div class="hero-pip">🍓</div>
+                        <div class="hero-pip2">🥥</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section" style="margin-top:16px;">
+                <div class="sec-header">
+                    <h2 class="sec-title" data-i18n="hot_title">Món Đang Hot 🔥</h2>
+                </div>
+                <div class="hot-grid" id="hot-items"></div>
+            </div>
+
+            <div class="section">
+                <div class="sec-header">
+                    <h2 class="sec-title" data-i18n="menu_title">Menu Cổ Điển</h2>
+                    <button class="sec-btn" onclick="sv('menu')" data-i18n="view_all">Xem tất cả</button>
+                </div>
+                <div id="home-mini"></div>
+            </div>
+
+            <div class="section section-last">
+                <div class="story-wrapper">
+                    <div class="story-header">
+                        <h2 data-i18n="story_title">Câu chuyện TY FOODS</h2>
+                        <p data-i18n="story_subtitle">Hương vị truyền thống, phong cách hiện đại</p>
+                    </div>
+                    
+                    <div class="story-item" onclick="openStory('vision')">
+                        <div class="story-item-left">
+                            <span class="story-num">01</span>
+                            <div class="story-text">
+                                <h4 data-i18n="story_vision">Tầm nhìn</h4>
+                                <p data-i18n="story_vision_sub">Mục tiêu phát triển</p>
+                            </div>
+                        </div>
+                        <button class="story-btn" data-i18n="read_btn">Đọc</button>
+                    </div>
+
+                    <div class="story-item" onclick="openStory('mission')">
+                        <div class="story-item-left">
+                            <span class="story-num">02</span>
+                            <div class="story-text">
+                                <h4 data-i18n="story_mission">Sứ mệnh</h4>
+                                <p data-i18n="story_mission_sub">Giá trị cốt lõi</p>
+                            </div>
+                        </div>
+                        <button class="story-btn" data-i18n="read_btn">Đọc</button>
+                    </div>
+                </div>
             </div>
         </div>
 
+        <div id="view-menu" class="view">
+            <div class="page-top">
+                <h2 data-i18n="all_items">Tất cả món 📋</h2>
+                <p data-i18n="choose_fav">Chọn món bạn yêu thích</p>
+            </div>
+            <div class="menu-tabs" id="menu-tabs"></div>
+            <div style="padding:0 16px 24px;" id="full-menu"></div>
+        </div>
+
+        <div id="view-cart" class="view">
+            <div class="page-top">
+                <h2 data-i18n="checkout">Thanh toán 🛒</h2>
+                <p data-i18n="check_order">Kiểm tra và đặt hàng</p>
+            </div>
+            <div id="cart-area"></div>
+        </div>
+
+        <div id="view-success" class="view">
+            <div class="success-view">
+                <div class="success-ring">
+                    <svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+                </div>
+                <h2 data-i18n="success_title">Shop đã nhận<br>đơn hàng!</h2>
+                <p id="success-desc" data-i18n="success_desc">Món ngon đang được chuẩn bị. Shipper sẽ gọi cho bạn khi tới nơi nhé.</p>
+                <div id="success-order" style="width:100%; margin: -10px 0 20px;"></div>
+                <div class="contact-card">
+                    <div class="lbl" data-i18n="contact_query">Thắc mắc đơn hàng liên hệ</div>
+                    <a href="tel:0325591025">0325 591 025</a>
+                </div>
+                <div class="btn-row">
+                    <button class="home-btn" onclick="sv('home')" data-i18n="back_home">Quay về trang chủ</button>
+                    <button class="ghost-btn" onclick="openFeedback()" data-i18n="fb_open">Đánh giá món</button>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <nav class="nav" id="bot-nav">
+        <button class="nav-btn active" id="nav-home" onclick="sv('home')"><svg fill="currentColor" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg><span data-i18n="nav_home">Home</span></button>
+        <button class="nav-btn" id="nav-menu" onclick="sv('menu')"><svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/></svg><span data-i18n="nav_menu">Menu</span></button>
+        <button class="nav-btn" id="nav-cart" onclick="sv('cart')"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.3 2.3c-.6.6-.2 1.7.7 1.7H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/></svg><div class="badge" id="badge">0</div><span data-i18n="nav_cart">Giỏ</span></button>
+        <button class="nav-btn" id="nav-rate" onclick="openPendingFeedback()"><svg fill="none" stroke="currentColor" stroke-width="2.3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.952a1 1 0 00.95.69h4.154c.969 0 1.371 1.24.588 1.81l-3.36 2.442a1 1 0 00-.364 1.118l1.286 3.952c.3.921-.755 1.688-1.539 1.118l-3.36-2.442a1 1 0 00-1.176 0l-3.36 2.442c-.783.57-1.838-.197-1.539-1.118l1.286-3.952a1 1 0 00-.364-1.118L2.98 9.379c-.783-.57-.38-1.81.588-1.81h4.154a1 1 0 00.95-.69l1.377-3.952z"/></svg><div class="badge" id="rate-badge">0</div><span data-i18n="nav_rate">Đánh giá</span></button>
+    </nav>
+
+    <div class="overlay" id="overlay" onclick="closeAllModals()"></div>
+
+    <div class="modal" id="modal">
+        <div class="modal-handle"></div>
+        <div class="modal-head"><div><h3 id="m-title">Tên Món</h3><div class="bp" id="m-price"></div></div><button class="modal-x" onclick="closeModal()">✕</button></div>
+        <div class="modal-body scroll-area" id="m-body"></div>
+        <div class="modal-foot">
+            <button class="add-btn" onclick="addToCart()"><span data-i18n="modal_add_btn">Thêm vào giỏ hàng</span><span class="add-btn-total" id="m-total">0đ</span></button>
+        </div>
     </div>
 
-    <script>
-        // ĐÃ THÊM ĐỦ 8 MÓN CHÈ VỚI EMOJI TƯƠNG ỨNG
-        const PRODUCTS = [
-            { id: 1, name: "Chè Đậu Xanh Đánh", desc: "Mịn màng, thanh mát", price: 20000, icon: "🍵", isHot: true },
-            { id: 2, name: "Chè Đậu Đỏ Ghiền", desc: "Bùi béo, may mắn", price: 20000, icon: "🫘", isHot: true },
-            { id: 3, name: "Chè Khoai Môn Dẻo", desc: "Thơm ngậy cốt dừa", price: 20000, icon: "🍠", isHot: true },
-            { id: 4, name: "Chè Bưởi An Giang", desc: "Giòn sần sật, không đắng", price: 20000, icon: "🥥", isHot: false },
-            { id: 5, name: "Chè Hạt Sen Đường Phèn", desc: "Thanh tao, giải nhiệt", price: 20000, icon: "🪷", isHot: false },
-            { id: 6, name: "Chè Yến Mạch Hạt Chia", desc: "Healthy, dáng xinh", price: 20000, icon: "🌾", isHot: false },
-            { id: 7, name: "Chè Thập Cẩm Truyền Thống", desc: "Đủ vị sắc màu", price: 20000, icon: "🍧", isHot: false },
-            { id: 8, name: "Chè Trôi Nước Viên Tròn", desc: "Dẻo thơm gừng ấm", price: 20000, icon: "🍡", isHot: false }
-        ];
+    <div class="modal" id="story-modal">
+        <div class="modal-handle"></div>
+        <div class="modal-head"><h3 id="sm-title" style="max-width: 100%;">Tiêu đề</h3><button class="modal-x" onclick="closeStory()">✕</button></div>
+        <div class="modal-body scroll-area"><div id="sm-body"></div></div>
+    </div>
 
-        const SIZES = [
-            { id: 'S', name: "Size S - Nhỏ nhắn", desc: "Vừa đủ tráng miệng", price: 0 },
-            { id: 'M', name: "Size M - Tiêu chuẩn", desc: "Cực phẩm ăn vặt", price: 5000 },
-            { id: 'L', name: "Size L - Khổng lồ", desc: "Ăn no nê/Chia sẻ", price: 10000 },
-        ];
+    <!-- Feedback modal -->
+    <div class="modal" id="feedback-modal" style="height: 62dvh;">
+        <div class="modal-handle"></div>
+        <div class="modal-head">
+            <div>
+                <h3 id="fb-title" data-i18n="fb_title">Đánh giá nhanh</h3>
+                <div class="bp" id="fb-sub" style="margin-top: 6px; color: var(--muted); font-weight: 700;" data-i18n="fb_sub">Giúp tụi mình điều chỉnh khẩu vị tốt hơn</div>
+            </div>
+            <button class="modal-x" onclick="closeFeedback()">✕</button>
+        </div>
+        <div class="modal-body scroll-area" id="fb-body"></div>
+        <div class="modal-foot">
+            <button class="add-btn" style="justify-content:center;" onclick="submitFeedback()">
+                <span data-i18n="fb_submit">Gửi đánh giá</span>
+            </button>
+        </div>
+    </div>
 
-        const SWEETNESS = [
-            { id: '100', name: "Ngọt nhiều", desc: "Chuẩn vị truyền thống" },
-            { id: '70', name: "Ngọt vừa", desc: "Mức mặc định của quán" },
-            { id: '30', name: "Ít ngọt", desc: "Thanh nhẹ, dễ ăn" },
-            { id: '0', name: "Không thêm đường", desc: "Vị tự nhiên của nguyên liệu" }
-        ];
+    <!-- Order confirm modal -->
+    <div class="modal" id="confirm-modal" style="height: 64dvh;">
+        <div class="modal-handle"></div>
+        <div class="modal-head">
+            <div>
+                <h3 id="cf-title" data-i18n="cf_title">Xác nhận đơn</h3>
+                <div class="bp" id="cf-sub" style="margin-top: 6px; color: var(--muted); font-weight: 800;" data-i18n="cf_sub">Kiểm tra lại trước khi gửi bếp</div>
+            </div>
+            <button class="modal-x" onclick="closeConfirm()">✕</button>
+        </div>
+        <div class="modal-body scroll-area" id="cf-body"></div>
+        <div class="modal-foot" style="display:grid; grid-template-columns: 1fr; gap:10px;">
+            <button class="add-btn" style="justify-content:center;" onclick="confirmSendOrder()">
+                <span data-i18n="cf_send">Xác nhận gửi bếp</span>
+            </button>
+            <button class="ghost-btn" onclick="closeConfirm()" data-i18n="cf_back">Quay lại chọn món</button>
+        </div>
+    </div>
 
-        const TOPPINGS = [
-            { group: "Nhóm Giòn & Dai", items: [
-                { id: 't1', name: "Trân châu trắng giòn" }, { id: 't2', name: "Thạch dừa sợi" },
-                { id: 't3', name: "Thạch lá dứa thơm" }, { id: 't4', name: "Đậu phộng rang thơm phức" }
-            ]},
-            { group: "Nhóm Béo & Ngậy", items: [
-                { id: 't5', name: "Nước cốt dừa đặc sánh" }, { id: 't6', name: "Dừa sợi tươi" },
-                { id: 't7', name: "Dừa khô Bến Tre" }
-            ]},
-            { group: "Nhóm Siêu Thực Phẩm (Healthy)", items: [
-                { id: 't8', name: "Hạt chia Úc" }, { id: 't9', name: "Ngũ cốc giòn" }
-            ]}
-        ];
+</div>
 
-        let cart = [];
-        let currentProduct = null;
-        let modalState = { size: 'M', sweet: '70', toppings: {}, quantity: 1 };
-        let toastTimeout;
+<script>
+// Hàm bổ trợ để nhận diện icon là Emoji hay Hình ảnh (Tương thích tốt cho tương lai)
+function getIcon(iconPath, name) {
+    if (!iconPath) return "";
+    const isImage = /\.(jpg|jpeg|png|webp|avif|gif)$/i.test(iconPath);
+    return isImage ? `<img src="${iconPath}" alt="${name}">` : iconPath;
+}
 
-        const fmt = (n) => n.toLocaleString('vi-VN') + 'đ';
+const i18n = {
+    vi: {
+        fb_items_lbl: "Bạn muốn đánh giá món nào?",
+        fb_items_hint: "Chọn 1 hoặc nhiều món trong đơn",
+        fb_order_lbl: "Chọn đơn để đánh giá",
+        fb_order_hint: "Nếu bạn có nhiều đơn chưa đánh giá, hãy chọn đúng đơn",
+        gate_badge: "Order QR",
+        gate_title: "Order tại bàn",
+        gate_sub: "Nhập tên & số bàn để gửi đơn đến bếp nhanh nhất.",
+        gate_name_lbl: "Tên của bạn",
+        gate_name_ph: "Ví dụ: Việt",
+        gate_table_lbl: "Số bàn",
+        gate_table_ph: "Ví dụ: 12",
+        gate_hint: "Số bàn được dán/ghi trên bàn. Nếu không thấy, hãy liên hệ nhân viên.",
+        gate_btn: "Bắt đầu chọn món",
+        gate_footer: "Thanh toán tại quầy sau khi dùng xong.",
+        hero_badge: "✦ Best Seller",
+        hero_title_1: "Mùa Hè",
+        hero_title_2: "Bùng Nổ",
+        hero_sub: "Topping thả ga, không lo về giá",
+        hot_title: "Món Đang Hot 🔥",
+        menu_title: "Menu Cổ Điển",
+        view_all: "Xem tất cả",
+        story_title: "Câu chuyện TY FOODS",
+        story_subtitle: "Hương vị truyền thống, phong cách hiện đại",
+        story_vision: "Tầm nhìn",
+        story_vision_sub: "Mục tiêu phát triển",
+        story_vision_desc: "Trở thành thương hiệu chè hiện đại được yêu thích tại Việt Nam, mang đến trải nghiệm thưởng thức chè mới mẻ, tiện lợi và sáng tạo cho giới trẻ, đồng thời giữ gìn và phát triển giá trị của các món chè truyền thống. Mục tiêu xác lập vị thế đơn vị tiên phong dẫn dắt xu hướng chè tự chọn tại Đà nẵng, chứng minh rằng món ăn truyền thống luôn có sức sống mãnh liệt khi được kết hợp cùng tư duy đổi mới.",
+        story_mission: "Sứ mệnh",
+        story_mission_sub: "Giá trị cốt lõi",
+        story_mission_desc: "Mang đến cho khách hàng trải nghiệm chè cá nhân hóa, cho phép tự thiết kế ly chè theo khẩu vị riêng thông qua lựa chọn kích cỡ, thành phần và độ ngọt linh hoạt mỗi sản phẩm không chỉ giải nhiệt mà còn được điều chỉnh phù hợp với phong cách sống. Đồng thời, cung cấp danh mục chè đa dạng kết hợp nguyên liệu truyền thống với lối sống hiện đại, cân bằng giữa dinh dưỡng và hương vị, cùng không gian thưởng thức năng động và dịch vụ linh hoạt, đáp ứng nhu cầu từ tại chỗ đến trực tuyến.",
+        read_btn: "Đọc",
+        all_items: "Tất cả món 📋",
+        choose_fav: "Chọn món bạn yêu thích",
+        menu_sec_base: "1. Chọn món (Base) — Đồng giá 20.000đ",
+        menu_sec_special: "2. Chè hiện đại & đặc biệt — Đồng giá 20.000đ",
+        menu_sec_others: "3. Các món khác",
+        menu_sec_snack: "4. Món ăn vặt — Đồng giá 30.000đ",
+        checkout: "Đơn tại bàn 🛒",
+        check_order: "Chọn món, gửi bếp trong 1 chạm",
+        cart_empty: "Giỏ hàng đang trống!",
+        table_title: "Số bàn",
+        table_hint: "Số bàn được dán/ghi trên bàn. Nếu không thấy, hỏi nhân viên giúp bạn nhé.",
+        table_placeholder: "Ví dụ: 12",
+        table_note_title: "Ghi chú cho bếp",
+        table_note_placeholder: "Ví dụ: ít đá, không hành, để riêng tương...",
+        subtotal: "Tạm tính",
+        total: "Tổng cộng",
+        order_btn_send: "Gửi bếp & Tạo đơn",
+        success_title: "Shop đã nhận<br>đơn hàng!",
+        success_desc: "Đơn hàng của bạn đã được gửi đến bếp! Quý khách vui lòng thanh toán tại quầy sau khi thưởng thức xong. Chúc bạn ngon miệng!",
+        success_greet: "Cảm ơn {name}! ",
+        success_waiting: "Món đang chờ bếp",
+        success_done: "Hoàn thành",
+        fb_title: "Đánh giá nhanh",
+        fb_sub: "Giúp tụi mình điều chỉnh khẩu vị tốt hơn",
+        fb_rate_lbl: "Bạn thấy món thế nào?",
+        fb_rate_hint: "Chạm để chọn số sao",
+        fb_issues_lbl: "Góp ý nhanh (tuỳ chọn)",
+        fb_i1: "Hơi ngọt / nhạt",
+        fb_i2: "Topping chưa hợp",
+        fb_i3: "Nhiệt độ chưa đúng",
+        fb_i4: "Đóng gói / trình bày",
+        fb_i5: "Khác",
+        fb_note_lbl: "Góp ý chi tiết",
+        fb_note_ph: "Ví dụ: mình muốn ít ngọt hơn, topping mềm hơn...",
+        fb_submit: "Gửi đánh giá",
+        fb_open: "Đánh giá món",
+        fb_thanks_title: "Cảm ơn bạn!",
+        fb_thanks_msg: "Tụi mình đã nhận góp ý và sẽ cải thiện. Hẹn phục vụ bạn lần sau.",
+        cf_title: "Xác nhận đơn",
+        cf_sub: "Kiểm tra lại trước khi gửi bếp",
+        cf_send: "Xác nhận gửi bếp",
+        cf_back: "Quay lại chọn món",
+        cf_who: "Khách",
+        cf_table: "Bàn",
+        cf_note: "Ghi chú",
+        cf_total: "Tổng cộng",
+        contact_query: "Thắc mắc đơn hàng liên hệ nhân viên",
+        back_home: "Quay về trang chủ",
+        nav_home: "Home",
+        nav_menu: "Menu",
+        nav_cart: "Giỏ hàng",
+        nav_rate: "Đánh giá",
+        loader_txt: "Đang xử lý đơn hàng...",
+        loader_sub: "Vui lòng không thoát ứng dụng",
+        modal_og_price: "Giá gốc: ",
+        modal_sec_1: "1. Kích cỡ (Size)",
+        modal_sec_temp: "2. Chọn Nhiệt độ",
+        temp_ice: "Lạnh (Thêm đá)",
+        temp_hot: "Ăn Nóng",
+        modal_sec_2: "3. Mức đường (Sweetness)",
+        modal_sec_3: "4. Topping gây nghiện",
+        modal_sec_note: "5. Ghi chú thêm",
+        note_placeholder: "Vd: ít đá, ngọt vừa...",
+        modal_top_badge: "Đồng giá 3.000đ / món",
+        modal_sec_4: "6. Số lượng",
+        modal_qty: "Số lượng phần",
+        modal_add_btn: "Thêm vào giỏ",
+        modal_total_txt: "Tổng",
+        modal_free: "Miễn phí",
+        toast_err_title: "Chưa xong bạn ơi!",
+        toast_err_msg: "Vui lòng nhập tên và số bàn để gửi đơn đến bếp.",
+        toast_ok_title: "Đã thêm vào giỏ!",
+        toast_ok_msg: "đang đợi bạn thanh toán."
+    },
+    en: {
+        fb_items_lbl: "Which items do you want to rate?",
+        fb_items_hint: "Select one or more items from your order",
+        fb_order_lbl: "Choose an order to rate",
+        fb_order_hint: "If you have multiple pending orders, pick the right one",
+        gate_badge: "QR Order",
+        gate_title: "Table order",
+        gate_sub: "Enter your name & table number to send to the kitchen.",
+        gate_name_lbl: "Your name",
+        gate_name_ph: "e.g. Viet",
+        gate_table_lbl: "Table number",
+        gate_table_ph: "e.g. 12",
+        gate_hint: "The table number is printed on the table. If you can’t find it, please ask our staff.",
+        gate_btn: "Start ordering",
+        gate_footer: "Please pay at the counter after your meal.",
+        hero_badge: "✦ Best Seller",
+        hero_title_1: "Summer",
+        hero_title_2: "Vibes",
+        hero_sub: "Unlimited toppings, great prices",
+        hot_title: "Trending Now 🔥",
+        menu_title: "Classic Menu",
+        view_all: "View all",
+        story_title: "TY FOODS Story",
+        story_subtitle: "Traditional taste, modern style",
+        story_vision: "Our Vision",
+        story_vision_sub: "Development goals",
+        story_vision_desc: "To become a modern chè brand loved across Vietnam—bringing a fresh, convenient, and creative dessert experience to young people—while preserving and growing the value of traditional Vietnamese chè. Our goal is to establish our position as the pioneering brand leading the pick‑your‑own chè trend in Da Nang, proving that traditional food can stay vibrant when combined with an innovative mindset.",
+        story_mission: "Our Mission",
+        story_mission_sub: "Core values",
+        story_mission_desc: "To deliver a personalized chè experience—letting customers design their own cup based on their taste through flexible choices of size, ingredients, and sweetness—so each product is not only refreshing but also tailored to their lifestyle. We also offer a diverse chè lineup that blends traditional ingredients with modern living, balancing nutrition and flavor, along with an energetic dining vibe and flexible service—supporting both dine‑in and online ordering.",
+        read_btn: "Read",
+        all_items: "Full Menu 📋",
+        choose_fav: "Choose your favorites",
+        menu_sec_base: "1. Base desserts — Flat 20,000đ",
+        menu_sec_special: "2. Modern & special desserts — Flat 20,000đ",
+        menu_sec_others: "3. Other items",
+        menu_sec_snack: "4. Snacks — Flat 30,000đ",
+        checkout: "Table order 🛒",
+        check_order: "Pick items and send to kitchen",
+        cart_empty: "Your cart is empty!",
+        table_title: "Table number",
+        table_hint: "The table number is printed on the table. If you can’t find it, please ask our staff.",
+        table_placeholder: "e.g. 12",
+        table_note_title: "Kitchen note",
+        table_note_placeholder: "e.g. less ice, no onion, sauce on the side...",
+        subtotal: "Subtotal",
+        total: "Total",
+        order_btn_send: "Send to kitchen",
+        success_title: "Order<br>Received!",
+        success_desc: "Your order has been sent to the kitchen! Please pay at the counter after your meal. Enjoy!",
+        success_greet: "Thanks, {name}! ",
+        success_waiting: "Preparing",
+        success_done: "Completed",
+        fb_title: "Quick feedback",
+        fb_sub: "Help us adjust the taste better",
+        fb_rate_lbl: "How was it?",
+        fb_rate_hint: "Tap to choose stars",
+        fb_issues_lbl: "Quick notes (optional)",
+        fb_i1: "Too sweet / too bland",
+        fb_i2: "Toppings not ideal",
+        fb_i3: "Temperature not right",
+        fb_i4: "Packaging / presentation",
+        fb_i5: "Other",
+        fb_note_lbl: "Details",
+        fb_note_ph: "E.g., less sweet, softer toppings...",
+        fb_submit: "Send feedback",
+        fb_open: "Rate your order",
+        fb_thanks_title: "Thank you!",
+        fb_thanks_msg: "We’ve received your feedback and will improve. See you next time.",
+        cf_title: "Confirm order",
+        cf_sub: "Review before sending to kitchen",
+        cf_send: "Send to kitchen",
+        cf_back: "Back to menu",
+        cf_who: "Guest",
+        cf_table: "Table",
+        cf_note: "Note",
+        cf_total: "Total",
+        contact_query: "Order questions: please ask our staff",
+        back_home: "Back to Home",
+        nav_home: "Home",
+        nav_menu: "Menu",
+        nav_cart: "Cart",
+        nav_rate: "Rate",
+        loader_txt: "Processing order...",
+        loader_sub: "Please do not close the app",
+        modal_og_price: "Original price: ",
+        modal_sec_1: "1. Size Options",
+        modal_sec_temp: "2. Temperature",
+        temp_ice: "Cold (With Ice)",
+        temp_hot: "Hot",
+        modal_sec_2: "3. Sweetness Level",
+        modal_sec_3: "4. Add-on Toppings",
+        modal_sec_note: "5. Special Instructions",
+        note_placeholder: "E.g., less ice, extra spoon...",
+        modal_top_badge: "Flat rate 3,000đ / item",
+        modal_sec_4: "6. Quantity",
+        modal_qty: "Number of portions",
+        modal_add_btn: "Add to Cart",
+        modal_total_txt: "Total",
+        modal_free: "Free",
+        toast_err_title: "Missing info!",
+        toast_err_msg: "Please enter your name and table number to send the order.",
+        toast_ok_title: "Added to cart!",
+        toast_ok_msg: "is waiting for checkout."
+    }
+};
 
-        function showToast(type, title, message) {
-            const toast = document.getElementById('custom-toast'), bg = document.getElementById('toast-bg'),
-                  iconWrap = document.getElementById('toast-icon-wrap'), titleEl = document.getElementById('toast-title'),
-                  msgEl = document.getElementById('toast-msg'), progress = document.getElementById('toast-progress');
+let lang = 'vi';
 
-            if(toastTimeout) clearTimeout(toastTimeout);
-            titleEl.innerText = title; msgEl.innerText = message;
+function t(key) { return i18n[lang][key] || key; }
 
-        if (type === 'success') {
-                // Đổi toàn bộ màu xanh (green) sang Vàng/Cam (amber/orange)
-                bg.className = "bg-white/95 backdrop-blur-xl border border-amber-200 p-3 pr-6 rounded-[1.2rem] shadow-[0_10px_40px_rgba(245,158,11,0.15)] flex items-center gap-3.5 relative overflow-hidden w-max mx-auto max-w-[90vw]";
-                iconWrap.className = "w-10 h-10 rounded-[10px] flex items-center justify-center text-white text-lg shrink-0 shadow-[0_4px_10px_rgba(249,115,22,0.3)] bg-gradient-to-br from-amber-400 to-orange-500";
-                iconWrap.innerHTML = `<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>`;
-                titleEl.className = "font-black text-amber-950 text-[14px] leading-tight mb-0.5 tracking-tight";
-                msgEl.className = "text-[11.5px] font-bold tracking-wide text-amber-800/90";
-                progress.className = "absolute bottom-0 left-0 h-1 rounded-full w-full bg-gradient-to-r from-amber-400 to-orange-500";
-            } else if (type === 'error') {
-                bg.className = "bg-white/95 backdrop-blur-xl border border-red-100 p-3 pr-6 rounded-[1.2rem] shadow-[0_10px_40px_rgba(239,68,68,0.15)] flex items-center gap-3.5 relative overflow-hidden w-max mx-auto max-w-[90vw]";
-                iconWrap.className = "w-10 h-10 rounded-[10px] flex items-center justify-center text-white text-lg shrink-0 shadow-[0_4px_10px_rgba(244,63,94,0.3)] bg-gradient-to-br from-red-400 to-rose-500";
-                iconWrap.innerHTML = `<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M6 18L18 6M6 6l12 12"></path></svg>`;
-                titleEl.className = "font-black text-red-800 text-[14px] leading-tight mb-0.5 tracking-tight";
-                msgEl.className = "text-[11.5px] font-bold tracking-wide text-red-700/80";
-                progress.className = "absolute bottom-0 left-0 h-1 rounded-full w-full bg-red-500";
-            }
+function updateStaticUI() {
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if(i18n[lang][key]) el.innerHTML = i18n[lang][key];
+        if(el.tagName === 'INPUT' || el.tagName === 'TEXTAREA'){ el.placeholder = i18n[lang][key]; }
+    });
+}
 
-            if (navigator.vibrate) navigator.vibrate(50);
-            toast.classList.remove('translate-y-[-150%]', 'opacity-0', 'scale-90');
-            toast.classList.add('translate-y-0', 'opacity-100', 'scale-100');
-            progress.style.transition = 'none'; progress.style.width = '100%';
-            setTimeout(() => { progress.style.transition = 'width 3s linear'; progress.style.width = '0%'; }, 50);
+function toast(type, title, msg){
+    const tEl = document.getElementById('toast');
+    const ic = document.getElementById('t-icon');
+    const tt = document.getElementById('t-title');
+    const tm = document.getElementById('t-msg');
+    const bar = document.getElementById('t-bar');
+    if(!tEl || !ic || !tt || !tm || !bar) return;
 
-            toastTimeout = setTimeout(() => {
-                toast.classList.remove('translate-y-0', 'opacity-100', 'scale-100');
-                toast.classList.add('translate-y-[-150%]', 'opacity-0', 'scale-90');
-            }, 3000);
+    clearTimeout(tTimer);
+    ic.className = 't-icon ' + (type === 'err' ? 'err' : 'ok');
+    // bar kept in DOM for legacy, but hidden by CSS
+    bar.className = 't-bar ' + (type === 'err' ? 'err' : 'ok');
+
+    // Prefer showing current product icon for "ok"
+    if(type !== 'err' && cur){
+        const nm = lang === 'vi' ? cur.name : cur.nameEn;
+        const icn = cur.icon;
+        const isImage = icn && /\.(jpg|jpeg|png|webp|avif|gif)$/i.test(icn);
+        ic.innerHTML = isImage ? `<img src="${icn}" alt="${nm}">` : (icn || '✓');
+    }else{
+        ic.innerHTML = type === 'err'
+            ? `<svg width="20" height="20" fill="none" stroke="#ef4444" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" d="M18 6L6 18M6 6l12 12"/></svg>`
+            : `<svg width="20" height="20" fill="none" stroke="#7a5c00" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>`;
+    }
+    tt.textContent = title || '';
+    tm.textContent = msg || '';
+    tEl.classList.add('show');
+    tTimer = setTimeout(()=>tEl.classList.remove('show'), 2400);
+}
+
+function buildSuccessOrderHtml(){
+    const el = document.getElementById('success-order');
+    if(!el) return;
+    if(!lastOrder || !lastOrder.items || !lastOrder.items.length){
+        el.innerHTML = '';
+        return;
+    }
+
+    const statusLbl = t('success_waiting');
+    const itemsHtml = lastOrder.items.map(it => `
+        <div style="display:flex; align-items:center; justify-content:space-between; padding:10px 12px; border-bottom:1px solid rgba(200,160,0,0.12);">
+            <div style="font-weight:800; color:var(--ink); font-size:13px;">${it.name} <span style="color:var(--muted); font-weight:900;">×${it.qty}</span></div>
+            <div style="font-size:11px; font-weight:900; color:var(--y700); background:rgba(245,203,30,0.18); border:1px solid rgba(245,203,30,0.25); padding:6px 10px; border-radius:999px;">${statusLbl}</div>
+        </div>
+    `).join('');
+
+    el.innerHTML = `
+        <div style="background:#fff; border:1.5px solid rgba(200,160,0,0.16); border-radius:20px; overflow:hidden;">
+            <div style="padding:12px 14px; font-weight:900; color:var(--ink); border-bottom:1px solid rgba(200,160,0,0.12); background:rgba(255,253,240,0.9);">
+                ${t('success_waiting')}
+            </div>
+            ${itemsHtml}
+        </div>
+    `;
+}
+
+function hydrateOrderMeta(){
+    try{
+        const lo = localStorage.getItem('lastOrder');
+        const po = localStorage.getItem('pendingFeedbackOrderId');
+        const lid = localStorage.getItem('lastOrderId');
+        const oh = localStorage.getItem('ordersHistory');
+        const pl = localStorage.getItem('pendingFeedbackOrderIds');
+        if(lid) lastOrderId = parseInt(lid, 10) || 0;
+        if(po) pendingFeedbackOrderId = parseInt(po, 10) || 0;
+        if(lo) lastOrder = JSON.parse(lo);
+        if(oh) ordersHistory = JSON.parse(oh) || [];
+        if(pl) pendingFeedbackOrderIds = JSON.parse(pl) || [];
+        if(Array.isArray(pendingFeedbackOrderIds) && pendingFeedbackOrderIds.length){
+            pendingFeedbackOrderId = pendingFeedbackOrderIds[pendingFeedbackOrderIds.length - 1];
         }
+    }catch(e){}
+}
 
-        function init() {
-            const hot = PRODUCTS.filter(p => p.isHot).slice(0, 3);
-            if(hot.length === 3) {
-                document.getElementById('hot-items').innerHTML = `
-                    <div class="col-span-2 bg-white rounded-[1.4rem] p-3.5 shadow-[0_4px_15px_rgba(0,0,0,0.03)] border border-amber-100/60 flex gap-4 items-center cursor-pointer hover:border-orange-300 hover:shadow-orange-100 transition-all group" onclick='openModal(${JSON.stringify(hot[0])})'>
-                        <div class="w-[75px] h-[75px] bg-gradient-to-br from-amber-50 to-orange-50 rounded-2xl flex items-center justify-center text-[36px] border border-amber-100/50 group-hover:scale-105 transition-transform">${hot[0].icon}</div>
-                        <div class="flex-1">
-                            <h3 class="font-bold text-amber-950 text-[15px] mb-0.5">${hot[0].name}</h3>
-                            <p class="text-[12px] text-amber-700/80 line-clamp-1">${hot[0].desc}</p>
-                            <div class="mt-1.5 font-black text-orange-600 text-[16px]">${fmt(hot[0].price)}</div>
-                        </div>
-                        <button class="w-9 h-9 rounded-full bg-amber-50 text-orange-500 font-black text-lg flex items-center justify-center group-hover:bg-orange-500 group-hover:text-white transition-colors">+</button>
-                    </div>
-                    <div class="bg-white rounded-[1.4rem] p-4 shadow-[0_4px_15px_rgba(0,0,0,0.03)] border border-amber-100/60 flex flex-col items-center text-center cursor-pointer hover:border-orange-300 transition-all group" onclick='openModal(${JSON.stringify(hot[1])})'>
-                        <div class="w-16 h-16 bg-gradient-to-br from-amber-50 to-orange-50 rounded-[14px] flex items-center justify-center text-[32px] mb-2.5 border border-amber-100/50 group-hover:scale-105 transition-transform">${hot[1].icon}</div>
-                        <h3 class="font-bold text-amber-950 text-[13px] leading-tight mb-1.5 line-clamp-1">${hot[1].name}</h3>
-                        <div class="font-black text-orange-600 text-[15px] mt-auto">${fmt(hot[1].price)}</div>
-                    </div>
-                    <div class="bg-white rounded-[1.4rem] p-4 shadow-[0_4px_15px_rgba(0,0,0,0.03)] border border-amber-100/60 flex flex-col items-center text-center cursor-pointer hover:border-orange-300 transition-all group" onclick='openModal(${JSON.stringify(hot[2])})'>
-                        <div class="w-16 h-16 bg-gradient-to-br from-amber-50 to-orange-50 rounded-[14px] flex items-center justify-center text-[32px] mb-2.5 border border-amber-100/50 group-hover:scale-105 transition-transform">${hot[2].icon}</div>
-                        <h3 class="font-bold text-amber-950 text-[13px] leading-tight mb-1.5 line-clamp-1">${hot[2].name}</h3>
-                        <div class="font-black text-orange-600 text-[15px] mt-auto">${fmt(hot[2].price)}</div>
-                    </div>
-                `;
-            }
+function setPendingFeedback(orderId){
+    pendingFeedbackOrderId = orderId || 0;
+    try{ localStorage.setItem('pendingFeedbackOrderId', String(pendingFeedbackOrderId)); }catch(e){}
+}
 
-            const listTemplate = (p) => `
-                <div class="bg-white p-3.5 rounded-[1.4rem] shadow-[0_4px_15px_rgba(0,0,0,0.02)] border border-amber-100/60 flex gap-4 items-center cursor-pointer hover:border-orange-200 hover:shadow-orange-50 transition-all group" onclick='openModal(${JSON.stringify(p)})'>
-                    <div class="w-[68px] h-[68px] flex-shrink-0 bg-amber-50 rounded-2xl flex items-center justify-center text-[32px] border border-amber-100/50 group-hover:bg-orange-50 transition-colors">${p.icon}</div>
-                    <div class="flex-1 py-0.5">
-                        <h3 class="font-bold text-amber-950 text-[15px] mb-1">${p.name}</h3>
-                        <p class="text-[12px] text-amber-700/80 line-clamp-1 mb-1.5">${p.desc}</p>
-                        <div class="flex justify-between items-center">
-                            <span class="font-black text-amber-950 text-[15px]">${fmt(p.price)}</span>
-                            <span class="text-orange-500 font-black text-[22px] leading-none">+</span>
+function pushPendingFeedback(orderId){
+    if(!orderId) return;
+    if(!Array.isArray(pendingFeedbackOrderIds)) pendingFeedbackOrderIds = [];
+    if(!pendingFeedbackOrderIds.includes(orderId)) pendingFeedbackOrderIds.push(orderId);
+    pendingFeedbackOrderId = orderId;
+    try{
+        localStorage.setItem('pendingFeedbackOrderId', String(pendingFeedbackOrderId));
+        localStorage.setItem('pendingFeedbackOrderIds', JSON.stringify(pendingFeedbackOrderIds));
+    }catch(e){}
+    updateRateBadge();
+}
+
+function removePendingFeedback(orderId){
+    if(!orderId) return;
+    if(!Array.isArray(pendingFeedbackOrderIds)) pendingFeedbackOrderIds = [];
+    pendingFeedbackOrderIds = pendingFeedbackOrderIds.filter(x => x !== orderId);
+    pendingFeedbackOrderId = pendingFeedbackOrderIds.length ? pendingFeedbackOrderIds[pendingFeedbackOrderIds.length - 1] : 0;
+    try{
+        localStorage.setItem('pendingFeedbackOrderId', String(pendingFeedbackOrderId));
+        localStorage.setItem('pendingFeedbackOrderIds', JSON.stringify(pendingFeedbackOrderIds));
+    }catch(e){}
+    updateRateBadge();
+}
+
+function openConfirm(){
+    const ov = document.getElementById('overlay');
+    const md = document.getElementById('confirm-modal');
+    if(!ov || !md) return;
+    renderConfirm();
+    ov.classList.add('show'); setTimeout(()=>ov.classList.add('vis'),10);
+    md.classList.add('open');
+}
+
+function closeConfirm(){
+    const ov=document.getElementById('overlay');
+    const md=document.getElementById('confirm-modal');
+    if(md) md.classList.remove('open');
+    if(ov){
+        ov.classList.remove('vis');
+        setTimeout(()=>ov.classList.remove('show'),300);
+    }
+}
+
+function renderConfirm(){
+    const body = document.getElementById('cf-body');
+    if(!body) return;
+    if(!pendingSend){
+        body.innerHTML = '';
+        return;
+    }
+    const who = pendingSend.customerName || (lang==='vi'?'Khách':'Guest');
+    const table = pendingSend.tableNo || '—';
+    const note = (pendingSend.note || '').trim();
+    const itemsHtml = pendingSend.items.map(it => `
+        <div style="display:flex; align-items:center; justify-content:space-between; padding:10px 12px; border-bottom:1px solid rgba(200,160,0,0.12);">
+            <div style="font-weight:800; color:var(--ink); font-size:13px;">${it.name} <span style="color:var(--muted); font-weight:900;">×${it.qty}</span></div>
+            <div style="font-weight:900; color:var(--y700); font-size:12px;">${fmt(it.lineTotal)}</div>
+        </div>
+    `).join('');
+    body.innerHTML = `
+        <div style="background:#fff; border:1.5px solid rgba(200,160,0,0.16); border-radius:20px; overflow:hidden; margin-bottom: 12px;">
+            <div style="padding:12px 14px; font-weight:900; color:var(--ink); border-bottom:1px solid rgba(200,160,0,0.12); background:rgba(255,253,240,0.9);">
+                👤 ${t('cf_who')}: ${who} · 🪑 ${t('cf_table')}: ${table}
+            </div>
+            ${itemsHtml}
+            <div style="padding:12px 14px; font-weight:900; color:var(--ink); display:flex; justify-content:space-between; gap:10px;">
+                <span>${t('cf_total')}</span>
+                <span style="color:var(--y700);">${fmt(pendingSend.total)}</span>
+            </div>
+        </div>
+        ${note ? `<div style="background:rgba(245,203,30,0.16); border:1.5px solid rgba(245,203,30,0.25); padding:12px 12px; border-radius:18px; font-weight:800; color: var(--dark); font-size: 13px;">
+            📝 ${t('cf_note')}: ${note}
+        </div>` : ``}
+    `;
+}
+
+function confirmSendOrder(){
+    if(!pendingSend) return;
+    closeConfirm();
+    doSendOrder(pendingSend);
+}
+
+function doSendOrder(orderDraft){
+    const ld=document.getElementById('loader');
+    if(ld) ld.classList.add('show');
+    setTimeout(()=>{
+        if(ld) ld.classList.remove('show');
+
+        lastOrderId = (lastOrderId || 0) + 1;
+        const order = { ...orderDraft, id: lastOrderId, at: Date.now() };
+        lastOrder = order;
+
+        if(!Array.isArray(ordersHistory)) ordersHistory = [];
+        ordersHistory.push(order);
+        try{
+            localStorage.setItem('lastOrderId', String(lastOrderId));
+            localStorage.setItem('lastOrder', JSON.stringify(lastOrder));
+            localStorage.setItem('ordersHistory', JSON.stringify(ordersHistory));
+        }catch(e){}
+        pushPendingFeedback(order.id);
+
+        cart=[];updateBadge();
+        pendingSend = null;
+
+        const sEl = document.getElementById('success-desc');
+        if(sEl){
+            const base = t('success_desc');
+            const greet = customerName ? t('success_greet').replace('{name}', customerName) : '';
+            sEl.textContent = (greet + base).trim();
+        }
+        buildSuccessOrderHtml();
+        sv('success');
+    }, 1000);
+}
+
+function pushPendingFeedback(orderId){
+    if(!orderId) return;
+    if(!Array.isArray(pendingFeedbackOrderIds)) pendingFeedbackOrderIds = [];
+    if(!pendingFeedbackOrderIds.includes(orderId)) pendingFeedbackOrderIds.push(orderId);
+    pendingFeedbackOrderId = orderId;
+    try{
+        localStorage.setItem('pendingFeedbackOrderId', String(pendingFeedbackOrderId));
+        localStorage.setItem('pendingFeedbackOrderIds', JSON.stringify(pendingFeedbackOrderIds));
+    }catch(e){}
+}
+
+function removePendingFeedback(orderId){
+    if(!orderId) return;
+    if(!Array.isArray(pendingFeedbackOrderIds)) pendingFeedbackOrderIds = [];
+    pendingFeedbackOrderIds = pendingFeedbackOrderIds.filter(x => x !== orderId);
+    pendingFeedbackOrderId = pendingFeedbackOrderIds.length ? pendingFeedbackOrderIds[pendingFeedbackOrderIds.length - 1] : 0;
+    try{
+        localStorage.setItem('pendingFeedbackOrderId', String(pendingFeedbackOrderId));
+        localStorage.setItem('pendingFeedbackOrderIds', JSON.stringify(pendingFeedbackOrderIds));
+    }catch(e){}
+}
+
+function openConfirm(){
+    const ov = document.getElementById('overlay');
+    const md = document.getElementById('confirm-modal');
+    if(!ov || !md) return;
+    renderConfirm();
+    ov.classList.add('show'); setTimeout(()=>ov.classList.add('vis'),10);
+    md.classList.add('open');
+}
+
+function closeConfirm(){
+    const ov=document.getElementById('overlay');
+    const md=document.getElementById('confirm-modal');
+    if(md) md.classList.remove('open');
+    if(ov){
+        ov.classList.remove('vis');
+        setTimeout(()=>ov.classList.remove('show'),300);
+    }
+}
+
+function renderConfirm(){
+    const body = document.getElementById('cf-body');
+    if(!body) return;
+    if(!pendingSend){
+        body.innerHTML = '';
+        return;
+    }
+    const who = pendingSend.customerName || (lang==='vi'?'Khách':'Guest');
+    const table = pendingSend.tableNo || '—';
+    const note = (pendingSend.note || '').trim();
+    const itemsHtml = pendingSend.items.map(it => `
+        <div style="display:flex; align-items:center; justify-content:space-between; padding:10px 12px; border-bottom:1px solid rgba(200,160,0,0.12);">
+            <div style="font-weight:800; color:var(--ink); font-size:13px;">${it.name} <span style="color:var(--muted); font-weight:900;">×${it.qty}</span></div>
+            <div style="font-weight:900; color:var(--y700); font-size:12px;">${fmt(it.lineTotal)}</div>
+        </div>
+    `).join('');
+    body.innerHTML = `
+        <div style="background:#fff; border:1.5px solid rgba(200,160,0,0.16); border-radius:20px; overflow:hidden; margin-bottom: 12px;">
+            <div style="padding:12px 14px; font-weight:900; color:var(--ink); border-bottom:1px solid rgba(200,160,0,0.12); background:rgba(255,253,240,0.9);">
+                👤 ${t('cf_who')}: ${who} · 🪑 ${t('cf_table')}: ${table}
+            </div>
+            ${itemsHtml}
+            <div style="padding:12px 14px; font-weight:900; color:var(--ink); display:flex; justify-content:space-between; gap:10px;">
+                <span>${t('cf_total')}</span>
+                <span style="color:var(--y700);">${fmt(pendingSend.total)}</span>
+            </div>
+        </div>
+        ${note ? `<div style="background:rgba(245,203,30,0.16); border:1.5px solid rgba(245,203,30,0.25); padding:12px 12px; border-radius:18px; font-weight:800; color: var(--dark); font-size: 13px;">
+            📝 ${t('cf_note')}: ${note}
+        </div>` : ``}
+    `;
+}
+
+function confirmSendOrder(){
+    if(!pendingSend) return;
+    closeConfirm();
+    doSendOrder(pendingSend);
+}
+
+function doSendOrder(orderDraft){
+    const ld=document.getElementById('loader');
+    if(ld) ld.classList.add('show');
+    setTimeout(()=>{
+        if(ld) ld.classList.remove('show');
+
+        lastOrderId = (lastOrderId || 0) + 1;
+        const order = { ...orderDraft, id: lastOrderId, at: Date.now() };
+        lastOrder = order;
+
+        if(!Array.isArray(ordersHistory)) ordersHistory = [];
+        ordersHistory.push(order);
+        try{
+            localStorage.setItem('lastOrderId', String(lastOrderId));
+            localStorage.setItem('lastOrder', JSON.stringify(lastOrder));
+            localStorage.setItem('ordersHistory', JSON.stringify(ordersHistory));
+        }catch(e){}
+        pushPendingFeedback(order.id);
+
+        cart=[];updateBadge();
+        pendingSend = null;
+
+        const sEl = document.getElementById('success-desc');
+        if(sEl){
+            const base = t('success_desc');
+            const greet = customerName ? t('success_greet').replace('{name}', customerName) : '';
+            sEl.textContent = (greet + base).trim();
+        }
+        buildSuccessOrderHtml();
+        sv('success');
+    }, 1000);
+}
+
+function openFeedback(orderId){
+    const ov = document.getElementById('overlay');
+    const md = document.getElementById('feedback-modal');
+    if(!ov || !md) { sv('home'); return; }
+
+    const targetId = orderId || pendingFeedbackOrderId || (lastOrder && lastOrder.id) || 0;
+    fb = { rating: 0, issues: {}, note: "", orderId: targetId };
+    selectedRateItems = {};
+    renderFeedback();
+
+    ov.classList.add('show'); setTimeout(()=>ov.classList.add('vis'),10);
+    md.classList.add('open');
+}
+
+// openFeedback moved above (supports orderId)
+
+function getOrderById(id){
+    if(!id) return null;
+    const fromHist = Array.isArray(ordersHistory) ? ordersHistory.find(o => o && o.id === id) : null;
+    return fromHist || (lastOrder && lastOrder.id === id ? lastOrder : null);
+}
+
+function getProductName(pId){
+    const p = PRODUCTS.find(pp => pp.id === pId);
+    if(!p) return lang === 'vi' ? 'Món' : 'Item';
+    return lang === 'vi' ? p.name : p.nameEn;
+}
+
+function fmtTime(ts){
+    try{
+        const d = new Date(ts);
+        const hh = String(d.getHours()).padStart(2,'0');
+        const mm = String(d.getMinutes()).padStart(2,'0');
+        return `${hh}:${mm}`;
+    }catch(e){
+        return '';
+    }
+}
+
+function setFeedbackOrder(id){
+    if(!id) return;
+    fb.orderId = id;
+    selectedRateItems = {};
+    renderFeedback();
+}
+
+function closeFeedback(){
+    const ov=document.getElementById('overlay');
+    const md=document.getElementById('feedback-modal');
+    if(md) md.classList.remove('open');
+    if(ov){
+        ov.classList.remove('vis');
+        setTimeout(()=>ov.classList.remove('show'),300);
+    }
+}
+
+function setRating(n){
+    fb.rating = n;
+    renderFeedback();
+}
+
+function togIssue(k){
+    fb.issues[k] = !fb.issues[k];
+    renderFeedback();
+}
+
+function togRateItem(pId){
+    selectedRateItems[pId] = !selectedRateItems[pId];
+    renderFeedback();
+}
+
+function renderFeedback(){
+    const body = document.getElementById('fb-body');
+    if(!body) return;
+
+    const ord = getOrderById(fb.orderId) || lastOrder;
+    const orderItems = (ord && ord.items) ? ord.items : [];
+
+    const pendingOrders = (Array.isArray(pendingFeedbackOrderIds) ? pendingFeedbackOrderIds : [])
+        .map(id => getOrderById(id))
+        .filter(Boolean);
+    const orderPicker = pendingOrders.length > 1 ? `
+        <div class="opt-sec" style="margin-bottom:18px;">
+            <div class="opt-ttl" style="margin-bottom:10px;">${t('fb_order_lbl')}</div>
+            <div style="font-size:12px; color:var(--muted); font-weight:700; margin-top:-6px; margin-bottom:10px;">${t('fb_order_hint')}</div>
+            <div style="display:flex; flex-wrap:wrap; gap:8px;">
+                ${pendingOrders.map(o => `
+                    <button type="button" onclick="setFeedbackOrder(${o.id})" style="padding:10px 12px;border-radius:999px;border:1.5px solid rgba(200,160,0,0.18);background:${(fb.orderId===o.id)?'rgba(245,203,30,0.22)':'#fff'};font-weight:900;font-size:12px;color:${(fb.orderId===o.id)?'var(--dark)':'var(--y700)'};cursor:pointer;">
+                        #${o.id} · ${fmtTime(o.at)} · ${lang==='vi'?'Bàn':'Table'} ${o.tableNo || '—'}
+                    </button>
+                `).join('')}
+            </div>
+        </div>
+    ` : ``;
+
+    if(!Object.keys(selectedRateItems).length && orderItems.length){
+        orderItems.forEach(it => { selectedRateItems[it.pId] = true; });
+    }
+
+    const itemChips = orderItems.map(it => `
+        <button type="button" onclick="togRateItem(${it.pId})" style="padding:10px 12px;border-radius:999px;border:1.5px solid rgba(200,160,0,0.18);background:${selectedRateItems[it.pId]?'rgba(245,203,30,0.22)':'#fff'};font-weight:900;font-size:12px;color:${selectedRateItems[it.pId]?'var(--dark)':'var(--y700)'};cursor:pointer;">
+            ${getProductName(it.pId)} ×${it.qty}
+        </button>
+    `).join('');
+
+    const starBtn = (i) => `
+        <button type="button" onclick="setRating(${i})" style="width:44px;height:44px;border-radius:14px;border:1.5px solid rgba(200,160,0,0.18);background:${fb.rating>=i?'rgba(245,203,30,0.25)':'#fff'};font-size:20px;cursor:pointer;">
+            ${fb.rating>=i?'★':'☆'}
+        </button>
+    `;
+
+    const issues = [
+        {k:'i1', lbl:t('fb_i1')},
+        {k:'i2', lbl:t('fb_i2')},
+        {k:'i3', lbl:t('fb_i3')},
+        {k:'i4', lbl:t('fb_i4')},
+        {k:'i5', lbl:t('fb_i5')},
+    ];
+
+    const chips = issues.map(it => `
+        <button type="button" onclick="togIssue('${it.k}')" style="padding:10px 12px;border-radius:999px;border:1.5px solid rgba(200,160,0,0.18);background:${fb.issues[it.k]?'rgba(245,203,30,0.22)':'#fff'};font-weight:900;font-size:12px;color:${fb.issues[it.k]?'var(--dark)':'var(--y700)'};cursor:pointer;">
+            ${it.lbl}
+        </button>
+    `).join('');
+
+    body.innerHTML = `
+        ${orderPicker}
+        ${orderItems.length ? `
+        <div class="opt-sec" style="margin-bottom:18px;">
+            <div class="opt-ttl" style="margin-bottom:10px;">${t('fb_items_lbl')}</div>
+            <div style="font-size:12px; color:var(--muted); font-weight:700; margin-top:-6px; margin-bottom:10px;">${t('fb_items_hint')}</div>
+            <div style="display:flex; flex-wrap:wrap; gap:8px;">${itemChips}</div>
+        </div>
+        ` : ``}
+
+        <div class="opt-sec" style="margin-bottom:18px;">
+            <div class="opt-ttl" style="margin-bottom:10px;">${t('fb_rate_lbl')}</div>
+            <div style="display:flex; gap:10px; justify-content:center; margin-bottom:8px;">
+                ${[1,2,3,4,5].map(starBtn).join('')}
+            </div>
+            <div style="text-align:center; font-size:12px; color:var(--muted); font-weight:700;">${t('fb_rate_hint')}</div>
+        </div>
+
+        <div class="opt-sec" style="margin-bottom:18px;">
+            <div class="opt-ttl" style="margin-bottom:10px;">${t('fb_issues_lbl')}</div>
+            <div style="display:flex; flex-wrap:wrap; gap:8px;">${chips}</div>
+        </div>
+
+        <div class="opt-sec" style="margin-bottom:0;">
+            <div class="opt-ttl" style="margin-bottom:10px;">${t('fb_note_lbl')}</div>
+            <textarea class="fi" id="fb-note" placeholder="${t('fb_note_ph')}" style="height: 90px; margin-bottom: 0;" onkeyup="fb.note=this.value" onchange="fb.note=this.value">${fb.note || ''}</textarea>
+        </div>
+    `;
+}
+
+function submitFeedback(){
+    const noteEl = document.getElementById('fb-note');
+    if(noteEl) fb.note = noteEl.value;
+
+    const picked = Object.keys(selectedRateItems).filter(k => selectedRateItems[k]).map(x => parseInt(x,10)).filter(Boolean);
+    const ord = getOrderById(fb.orderId) || lastOrder;
+    if(ord && ord.items && ord.items.length && !picked.length){
+        toast('err', t('toast_err_title'), (lang==='vi'?'Bạn hãy chọn ít nhất 1 món để đánh giá.':'Please select at least 1 item to rate.'));
+        return;
+    }
+
+    try{
+        const payload = {
+            at: Date.now(),
+            tableNo,
+            customerName,
+            rating: fb.rating,
+            issues: Object.keys(fb.issues).filter(k => fb.issues[k]),
+            note: (fb.note || '').trim(),
+            order: ord,
+            orderId: fb.orderId || (lastOrder && lastOrder.id) || 0,
+            itemIds: picked,
+        };
+        localStorage.setItem('lastFeedback', JSON.stringify(payload));
+    }catch(e){}
+
+    if((fb.orderId || 0)) {
+        removePendingFeedback(fb.orderId);
+    }
+
+    try{
+        const arr = JSON.parse(localStorage.getItem('feedbackHistory') || '[]');
+        arr.push({ ...JSON.parse(localStorage.getItem('lastFeedback') || '{}') });
+        localStorage.setItem('feedbackHistory', JSON.stringify(arr));
+    }catch(e){}
+
+    const body = document.getElementById('fb-body');
+    if(body){
+        body.innerHTML = `
+            <div style="text-align:center; padding: 18px 6px 6px;">
+                <div style="font-family:'Lora',serif; font-size:22px; font-weight:900; color:var(--ink); margin-bottom:10px;">${t('fb_thanks_title')}</div>
+                <div style="font-size:13px; font-weight:700; color:var(--muted); line-height:1.65;">${t('fb_thanks_msg')}</div>
+            </div>
+        `;
+    }
+    setTimeout(()=>{ closeFeedback(); sv('home'); }, 1100);
+}
+
+function toggleLang() {
+    lang = lang === 'vi' ? 'en' : 'vi';
+    const btn = document.getElementById('lang-btn');
+    if(lang === 'en') btn.classList.add('en'); else btn.classList.remove('en');
+    
+    updateStaticUI();
+    init();
+    if(cur) {
+        cur = PRODUCTS.find(p => p.id === cur.id);
+        document.getElementById('m-title').textContent = lang === 'vi' ? cur.name : cur.nameEn;
+        document.getElementById('m-price').textContent = t('modal_og_price') + fmt(cur.price);
+        const noteEl = document.getElementById('m-note');
+        if(noteEl) ms.note = noteEl.value; 
+        renderModal();
+    }
+    renderCart();
+}
+
+/* ĐÃ CẬP NHẬT LẠI BỘ EMOJI CHUẨN MÓN ĂN VIỆT NAM */
+const PRODUCTS = [
+    // 1. CHỌN MÓN (BASE) - ĐỒNG GIÁ 20.000đ (Hình 1)
+    {id:1, name:"Chè Đậu Xanh Đánh", nameEn:"Mung Bean Dessert", price:20000, icon:"🥣", category:"base"},
+    {id:2, name:"Chè Đậu Đỏ", nameEn:"Red Bean Dessert", price:20000, icon:"🫘", category:"base"},
+    {id:3, name:"Chè Khoai Môn", nameEn:"Taro Dessert", price:20000, icon:"🍠", category:"base"},
+    {id:4, name:"Chè Bưởi", nameEn:"Pomelo Dessert", price:20000, icon:"🍊", category:"base"},
+    {id:5, name:"Chè Hạt Sen", nameEn:"Lotus Seed Dessert", price:20000, icon:"🪷", category:"base"},
+    {id:6, name:"Chè Thập Cẩm", nameEn:"Mixed Dessert", price:20000, icon:"🍧", category:"base", isHot:true},
+    {id:7, name:"Chè Trôi Nước", nameEn:"Glutinous Rice Balls", price:20000, icon:"🍡", category:"base"},
+    {id:8, name:"Chè Bắp", nameEn:"Corn Dessert", price:20000, icon:"🌽", category:"base"},
+
+    // 2. CHÈ HIỆN ĐẠI & ĐẶC BIỆT (Hình 1)
+    {id:10, name:"Chè Sầu Riêng", nameEn:"Durian Dessert", price:20000, icon:"🌰", category:"special", isHot:true},
+    {id:11, name:"Chè Dừa Dầm", nameEn:"Coconut Dessert", price:20000, icon:"🥥", category:"special", isHot:true},
+    {id:12, name:"Chè Khúc Bạch", nameEn:"Almond Jelly Dessert", price:20000, icon:"🍮", category:"special", isHot:true},
+    {id:13, name:"Chè Flan", nameEn:"Caramel Flan", price:20000, icon:"🍮", category:"special"},
+    {id:14, name:"Chè Dưỡng Nhan", nameEn:"Herbal Sweet Soup", price:20000, icon:"🍯", category:"special"},
+    {id:15, name:"Chè Hạt Sen Long Nhãn", nameEn:"Lotus Seed & Longan", price:20000, icon:"🫧", category:"special", isHot:true},
+    {id:16, name:"Chè Xoài Hong Kong", nameEn:"Mango Dessert (HK Style)", price:20000, icon:"🥭", category:"special", isHot:true},
+
+    // 3. CÁC MÓN KHÁC (Hình 1 - Cột Others)
+    {id:30, name:"Sinh tố trái cây", nameEn:"Fruit Smoothies", price:30000, icon:"🍹", category:"others"},
+    {id:31, name:"Sữa chua trái cây", nameEn:"Yogurt with Fruits", price:30000, icon:"🥣", category:"others"},
+    {id:32, name:"Tàu hũ Singapore", nameEn:"Silken Tofu", price:30000, icon:"🍮", category:"others"},
+    {id:33, name:"Xôi xoài Thái", nameEn:"Thai Mango Sticky Rice", price:35000, icon:"🥭", category:"others"},
+
+    // 4. MÓN ĂN VẶT - ĐỒNG GIÁ 30.000đ (Hình 2)
+    {id:40, name:"Cá Viên Chiên", nameEn:"Fried Fish Balls", price:30000, icon:"🍡", category:"snack"},
+    {id:41, name:"Xúc Xích Chiên", nameEn:"Fried Sausages", price:30000, icon:"🌭", category:"snack"},
+    {id:42, name:"Phô Mai Que", nameEn:"Cheese Sticks", price:30000, icon:"🧀", category:"snack", isHot:true},
+    {id:43, name:"Nem Chua Rán", nameEn:"Fried Fermented Pork", price:30000, icon:"🥓", category:"snack"},
+    {id:44, name:"Khoai Tây Chiên", nameEn:"French Fries", price:30000, icon:"🍟", category:"snack", isHot:true},
+    {id:45, name:"Khoai Lang Kén", nameEn:"Sweet Potato Croquettes", price:30000, icon:"🍠", category:"snack"},
+    {id:46, name:"Khoai Lắc Phô Mai", nameEn:"Cheese Shaken Potato", price:30000, icon:"🍟", category:"snack", isHot:true},
+    {id:47, name:"Khô Gà", nameEn:"Dried Chicken", price:30000, icon:"🍗", category:"snack"}
+];
+const SIZES=[
+    {id:'S',name:"Size S — Nhỏ nhắn", nameEn:"Size S — Small", desc:"Vừa đủ tráng miệng", descEn:"Just for dessert", price:0},
+    {id:'M',name:"Size M — Tiêu chuẩn", nameEn:"Size M — Standard", desc:"Cực phẩm ăn vặt", descEn:"Perfect snack", price:5000},
+    {id:'L',name:"Size L — Khổng lồ", nameEn:"Size L — Giant", desc:"Ăn no nê / Chia sẻ", descEn:"For sharing", price:10000},
+];
+const SWEETNESS=[
+    {id:'100',name:"Ngọt nhiều", nameEn:"Extra Sweet", desc:"Chuẩn vị truyền thống", descEn:"Traditional sweetness"},
+    {id:'70', name:"Ngọt vừa", nameEn:"Normal Sweet", desc:"Mức mặc định của quán", descEn:"Standard level"},
+    {id:'30', name:"Ít ngọt", nameEn:"Less Sweet", desc:"Thanh nhẹ, dễ ăn", descEn:"Light & easy"},
+    {id:'0',  name:"Không thêm đường", nameEn:"No Sugar", desc:"Vị tự nhiên nguyên liệu", descEn:"Natural ingredients taste"},
+];
+const TOPPINGS = [
+    {group:"Giòn & Dai", groupEn:"Chewy & Crunchy", items:[
+        {id:'t1', name:"Trân châu trắng", nameEn:"White Pearls"},
+        {id:'t2', name:"Trân châu đường đen", nameEn:"Brown Sugar Pearls"},
+        {id:'t3', name:"Thạch dừa", nameEn:"Coconut Jelly"},
+        {id:'t4', name:"Thạch lá dứa", nameEn:"Pandan Jelly"},
+        {id:'t5', name:"Sương sáo", nameEn:"Grass Jelly"},
+        {id:'t6', name:"Rau câu dừa", nameEn:"Coconut Agar Jelly"}
+    ]},
+    {group:"Béo & Ngậy", groupEn:"Creamy & Rich", items:[
+        {id:'t7', name:"Nước cốt dừa", nameEn:"Coconut Cream"},
+        {id:'t8', name:"Dừa sợi", nameEn:"Shredded Coconut"},
+        {id:'t9', name:"Đậu phộng rang", nameEn:"Roasted Peanuts"},
+        {id:'t10', name:"Kem tươi", nameEn:"Whipped Cream"},
+        {id:'t11', name:"Phô mai viên/Foam", nameEn:"Cheese Cubes/Foam"}
+    ]},
+    {group:"Trái Cây Tươi", groupEn:"Fresh Fruits", items:[
+        {id:'t12', name:"Xoài", nameEn:"Mango"},
+        {id:'t13', name:"Dâu", nameEn:"Strawberry"},
+        {id:'t14', name:"Thanh long", nameEn:"Dragon Fruit"},
+        {id:'t15', name:"Mít", nameEn:"Jackfruit"},
+        {id:'t16', name:"Bơ", nameEn:"Avocado"}
+    ]},
+    {group:"Healthy & Hạt", groupEn:"Healthy & Seeds", items:[
+        {id:'t17', name:"Hạt chia", nameEn:"Chia Seeds"},
+        {id:'t18', name:"Hạt é", nameEn:"Basil Seeds"},
+        {id:'t19', name:"Ngũ cốc", nameEn:"Granola"}
+    ]},
+    {group:"Chè Trong Chè", groupEn:"Dessert Toppings", items:[
+        {id:'t20', name:"Đậu xanh", nameEn:"Mung Beans"},
+        {id:'t21', name:"Đậu đỏ", nameEn:"Red Beans"},
+        {id:'t22', name:"Khoai môn", nameEn:"Taro"},
+        {id:'t23', name:"Cùi bưởi", nameEn:"Pomelo Pulp"},
+        {id:'t24', name:"Hạt sen", nameEn:"Lotus Seeds"},
+        {id:'t25', name:"Viên trôi nước mini", nameEn:"Mini Glutinous Balls"},
+        {id:'t26', name:"Yến mạch", nameEn:"Oats"},
+        {id:'t27', name:"Flan mini", nameEn:"Mini Flan"}
+    ]}
+];
+
+let cart=[], cur=null, ms={size:'M',sweet:'70',temp:'ice',tops:{},qty:1,note:''}, tTimer;
+let tableNo = "";
+let orderNote = "";
+let customerName = "";
+let lastOrder = null;
+let fb = { rating: 0, issues: {}, note: "" };
+let lastOrderId = 0;
+let pendingFeedbackOrderId = 0;
+let selectedRateItems = {};
+let ordersHistory = [];
+let pendingFeedbackOrderIds = [];
+let pendingSend = null;
+const fmt=n=>n.toLocaleString('vi-VN')+'đ';
+
+function getProductOptions(p){
+    const cat = p?.category;
+    const isDessert = cat === 'base' || cat === 'special';
+    const isOther = cat === 'others';
+    const isSnack = cat === 'snack';
+
+    // Mặc định: chỉ món chè/đồ ngọt mới cần đủ option; đồ ăn vặt thì tối giản.
+    const opts = {
+        size: !isSnack,
+        sweet: isDessert || isOther,
+        // Chè có thể ăn nóng/lạnh; các món khác mặc định chỉ lạnh; ăn vặt không cần.
+        temp: isDessert,
+        // Topping chủ yếu áp dụng cho nhóm chè/đồ ngọt; tắt cho ăn vặt.
+        toppings: !isSnack,
+        note: true,
+    };
+    return opts;
+}
+
+function renderMenuSections(containerId){
+    const el = document.getElementById(containerId);
+    if(!el) return;
+
+    const lHtml=p=>{
+        const name = (lang === 'vi' ? p.name : p.nameEn) || '';
+        const desc = (lang === 'vi' ? (p.desc || '') : (p.descEn || '')) || '';
+        return `
+        <div class="menu-item" onclick='openModal(${JSON.stringify(p)})'>
+            <div class="menu-icon">${getIcon(p.icon, p.name)}</div>
+            <div class="menu-info">
+                <h3>${name}</h3>
+                ${desc ? `<div class="menu-sub">${desc}</div>` : ``}
+                <span class="price">${fmt(p.price)}</span>
+            </div>
+            <div class="menu-add">+</div>
+        </div>`;
+    };
+
+    const byCat = (cat) => PRODUCTS.filter(p => p.category === cat);
+    const sec = (id, titleKey, items) => `
+        <div class="section" style="margin-top: 0;" id="${id}">
+            <div class="sec-header" style="margin-bottom: 10px;">
+                <h2 class="sec-title">${t(titleKey)}</h2>
+            </div>
+            ${items.map(lHtml).join('')}
+        </div>
+    `;
+
+    el.innerHTML = [
+        sec('sec-base', 'menu_sec_base', byCat('base')),
+        sec('sec-special', 'menu_sec_special', byCat('special')),
+        sec('sec-others', 'menu_sec_others', byCat('others')),
+        sec('sec-snack', 'menu_sec_snack', byCat('snack')),
+    ].join('');
+}
+
+function renderMenuTabs(){
+    const el = document.getElementById('menu-tabs');
+    if(!el) return;
+    const tabs = [
+        {id:'sec-base', key:'menu_sec_base', shortVi:'Base', shortEn:'Base'},
+        {id:'sec-special', key:'menu_sec_special', shortVi:'Đặc biệt', shortEn:'Special'},
+        {id:'sec-others', key:'menu_sec_others', shortVi:'Others', shortEn:'Others'},
+        {id:'sec-snack', key:'menu_sec_snack', shortVi:'Ăn vặt', shortEn:'Snacks'},
+    ];
+
+    const label = (tab) => {
+        // titleKey khá dài -> dùng short để nhìn gọn như app
+        if(lang === 'vi') return tab.shortVi;
+        return tab.shortEn;
+    };
+
+    el.innerHTML = tabs.map((tItem, idx) => `
+        <button class="tab ${idx===0?'active':''}" type="button" onclick="jumpToSection('${tItem.id}', this)">
+            ${label(tItem)}
+        </button>
+    `).join('');
+}
+
+function jumpToSection(id, btn){
+    const target = document.getElementById(id);
+    if(target) target.scrollIntoView({behavior:'smooth', block:'start'});
+    document.querySelectorAll('#menu-tabs .tab').forEach(b => b.classList.remove('active'));
+    if(btn) btn.classList.add('active');
+}
+
+function init(){
+    const hot=PRODUCTS.filter(p=>p.isHot).slice(0,3);
+    document.getElementById('hot-items').innerHTML=`
+        <div class="hot-featured" onclick='openModal(${JSON.stringify(hot[0])})'>
+            <div class="hot-featured-icon">${getIcon(hot[0].icon, hot[0].name)}</div>
+            <div class="hot-featured-body">
+                <h3>${lang === 'vi' ? hot[0].name : hot[0].nameEn}</h3>
+                <p>${lang === 'vi' ? hot[0].desc : hot[0].descEn}</p>
+                <div class="hot-featured-price">${fmt(hot[0].price)}</div>
+            </div>
+            <div class="hot-featured-add">+</div>
+        </div>
+        <div class="hot-card" onclick='openModal(${JSON.stringify(hot[1])})'>
+            <div class="hot-card-icon">${getIcon(hot[1].icon, hot[1].name)}</div>
+            <h3>${lang === 'vi' ? hot[1].name : hot[1].nameEn}</h3>
+            <div class="hot-card-price">${fmt(hot[1].price)}</div>
+        </div>
+        <div class="hot-card" onclick='openModal(${JSON.stringify(hot[2])})'>
+            <div class="hot-card-icon">${getIcon(hot[2].icon, hot[2].name)}</div>
+            <h3>${lang === 'vi' ? hot[2].name : hot[2].nameEn}</h3>
+            <div class="hot-card-price">${fmt(hot[2].price)}</div>
+        </div>
+    `;
+    const lHtml=p=>{
+        const name = (lang === 'vi' ? p.name : p.nameEn) || '';
+        const desc = (lang === 'vi' ? (p.desc || '') : (p.descEn || '')) || '';
+        return `
+        <div class="menu-item" onclick='openModal(${JSON.stringify(p)})'>
+            <div class="menu-icon">${getIcon(p.icon, p.name)}</div>
+            <div class="menu-info">
+                <h3>${name}</h3>
+                ${desc ? `<div class="menu-sub">${desc}</div>` : ``}
+                <span class="price">${fmt(p.price)}</span>
+            </div>
+            <div class="menu-add">+</div>
+        </div>`;
+    };
+    document.getElementById('home-mini').innerHTML=PRODUCTS.slice(3,5).map(lHtml).join('');
+
+    // Render menu theo 4 nhóm cho hợp lý
+    renderMenuSections('full-menu');
+    renderMenuTabs();
+    
+    // Gọi Twemoji để chuyển emoji text thành hình ảnh nét căng
+    if(typeof twemoji !== 'undefined') twemoji.parse(document.body);
+}
+
+function parseTableFromUrl(){
+    try{
+        const u = new URL(window.location.href);
+        const tNo = (u.searchParams.get('table') || u.searchParams.get('t') || '').trim();
+        return tNo;
+    }catch(e){
+        return '';
+    }
+}
+
+function parseNameFromUrl(){
+    try{
+        const u = new URL(window.location.href);
+        const nm = (u.searchParams.get('name') || u.searchParams.get('n') || '').trim();
+        return nm;
+    }catch(e){
+        return '';
+    }
+}
+
+function hydrateGateFromUrlOrStorage(){
+    const savedTable = (localStorage.getItem('tableNo') || '').trim();
+    const savedName = (localStorage.getItem('customerName') || '').trim();
+
+    tableNo = savedTable || parseTableFromUrl() || tableNo;
+    customerName = savedName || parseNameFromUrl() || customerName;
+
+    const gn = document.getElementById('gate-name');
+    const gt = document.getElementById('gate-table');
+    if(gn) gn.value = customerName || '';
+    if(gt) gt.value = tableNo || '';
+}
+
+function showGateIfNeeded(){
+    const gate = document.getElementById('table-gate');
+    if(!gate) return;
+
+    hydrateGateFromUrlOrStorage();
+    // Show once per tab/session for best “vừa quét QR vào là thấy ngay” flow.
+    // After user submits, we hide it for the rest of the session.
+    const done = sessionStorage.getItem('gateDone') === '1';
+    if(done) {
+        gate.classList.add('hidden');
+        return;
+    }
+    gate.classList.remove('hidden');
+}
+
+function submitGate(){
+    const gn = document.getElementById('gate-name');
+    const gt = document.getElementById('gate-table');
+    const name = (gn ? gn.value : '').trim();
+    const table = (gt ? gt.value : '').trim();
+    if(!name || !table){
+        toast('err', t('toast_err_title'), t('toast_err_msg'));
+        return;
+    }
+    customerName = name;
+    tableNo = table;
+    localStorage.setItem('customerName', customerName);
+    localStorage.setItem('tableNo', tableNo);
+    sessionStorage.setItem('gateDone', '1');
+    const gate = document.getElementById('table-gate');
+    if(gate) gate.classList.add('hidden');
+}
+
+function sv(v){
+    ['home','menu','cart','success'].forEach(id=>{
+        document.getElementById('view-'+id).className='view'+(id===v?' active':'');
+    });
+    ['home','menu','cart'].forEach(id=>{
+        const el=document.getElementById('nav-'+id);
+        if(el) el.className='nav-btn'+(id===v?' active':'');
+    });
+    document.getElementById('bot-nav').style.display=v==='success'?'none':'flex';
+    if(v==='cart') renderCart();
+    document.querySelector('.main').scrollTop=0;
+}
+
+function openModal(p){
+    cur=p; ms={size:'M', sweet:'70', temp:'ice', tops:{}, qty:1, note:''};
+    document.getElementById('m-title').textContent = lang === 'vi' ? p.name : p.nameEn;
+    document.getElementById('m-price').textContent = t('modal_og_price') + fmt(p.price);
+    renderModal(); updateTotal();
+    const ov=document.getElementById('overlay');
+    const md=document.getElementById('modal');
+    ov.classList.add('show'); setTimeout(()=>ov.classList.add('vis'),10);
+    md.classList.add('open');
+}
+
+function closeModal(){
+    const ov=document.getElementById('overlay');
+    const md=document.getElementById('modal');
+    md.classList.remove('open');
+    ov.classList.remove('vis');
+    setTimeout(()=>ov.classList.remove('show'),300);
+}
+
+function openStory(type){
+    const sm = document.getElementById('story-modal');
+    const ov = document.getElementById('overlay');
+    const title = document.getElementById('sm-title');
+    const body = document.getElementById('sm-body');
+
+    if(type === 'vision') {
+        title.textContent = t('story_vision');
+        body.innerHTML = `<p>${t('story_vision_desc')}</p>`;
+    } else {
+        title.textContent = t('story_mission');
+        body.innerHTML = `<p>${t('story_mission_desc')}</p>`;
+    }
+
+    ov.classList.add('show'); setTimeout(()=>ov.classList.add('vis'),10);
+    sm.classList.add('open');
+}
+
+function closeStory(){
+    const sm = document.getElementById('story-modal');
+    const ov = document.getElementById('overlay');
+    sm.classList.remove('open');
+    ov.classList.remove('vis');
+    setTimeout(()=>ov.classList.remove('show'),300);
+}
+
+function closeAllModals() { closeModal(); closeStory(); }
+
+function renderModal(){
+    const noteEl = document.getElementById('m-note');
+    if(noteEl) ms.note = noteEl.value;
+
+    const opts = getProductOptions(cur);
+
+    const sz=SIZES.map(s=>`
+        <div class="size-opt ${ms.size===s.id?'sel':''}" onclick="chgSize('${s.id}')">
+            <div class="size-opt-l">
+                <div class="radio"><div class="rdot"></div></div>
+                <div><span class="sname">${lang==='vi'?s.name:s.nameEn}</span><span class="sdesc">${lang==='vi'?s.desc:s.descEn}</span></div>
+            </div>
+            <div>
+                <span class="sprice">${s.price>0?'+'+fmt(s.price):t('modal_free')}</span>
+                <span class="stotal">${t('modal_total_txt')} ${fmt(cur.price+s.price)}</span>
+            </div>
+        </div>`).join('');
+
+    const sw=`<div class="sweet-grid">${SWEETNESS.map(s=>`
+        <div class="sw-opt ${ms.sweet===s.id?'sel':''}" onclick="chgSweet('${s.id}')">
+            <div class="sw-name">${lang==='vi'?s.name:s.nameEn}</div>
+            <div class="sw-desc">${lang==='vi'?s.desc:s.descEn}</div>
+        </div>`).join('')}</div>`;
+
+    const tp=TOPPINGS.map(g=>`
+        <div class="top-grp">
+            <div class="top-grp-lbl">${lang==='vi'?g.group:g.groupEn}</div>
+            <div class="top-inner">
+                ${g.items.map(t_item=>`
+                    <div class="top-item ${ms.tops[t_item.id]?'sel':''}" onclick="togTop('${t_item.id}')">
+                        <span class="top-name">${lang==='vi'?t_item.name:t_item.nameEn}</span>
+                        <div class="chk">
+                            <svg width="14" height="14" fill="none" stroke="#1a1400" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
                         </div>
-                    </div>
+                    </div>`).join('')}
+            </div>
+        </div>`).join('');
+
+    document.getElementById('m-body').innerHTML=`
+        ${opts.size ? `<div class="opt-sec"><div class="opt-ttl">${t('modal_sec_1')}</div>${sz}</div>` : ``}
+        ${opts.temp ? `<div class="opt-sec"><div class="opt-ttl">${t('modal_sec_temp')}</div>
+            <div class="sweet-grid">
+                <div class="sw-opt ${ms.temp==='ice'?'sel':''}" onclick="chgTemp('ice')"><div class="sw-name">${t('temp_ice')}</div></div>
+                <div class="sw-opt ${ms.temp==='hot'?'sel':''}" onclick="chgTemp('hot')"><div class="sw-name">${t('temp_hot')}</div></div>
+            </div>
+        </div>` : ``}
+        ${opts.sweet ? `<div class="opt-sec"><div class="opt-ttl">${t('modal_sec_2')}</div>${sw}</div>` : ``}
+        ${opts.toppings ? `<div class="opt-sec"><div class="opt-ttl">${t('modal_sec_3')}</div><div class="top-badge">${t('modal_top_badge')}</div>${tp}</div>` : ``}
+        ${opts.note ? `<div class="opt-sec"><div class="opt-ttl">${t('modal_sec_note')}</div>
+            <textarea class="fi note-input" id="m-note" style="height: 60px; margin-bottom: 0;" placeholder="${t('note_placeholder')}" onkeyup="ms.note=this.value" onchange="ms.note=this.value">${ms.note}</textarea>
+        </div>` : ``}
+        <div class="opt-sec"><div class="opt-ttl">${t('modal_sec_4')}</div>
+            <div class="qty-row"><span class="qty-lbl">${t('modal_qty')}</span>
+                <div class="qty-ctrl">
+                    <button class="qbtn qminus" onclick="chgQty(-1)">−</button>
+                    <span class="qdsp" id="qdsp">${ms.qty}</span>
+                    <button class="qbtn qplus" onclick="chgQty(1)">+</button>
                 </div>
-            `;
-            document.getElementById('home-mini-menu').innerHTML = PRODUCTS.slice(3, 5).map(listTemplate).join('');
-            document.getElementById('full-menu').innerHTML = PRODUCTS.map(listTemplate).join('');
-            document.getElementById('cus-phone').addEventListener('input', function(e) { document.getElementById('qr-phone').innerText = e.target.value ? `- ${e.target.value}` : ''; });
-        }
+            </div>
+        </div>`;
+}
 
-        function switchView(view) {
-            ['home', 'menu', 'cart', 'success'].forEach(v => document.getElementById(`view-${v}`).classList.add('hidden'));
-            document.getElementById(`view-${view}`).classList.remove('hidden');
+function chgSize(id){ms.size=id;renderModal();updateTotal();}
+function chgSweet(id){ms.sweet=id;renderModal();}
+function chgTemp(id){ms.temp=id;renderModal();}
+function togTop(id){ms.tops[id]=!ms.tops[id];renderModal();updateTotal();}
+function chgQty(d){if(ms.qty+d>=1){ms.qty+=d;const el=document.getElementById('qdsp');if(el)el.textContent=ms.qty;updateTotal();}}
 
-            ['home', 'menu', 'cart'].forEach(n => {
-                const el = document.getElementById(`nav-${n}`);
-                el.className = n === view 
-                    ? 'flex flex-col items-center gap-1.5 text-orange-500 w-16 transition-colors' 
-                    : 'flex flex-col items-center gap-1.5 text-amber-900/30 hover:text-orange-500 w-16 transition-colors';
-                el.querySelector('svg').setAttribute('fill', n === view ? 'currentColor' : 'none');
-            });
+function calcTotal(){
+    let u=cur.price;
+    const s=SIZES.find(x=>x.id===ms.size); if(s) u+=s.price;
+    u+=Object.values(ms.tops).filter(Boolean).length*3000;
+    return u*ms.qty;
+}
+function updateTotal(){document.getElementById('m-total').textContent=fmt(calcTotal());}
 
-            if(view === 'success') document.getElementById('bottom-nav').classList.add('hidden');
-            else document.getElementById('bottom-nav').classList.remove('hidden');
-            if(view === 'cart') renderCart();
-        }
+function addToCart(){
+    const noteEl = document.getElementById('m-note');
+    if(noteEl) ms.note = noteEl.value.trim();
 
-        function openModal(product) {
-            currentProduct = product;
-            modalState = { size: 'M', sweet: '70', toppings: {}, quantity: 1 };
-            document.getElementById('modal-qty-display').innerText = '1';
-            
-            document.getElementById('modal-title').innerText = product.name;
-            document.getElementById('modal-base-price').innerText = "Giá gốc: " + fmt(product.price);
-            
-            renderModalOptions(); updateModalTotal();
+    let topIds = Object.keys(ms.tops).filter(k => ms.tops[k]);
+    cart.push({ id: Date.now(), pId: cur.id, icon: cur.icon, sizeId: ms.size, sweetId: ms.sweet, tempId: ms.temp, note: ms.note, topIds: topIds, qty: ms.qty, total: calcTotal() });
+    
+    updateBadge(); closeModal();
+    const nameStr = lang === 'vi' ? cur.name : cur.nameEn;
+    toast('ok', t('toast_ok_title'), `${nameStr} (x${ms.qty}) ${t('toast_ok_msg')}`);
+}
 
-            const overlay = document.getElementById('overlay'), modal = document.getElementById('order-modal');
-            overlay.classList.remove('hidden'); setTimeout(() => overlay.classList.remove('opacity-0'), 10);
-            modal.classList.remove('hidden', 'modal-exit'); modal.classList.add('modal-enter');
-        }
+function updateBadge(){
+    const b=document.getElementById('badge');
+    const n=cart.reduce((s,i)=>s+i.qty,0);
+    b.textContent=n; b.className='badge'+(n>0?' show':'');
+    updateRateBadge();
+}
 
-        function closeModal() {
-            const overlay = document.getElementById('overlay'), modal = document.getElementById('order-modal');
-            overlay.classList.add('opacity-0');
-            modal.classList.remove('modal-enter'); modal.classList.add('modal-exit');
-            setTimeout(() => { overlay.classList.add('hidden'); modal.classList.add('hidden'); }, 250);
-        }
+function updateRateBadge(){
+    const b=document.getElementById('rate-badge');
+    if(!b) return;
+    const n = Array.isArray(pendingFeedbackOrderIds) ? pendingFeedbackOrderIds.length : (pendingFeedbackOrderId ? 1 : 0);
+    b.textContent = n;
+    b.className = 'badge' + (n>0 ? ' show' : '');
+}
 
-        function renderModalOptions() {
-            document.getElementById('size-options').innerHTML = SIZES.map(s => `
-                <label class="flex items-center justify-between p-4 rounded-[1.2rem] border-[1.5px] ${modalState.size === s.id ? 'border-orange-400 bg-orange-50/50 shadow-sm' : 'border-gray-100 bg-white'} transition-all cursor-pointer" onclick="updateSize('${s.id}')">
-                    <div class="flex items-center gap-3">
-                        <div class="w-4.5 h-4.5 rounded-full border-[2px] flex items-center justify-center ${modalState.size === s.id ? 'border-orange-500' : 'border-gray-300'}">
-                            ${modalState.size === s.id ? '<div class="w-2.5 h-2.5 bg-orange-500 rounded-full"></div>' : ''}
-                        </div>
-                        <div>
-                            <span class="font-bold text-amber-950 block text-[14px]">${s.name}</span>
-                            <span class="text-[11px] text-amber-700/80 font-medium">${s.desc}</span>
-                        </div>
-                    </div>
-                    <div class="text-right">
-                        <span class="text-[13px] block font-black ${s.price > 0 ? 'text-orange-600' : 'text-gray-400'}">+${fmt(s.price)}</span>
-                        <span class="text-[10px] text-amber-700/60 font-bold">(Tổng ${fmt(currentProduct.price + s.price)})</span>
-                    </div>
-                </label>
-            `).join('');
+function openPendingFeedback(){
+    const id = (Array.isArray(pendingFeedbackOrderIds) && pendingFeedbackOrderIds.length)
+        ? pendingFeedbackOrderIds[pendingFeedbackOrderIds.length - 1]
+        : pendingFeedbackOrderId;
+    if(!id){
+        toast('ok', lang==='vi' ? 'Chưa có đánh giá' : 'No pending ratings', lang==='vi' ? 'Bạn chưa có đơn nào cần đánh giá.' : 'No orders to rate right now.');
+        return;
+    }
+    openFeedback(id);
+}
 
-            document.getElementById('sweet-options').innerHTML = SWEETNESS.map(s => `
-                <div onclick="updateSweet('${s.id}')" class="p-3 rounded-[1rem] border-[1.5px] ${modalState.sweet === s.id ? 'border-orange-400 bg-orange-50 shadow-sm' : 'border-gray-100 bg-white'} transition-all cursor-pointer">
-                    <span class="font-bold block text-[13px] ${modalState.sweet === s.id ? 'text-orange-700' : 'text-gray-700'}">${s.name}</span>
-                    <span class="text-[10px] mt-0.5 block ${modalState.sweet === s.id ? 'text-orange-600/80' : 'text-gray-500'} font-medium">${s.desc}</span>
+function renderCart(){
+    const area=document.getElementById('cart-area');
+    if(!cart.length){
+        const pend = pendingFeedbackOrderId ? `
+            <div style="margin: 0 16px 12px; background: rgba(245,203,30,0.16); border: 1.5px solid rgba(245,203,30,0.25); padding: 12px 12px; border-radius: 18px; font-weight: 800; color: var(--dark); font-size: 13px; display:flex; align-items:center; justify-content:space-between; gap: 10px;">
+                <div>${lang==='vi'?'Bạn có đơn chưa đánh giá':'You have an order to rate'}</div>
+                <button class="ghost-btn" style="padding:10px 12px; font-size:12px; border-radius: 999px; width:auto;" onclick="openFeedback(${pendingFeedbackOrderId})">${t('fb_open')}</button>
+            </div>
+        ` : ``;
+        area.innerHTML= pend + `<div class="cart-empty"><p>${t('cart_empty')}</p></div>`;
+        return;
+    }
+    let sub=0;
+    
+    const items=cart.map((item,i)=>{
+        sub+=item.total;
+        const pInfo = PRODUCTS.find(p => p.id === item.pId);
+        const sInfo = SIZES.find(s => s.id === item.sizeId);
+        const swInfo = SWEETNESS.find(sw => sw.id === item.sweetId);
+        
+        const pName = lang === 'vi' ? pInfo.name : pInfo.nameEn;
+        const sName = lang === 'vi' ? sInfo.name.split(' — ')[0] : sInfo.nameEn.split(' — ')[0];
+        const swName = lang === 'vi' ? swInfo.name : swInfo.nameEn;
+        const tempName = item.tempId === 'ice' ? t('temp_ice') : t('temp_hot');
+        
+        let tNames = [];
+        item.topIds.forEach(tid => { TOPPINGS.forEach(g => g.items.forEach(t => { if(t.id === tid) tNames.push(lang === 'vi' ? t.name : t.nameEn); })); });
+        const topsStr = tNames.length ? tNames.join(', ') : (lang === 'vi' ? 'Không thêm topping' : 'No add-ons');
+        const noteHtml = item.note ? `<div class="cnote">📝 ${item.note}</div>` : '';
+        
+        const iconDisplay = getIcon(item.icon, pName);
+
+        return `
+        <div class="cart-item">
+            <div class="cart-icon-wrap">
+                <div class="cart-icon">${iconDisplay}</div>
+                <div class="cart-qty-badge">x${item.qty}</div>
+            </div>
+            <div class="cart-info">
+                <h4>${pName}</h4>
+                <div class="cm">${sName} · ${swName} · ${tempName}</div>
+                <div class="ct">${topsStr}</div>
+                ${noteHtml}
+                <span class="cp">${fmt(item.total)}</span>
+            </div>
+            <button class="cart-rm" onclick="rmItem(${i})">✕</button>
+        </div>`;
+    }).join('');
+
+    const who = customerName ? customerName : (lang === 'vi' ? 'Khách' : 'Guest');
+    const whoLine = (lang === 'vi')
+        ? `👤 ${who} · 🪑 Bàn ${tableNo || '—'}`
+        : `👤 ${who} · 🪑 Table ${tableNo || '—'}`;
+
+    area.innerHTML=`
+        <div class="cart-list">
+            ${pendingFeedbackOrderId ? `
+                <div style="margin: 0 0 12px; background: rgba(245,203,30,0.16); border: 1.5px solid rgba(245,203,30,0.25); padding: 10px 12px; border-radius: 16px; font-weight: 800; color: var(--dark); font-size: 13px; display:flex; align-items:center; justify-content:space-between; gap: 10px;">
+                    <div>${lang==='vi'?'Đánh giá đơn trước đó':'Rate your previous order'}</div>
+                    <button class="ghost-btn" style="padding:10px 12px; font-size:12px; border-radius: 999px; width:auto;" onclick="openFeedback(${pendingFeedbackOrderId})">${t('fb_open')}</button>
                 </div>
-            `).join('');
+            ` : ``}
+            <div style="margin: 6px 0 12px; background: rgba(245,203,30,0.16); border: 1.5px solid rgba(245,203,30,0.25); padding: 10px 12px; border-radius: 16px; font-weight: 800; color: var(--dark); font-size: 13px;">
+                ${whoLine}
+            </div>
+            ${items}
+        </div>
+        <div class="checkout">
+            <div class="form-card">
+                <h3>${t('table_title')}</h3>
+                <input class="fi" id="tableNo" placeholder="${t('table_placeholder')}" type="text" inputmode="numeric" value="${tableNo}">
+                <div style="font-size:12px; color: var(--muted); line-height: 1.6; margin-top: -2px; font-weight: 600;">${t('table_hint')}</div>
+            </div>
+            <div class="form-card">
+                <h3>${t('table_note_title')}</h3>
+                <textarea class="fi" id="orderNote" placeholder="${t('table_note_placeholder')}">${orderNote || ''}</textarea>
+            </div>
+            <div class="summary">
+                <div class="sum-row"><span>${t('subtotal')}</span><strong>${fmt(sub)}</strong></div>
+                <hr class="sum-hr">
+                <div class="sum-total"><span>${t('total')}</span><strong>${fmt(sub)}</strong></div>
+            </div>
+            <button class="order-btn" id="ob" onclick="processOrder()">${t('order_btn_send')}</button>
+        </div>`;
+    
+    const tb = document.getElementById('tableNo');
+    if(tb){
+        tb.addEventListener('input', function(){ tableNo = this.value.trim(); });
+        tb.addEventListener('change', function(){ tableNo = this.value.trim(); });
+    }
+    const on = document.getElementById('orderNote');
+    if(on){
+        on.addEventListener('input', function(){ orderNote = this.value; });
+        on.addEventListener('change', function(){ orderNote = this.value; });
+    }
+    
+    if(typeof twemoji !== 'undefined') twemoji.parse(area);
+}
 
-            document.getElementById('topping-list').innerHTML = TOPPINGS.map(group => `
-                <div class="bg-white p-3.5 rounded-[1.2rem] border border-amber-100/60 shadow-sm mb-3">
-                    <h5 class="font-black text-[12px] text-amber-900/60 mb-3 uppercase tracking-wider">${group.group}</h5>
-                    <div class="space-y-0">
-                        ${group.items.map(t => {
-                            const isChecked = modalState.toppings[t.id];
-                            return `
-                            <div class="flex justify-between items-center cursor-pointer group py-2" onclick="toggleTopping('${t.id}')">
-                                <span class="text-[14px] font-bold transition-colors ${isChecked ? 'text-orange-600' : 'text-amber-950'}">${t.name}</span>
-                                <div class="w-[22px] h-[22px] rounded-[6px] border-[2px] flex items-center justify-center transition-all ${isChecked ? 'bg-orange-500 border-orange-500 shadow-[0_2px_8px_rgba(249,115,22,0.4)]' : 'border-amber-200 bg-amber-50 group-hover:border-orange-300'}">
-                                    ${isChecked ? '<svg class="w-3.5 h-3.5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>' : ''}
-                                </div>
-                            </div>`
-                        }).join('<div class="w-full h-[1px] bg-amber-50 my-1"></div>')}
-                    </div>
-                </div>
-            `).join('');
-        }
+function rmItem(i){cart.splice(i,1);updateBadge();renderCart();}
 
-        function updateSize(id) { modalState.size = id; renderModalOptions(); updateModalTotal(); }
-        function updateSweet(id) { modalState.sweet = id; renderModalOptions(); }
-        function toggleTopping(id) { modalState.toppings[id] = !modalState.toppings[id]; renderModalOptions(); updateModalTotal(); }
-        function updateQuantity(delta) {
-            if(modalState.quantity + delta >= 1) {
-                modalState.quantity += delta;
-                document.getElementById('modal-qty-display').innerText = modalState.quantity;
-                updateModalTotal();
-            }
-        }
+function processOrder(){
+    const tb = document.getElementById('tableNo');
+    const on = document.getElementById('orderNote');
+    tableNo = tb ? tb.value.trim() : (tableNo || '').trim();
+    orderNote = on ? on.value : (orderNote || '');
+    if(!customerName || !tableNo){
+        toast('err', t('toast_err_title'), t('toast_err_msg'));
+        showGateIfNeeded();
+        return;
+    }
 
-        function calculateCurrentTotal() {
-            let unitPrice = currentProduct.price;
-            const sizeObj = SIZES.find(s => s.id === modalState.size);
-            if(sizeObj) unitPrice += sizeObj.price;
-            
-            let toppingCount = Object.values(modalState.toppings).filter(Boolean).length;
-            unitPrice += toppingCount * 3000;
-            
-            return unitPrice * modalState.quantity;
-        }
+    // Build draft and ask for confirmation (customer may change mind)
+    const grouped = {};
+    cart.forEach(ci => { grouped[ci.pId] = (grouped[ci.pId] || 0) + (ci.qty || 0); });
 
-        function updateModalTotal() { document.getElementById('modal-total-btn').innerText = fmt(calculateCurrentTotal()); }
+    const items = Object.keys(grouped).map(k => {
+        const pId = parseInt(k, 10);
+        const p = PRODUCTS.find(pp => pp.id === pId);
+        const nm = p ? (lang === 'vi' ? p.name : p.nameEn) : (lang === 'vi' ? 'Món' : 'Item');
+        const qty = grouped[k];
+        const sample = cart.find(ci => ci.pId === pId);
+        const unit = sample ? (sample.total / Math.max(1, sample.qty)) : (p ? p.price : 0);
+        const lineTotal = Math.round(unit * qty);
+        return { pId, name: nm, qty, lineTotal };
+    });
 
-        function addToCart() {
-            let tops = [];
-            for(let id in modalState.toppings) {
-                if(modalState.toppings[id]) {
-                    TOPPINGS.forEach(g => g.items.find(i => { if(i.id === id) tops.push(i.name); }));
-                }
-            }
-            cart.push({
-                id: Date.now(), productName: currentProduct.name, icon: currentProduct.icon,
-                size: modalState.size, sweet: SWEETNESS.find(s=>s.id===modalState.sweet).name,
-                toppingsText: tops.length ? tops.join(', ') : "Không thêm topping", 
-                quantity: modalState.quantity,
-                total: calculateCurrentTotal()
-            });
-            updateCartBadge(); closeModal();
-            showToast('success', 'Đã thêm vào giỏ!', `${currentProduct.name} (x${modalState.quantity}) đang đợi bạn thanh toán.`);
-        }
+    const total = cart.reduce((s,i)=>s+(i.total||0),0);
+    pendingSend = { tableNo, customerName, note: orderNote || '', items, total };
+    openConfirm();
+}
 
-        function updateCartBadge() {
-            const b = document.getElementById('cart-badge');
-            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
-            b.innerText = totalItems; 
-            b.classList.toggle('hidden', totalItems === 0);
-        }
-
-        function renderCart() {
-            const c = document.getElementById('cart-items'), form = document.getElementById('checkout-form');
-            if(cart.length === 0) {
-                c.innerHTML = `<div class="text-center py-10 text-[14px] text-amber-800/50 font-bold border-2 border-dashed border-amber-200 rounded-[1.5rem] bg-white/50">Giỏ hàng trống trơn!</div>`;
-                form.classList.add('hidden'); return;
-            }
-            form.classList.remove('hidden');
-            let sub = 0;
-            c.innerHTML = cart.map((item, i) => {
-                sub += item.total;
-                return `
-                <div class="bg-white p-4 rounded-[1.4rem] border border-amber-100/60 flex gap-3.5 relative shadow-sm">
-                    <button onclick="removeFromCart(${i})" class="absolute top-2.5 right-2.5 text-amber-900/20 hover:text-red-500 font-bold px-1.5 py-0.5 text-[16px] transition-colors">✕</button>
-                    <div class="w-[60px] h-[60px] bg-amber-50/80 rounded-xl flex items-center justify-center text-[28px] border border-amber-100/50 relative">
-                        ${item.icon}
-                        <span class="absolute -top-2 -left-2 bg-orange-500 text-white text-[10px] font-black px-1.5 py-0.5 rounded-md shadow-sm border border-white">x${item.quantity}</span>
-                    </div>
-                    <div class="flex-1 pr-5 py-0.5">
-                        <h4 class="font-bold text-amber-950 text-[14px] leading-tight mb-1">${item.productName}</h4>
-                        <p class="text-[11px] text-amber-700/80 font-medium">Size ${item.size} · ${item.sweet}</p>
-                        <p class="text-[11px] text-orange-600 font-bold line-clamp-1 mb-1.5">${item.toppingsText}</p>
-                        <p class="font-black text-amber-950 text-[15px]">${fmt(item.total)}</p>
-                    </div>
-                </div>`
-            }).join('');
-            document.getElementById('cart-subtotal').innerText = fmt(sub);
-            document.getElementById('cart-total').innerText = fmt(sub + 15000);
-        }
-
-        function removeFromCart(index) { cart.splice(index, 1); updateCartBadge(); renderCart(); }
-
-        function setPayment(method) {
-            const btnCash = document.getElementById('pay-cash'), btnBank = document.getElementById('pay-bank'),
-                  qrBox = document.getElementById('qr-box'), btnCheckout = document.getElementById('btn-checkout');
-
-            btnCash.className = btnBank.className = "py-3 border-[1.5px] border-gray-100 bg-white text-gray-500 font-medium rounded-xl text-[13px] transition-all";
-
-            if (method === 'cash') {
-                btnCash.className = "py-3 border-[1.5px] border-orange-400 bg-orange-50 text-orange-700 font-bold rounded-xl text-[13px] transition-all shadow-sm";
-                qrBox.classList.add('hidden'); btnCheckout.innerText = "Đặt hàng (Tiền mặt)";
-            } else {
-                btnBank.className = "py-3 border-[1.5px] border-orange-400 bg-orange-50 text-orange-700 font-bold rounded-xl text-[13px] transition-all shadow-sm";
-                qrBox.classList.remove('hidden'); btnCheckout.innerText = "Đã chuyển khoản & Đặt hàng";
-            }
-        }
-
-        function processCheckout() {
-            const name = document.getElementById('cus-name').value, phone = document.getElementById('cus-phone').value,
-                  address = document.getElementById('cus-address').value;
-
-            if(!name || !phone || !address) {
-                showToast('error', 'Chưa xong bạn ơi!', 'Vui lòng nhập đầy đủ tên, sđt và địa chỉ nhận hàng nhé.');
-                return;
-            }
-
-            const loader = document.getElementById('loading-overlay');
-            loader.classList.remove('hidden'); loader.classList.add('flex');
-
-            setTimeout(() => {
-                loader.classList.add('hidden'); loader.classList.remove('flex');
-                cart = []; updateCartBadge();
-                document.getElementById('cus-name').value = ''; document.getElementById('cus-phone').value = ''; document.getElementById('cus-address').value = '';
-                switchView('success');
-            }, 2000);
-        }
-
-        init();
-    </script>
+updateStaticUI();
+hydrateOrderMeta();
+init();
+showGateIfNeeded();
+updateRateBadge();
+</script>
 </body>
 </html>
