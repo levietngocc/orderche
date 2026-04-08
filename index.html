@@ -582,7 +582,7 @@
     </div>
 
     <!-- Feedback modal -->
-    <div class="modal" id="feedback-modal" style="height: 62dvh;">
+    <div class="modal" id="feedback-modal" style="height: 90dvh;">
         <div class="modal-handle"></div>
         <div class="modal-head">
             <div>
@@ -687,6 +687,7 @@ const i18n = {
         fb_rate_lbl: "Bạn thấy món thế nào?",
         fb_rate_hint: "Chạm để chọn số sao",
         fb_issues_lbl: "Góp ý nhanh (tuỳ chọn)",
+        fb_more: "Tuỳ chọn thêm",
         fb_i1: "Hơi ngọt / nhạt",
         fb_i2: "Topping chưa hợp",
         fb_i3: "Nhiệt độ chưa đúng",
@@ -792,6 +793,7 @@ const i18n = {
         fb_rate_lbl: "How was it?",
         fb_rate_hint: "Tap to choose stars",
         fb_issues_lbl: "Quick notes (optional)",
+        fb_more: "More options",
         fb_i1: "Too sweet / too bland",
         fb_i2: "Toppings not ideal",
         fb_i3: "Temperature not right",
@@ -1310,7 +1312,7 @@ function renderFeedback(){
 
         <div class="opt-sec" style="margin-bottom:0;">
             <div class="opt-ttl" style="margin-bottom:10px;">${t('fb_note_lbl')}</div>
-            <textarea class="fi" id="fb-note" placeholder="${t('fb_note_ph')}" style="height: 90px; margin-bottom: 0;" onkeyup="fb.note=this.value" onchange="fb.note=this.value">${fb.note || ''}</textarea>
+            <textarea class="fi" id="fb-note" placeholder="${t('fb_note_ph')}" style="height: 96px; margin-bottom: 0;" onkeyup="fb.note=this.value" onchange="fb.note=this.value">${fb.note || ''}</textarea>
         </div>
     `;
 }
