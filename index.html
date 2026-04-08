@@ -92,6 +92,20 @@
           font-size: 16px !important;
         }
       }
+
+      /* Mobile keyboard safety: avoid layout breaking on focus */
+      body.kbd #bot-nav {
+        display: none;
+      }
+      body.kbd .modal {
+        height: 100dvh;
+      }
+      body.kbd .modal-body {
+        padding-bottom: 160px;
+      }
+      body.kbd .checkout {
+        padding-bottom: 140px;
+      }
       .scroll-area {
         -ms-overflow-style: none;
         scrollbar-width: none;
@@ -4316,6 +4330,20 @@
       init();
       showGateIfNeeded();
       updateRateBadge();
+
+      // Prevent mobile keyboard from "breaking" layout on focus
+      document.addEventListener("focusin", (e) => {
+        const t = e.target;
+        if (t && (t.tagName === "INPUT" || t.tagName === "TEXTAREA")) {
+          document.body.classList.add("kbd");
+        }
+      });
+      document.addEventListener("focusout", (e) => {
+        const t = e.target;
+        if (t && (t.tagName === "INPUT" || t.tagName === "TEXTAREA")) {
+          setTimeout(() => document.body.classList.remove("kbd"), 120);
+        }
+      });
     </script>
   </body>
 </html>
