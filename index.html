@@ -164,6 +164,18 @@
         overflow: hidden;
       }
 
+      /* Header/Logo responsive fixes (avoid broken layout on mobile first load) */
+      .logo img { max-width: 100%; }
+      @media (max-width: 520px) {
+        .header { height: 78px; padding: 0 16px; border-radius: 0 0 20px 20px; }
+        .logo { width: 128px; }
+        .logo img { left: -2px; transform: translateY(-36%) scale(1.08); }
+        @keyframes bowlBreath {
+          0%, 100% { transform: translateY(-36%) scale(1.08); }
+          50% { transform: translateY(-39%) scale(1.08); }
+        }
+      }
+
       /* ĐÃ CHỈNH LOGO DỊCH LÊN TRÊN ĐỂ KHÔNG BỊ CẮT CHỮ */
       .logo {
         cursor: pointer;
@@ -898,6 +910,13 @@
         color: var(--ink);
         letter-spacing: -0.6px;
         line-height: 1.15;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        flex-wrap: nowrap;
+      }
+      .page-top h2 img.emoji {
+        flex: 0 0 auto;
       }
       .page-top p {
         font-size: 13px;
@@ -3860,6 +3879,31 @@
           toast("err", t("toast_err_title"), t("toast_err_msg"));
           return;
         }
+
+        // If customer changes, reset stored session data (orders/ratings) to avoid mixing tables/customers
+        const prevName = (localStorage.getItem("customerName") || "").trim();
+        const prevTable = (localStorage.getItem("tableNo") || "").trim();
+        const changed = (prevName && prevName !== name) || (prevTable && prevTable !== table);
+        if (changed) {
+          try {
+            [
+              "ordersHistory",
+              "lastOrder",
+              "lastOrderId",
+              "pendingFeedbackOrderIds",
+              "pendingFeedbackOrderId",
+              "feedbackHistory",
+              "lastFeedback",
+            ].forEach((k) => localStorage.removeItem(k));
+          } catch (e) {}
+          ordersHistory = [];
+          pendingFeedbackOrderIds = [];
+          pendingFeedbackOrderId = 0;
+          lastOrder = null;
+          lastOrderId = 0;
+          updateRateBadge();
+        }
+
         customerName = name;
         tableNo = table;
         localStorage.setItem("customerName", customerName);
